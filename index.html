@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>壽司郎 HK 結算</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; color: #333; }
+.container { max-width: 480px; margin: 0 auto; padding: 12px; background: #fff; min-height: 100vh; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 8px 0 12px; border-bottom: 2px solid #e53935; }
+.header h1 { font-size: 1.3rem; color: #e53935; }
+.reset-btn { padding: 4px 12px; font-size: 0.8rem; border: 1px solid #ccc; border-radius: 6px; background: #fff; cursor: pointer; color: #757575; }
+.section { padding: 8px 0; }
+.section-title { font-size: 0.9rem; font-weight: 600; color: #555; margin-bottom: 4px; }
+
+.plate-row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid #eee; }
+.color-chip { width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0; }
+.plate-label { font-size: 0.95rem; font-weight: 500; min-width: 80px; }
+.plate-price { font-size: 0.85rem; color: #888; min-width: 40px; }
+.stepper { display: flex; align-items: center; gap: 0; margin-left: auto; }
+.stepper button { width: 36px; height: 36px; font-size: 1.2rem; cursor: pointer; border: 1px solid #ddd; background: #fff; display: flex; align-items: center; justify-content: center; user-select: none; }
+.stepper button:first-child { border-radius: 6px 0 0 6px; }
+.stepper button:last-child { border-radius: 0 6px 6px 0; }
+.stepper button:active { background: #eee; }
+.stepper .count { min-width: 32px; text-align: center; font-size: 1.1rem; font-weight: 600; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 4px 0; background: #fff; }
+.plate-subtotal { font-size: 1rem; font-weight: 600; min-width: 56px; text-align: right; }
+
+.other-summary { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
+.other-summary .count-badge { background: #e53935; color: #fff; border-radius: 10px; padding: 1px 8px; font-size: 0.8rem; font-weight: 600; }
+.other-summary .open-btn { padding: 6px 14px; font-size: 0.85rem; border: 1px solid #1976d2; border-radius: 6px; background: #e3f2fd; color: #1976d2; cursor: pointer; font-weight: 500; margin-left: auto; }
+.other-summary .open-btn:active { background: #bbdefb; }
+.other-chips { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px 0; }
+.other-chip { font-size: 0.75rem; background: #f5f5f5; border-radius: 12px; padding: 2px 8px; border: 1px solid #e0e0e0; }
+
+.mod-section { padding: 8px 0; }
+.mod-input-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.mod-input-row input[type="text"], .mod-input-row input[type="number"] { padding: 6px 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem; }
+.mod-input-row input[type="number"] { width: 64px; }
+.mod-input-row .label-input { width: 80px; }
+.mod-toggle { display: flex; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+.mod-toggle button { padding: 5px 10px; font-size: 0.8rem; border: none; cursor: pointer; background: #fff; }
+.mod-toggle button.active { background: #1976d2; color: #fff; }
+.mod-add-btn { padding: 6px 14px; font-size: 0.85rem; border: 1px solid #1976d2; border-radius: 6px; background: #1976d2; color: #fff; cursor: pointer; }
+.mod-add-btn:active { background: #1565c0; }
+.mod-error { color: #d32f2f; font-size: 0.75rem; padding: 2px 0; display: none; }
+.mod-list { list-style: none; padding: 4px 0; }
+.mod-list li { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; padding: 4px 0; }
+.mod-list li .del-btn { margin-left: auto; padding: 2px 8px; font-size: 0.8rem; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: #fff; color: #d32f2f; }
+.mod-list li .del-btn:active { background: #ffe0e0; }
+
+.bill-sticky { position: sticky; bottom: 0; background: #fff; box-shadow: 0 -2px 8px rgba(0,0,0,0.08); padding: 8px 0; margin-top: 4px; }
+.bill-row { display: flex; justify-content: space-between; padding: 3px 0; font-size: 0.88rem; }
+.bill-row.total { font-size: 1.3rem; font-weight: 700; color: #d32f2f; border-top: 2px solid #d32f2f; padding-top: 6px; margin-top: 4px; }
+.warning { color: #e65100; font-size: 0.8rem; padding: 4px 0; display: none; }
+
+/* Modal */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 1000; }
+.modal-overlay.open { display: flex; }
+.modal-panel { background: #fff; border-radius: 12px; max-width: 480px; width: calc(100% - 24px); max-height: 80vh; overflow-y: auto; padding: 16px; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1px solid #eee; margin-bottom: 8px; }
+.modal-header h2 { font-size: 1.1rem; }
+.modal-header .close-btn { padding: 6px 14px; font-size: 0.85rem; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; }
+.modal-header .done-btn { padding: 6px 14px; font-size: 0.85rem; border: none; border-radius: 6px; background: #1976d2; color: #fff; cursor: pointer; }
+.modal-category { margin-bottom: 8px; }
+.modal-category h3 { font-size: 0.9rem; font-weight: 600; padding: 6px 0 4px; color: #555; border-bottom: 1px solid #eee; margin-bottom: 6px; cursor: pointer; }
+.chip-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; border: 1px solid #ddd; background: #fafafa; transition: all 0.12s; user-select: none; }
+.chip.selected { background: #e3f2fd; border-color: #1976d2; color: #1976d2; font-weight: 600; }
+.chip:active { transform: scale(0.96); }
+.modal-selected { margin-top: 12px; border-top: 1px solid #eee; padding-top: 8px; }
+.modal-selected h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
+.selected-row { display: flex; align-items: center; gap: 6px; padding: 4px 0; }
+.selected-row .item-name { flex: 1; font-size: 0.85rem; }
+.selected-row .qty-stepper { display: flex; align-items: center; gap: 0; }
+.selected-row .qty-stepper button { width: 28px; height: 28px; font-size: 1rem; border: 1px solid #ddd; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.selected-row .qty-stepper button:first-child { border-radius: 4px 0 0 4px; }
+.selected-row .qty-stepper button:last-child { border-radius: 0 4px 4px 0; }
+.selected-row .qty-stepper span { min-width: 24px; text-align: center; font-size: 0.9rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 2px 0; }
+.selected-row .remove-item { padding: 2px 8px; font-size: 0.75rem; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: #fff; color: #d32f2f; }
+
+@media (max-width: 400px) {
+  .plate-row { gap: 4px; }
+  .plate-label { font-size: 0.85rem; min-width: 60px; }
+  .plate-price { font-size: 0.75rem; min-width: 32px; }
+  .stepper button { width: 32px; height: 32px; font-size: 1rem; }
+  .mod-input-row input[type="text"] { width: 64px; }
+  .mod-input-row .label-input { width: 64px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="app">
+  <div class="header">
+    <h1>壽司郎 HK 結算</h1>
+    <button class="reset-btn" onclick="resetAll()">重置</button>
+  </div>
+
+  <!-- Plate counters -->
+  <div class="section" id="plate-section"></div>
+
+  <!-- Other summary -->
+  <div class="section">
+    <div class="other-summary">
+      <span style="font-size:0.9rem;font-weight:500;">其他項目</span>
+      <span class="count-badge" id="other-count-badge">0</span>
+      <button class="open-btn" onclick="openModal()">加入其他項目 ▶</button>
+    </div>
+    <div class="other-chips" id="other-chips-summary"></div>
+  </div>
+
+  <!-- Modifications panel -->
+  <div class="section mod-section">
+    <div class="section-title">加成 / 折扣</div>
+    <div class="mod-input-row">
+      <input type="text" class="label-input" id="mod-label" placeholder="名稱" maxlength="20">
+      <div class="mod-toggle" id="mod-sign-toggle">
+        <button data-value="-" class="active" onclick="setModSign('-')">−</button>
+        <button data-value="+" onclick="setModSign('+')">+</button>
+      </div>
+      <div class="mod-toggle" id="mod-unit-toggle">
+        <button data-value="$" class="active" onclick="setModUnit('$')">$</button>
+        <button data-value="%" onclick="setModUnit('%')">%</button>
+      </div>
+      <input type="number" id="mod-value" placeholder="數值" min="0" step="0.5">
+      <button class="mod-add-btn" onclick="addModification()">加入</button>
+    </div>
+    <div class="mod-error" id="mod-error">請輸入有效正數</div>
+    <ul class="mod-list" id="mod-list"></ul>
+  </div>
+
+  <!-- Sticky bill -->
+  <div class="bill-sticky" id="bill">
+    <div class="warning" id="clamp-warning">⚠️ 加成後小計已調整至 $0</div>
+    <div class="bill-row"><span>小計</span><span id="bill-subtotal">$0.00</span></div>
+    <div class="bill-row"><span>加成調整</span><span id="bill-adjustment">$0.00</span></div>
+    <div class="bill-row"><span>加成後小計</span><span id="bill-adjusted">$0.00</span></div>
+    <div class="bill-row"><span>服務費 (10%)</span><span id="bill-service">$0.00</span></div>
+    <div class="bill-row total"><span>總計</span><span id="bill-total">$0.00</span></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="other-modal" onclick="closeModalNoSave(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2>其他項目</h2>
+      <div>
+        <button class="close-btn" onclick="closeModalNoSave()">取消</button>
+        <button class="done-btn" onclick="saveModal()">完成</button>
+      </div>
+    </div>
+    <div id="modal-items"></div>
+    <div class="modal-selected" id="modal-selected-section">
+      <h4>已選項目</h4>
+      <div id="modal-selected-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CONFIG =====
+// Prices verified from official Sushiro HK menu 2026-07-07
+const PLATES = [
+  { id:'red',    label:'紅碟', price:12, color:'#e53935', bg:'#ffebee' },
+  { id:'silver', label:'銀碟', price:17, color:'#757575', bg:'#f5f5f5' },
+  { id:'gold',   label:'金碟', price:22, color:'#f4b41a', bg:'#fff8e1' },
+  { id:'black',  label:'黑碟', price:27, color:'#1a1a1a', bg:'#e0e0e0' },
+];
+
+const OTHER_ITEMS = {
+  '麵類・湯類': [
+    { id:'steamed_clams', name:'出汁蒸蜆', price:18 },
+    { id:'clam_miso',     name:'蜆肉海苔麵豉湯', price:20 },
+    { id:'tofu_udon',     name:'腐皮烏冬', price:27 },
+    { id:'kamadama_udon', name:'釜玉烏冬', price:28 },
+    { id:'tempura_udon',  name:'炸蝦天婦羅烏冬', price:28 },
+    { id:'tonkotsu_ramen', name:'豚骨拉麵', price:32 },
+    { id:'spicy_ramen',   name:'辣豚骨拉麵', price:32 },
+    { id:'beef_udon',     name:'牛肉烏冬', price:33 },
+  ],
+  '副餐類': [
+    { id:'mentaiko',  name:'明太子沙律醬', price:3 },
+    { id:'onsen_tamago', name:'溫泉蛋', price:6 },
+    { id:'chicken_karaage_1', name:'脆脆炸雞塊 1塊', price:12 },
+    { id:'golden_fries', name:'黃金脆薯', price:13 },
+    { id:'pumpkin_tempura', name:'南瓜天婦羅', price:13 },
+    { id:'shrimp_tempura_half', name:'炸蝦天婦羅拼盤(半份)', price:18 },
+    { id:'shrimp_tempura', name:'炸蝦天婦羅', price:18 },
+    { id:'fried_cartilage', name:'炸雞軟骨', price:19 },
+    { id:'chawanmushi', name:'茶碗蒸', price:19 },
+    { id:'chicken_karaage_2', name:'脆脆炸雞塊 2塊', price:22 },
+    { id:'unagi_chawanmushi', name:'店內特製鰻魚茶碗蒸', price:22 },
+    { id:'akagai_sashimi', name:'北寄貝刺身', price:22 },
+    { id:'sweet_shrimp_sashimi', name:'甜蝦刺身', price:22 },
+    { id:'conch_sashimi', name:'海螺刺身', price:22 },
+    { id:'tuna_sashimi_set', name:'吞拿魚2種刺身', price:22 },
+    { id:'shrimp_tempura_full', name:'炸蝦天婦羅拼盤', price:28 },
+    { id:'salmon_sashimi_set', name:'生三文魚刺身盛', price:39 },
+    { id:'akaebi_sashimi', name:'赤蝦刺身', price:39 },
+    { id:'hotate_sashimi', name:'日本產帆立貝刺身', price:42 },
+    { id:'salmon_belly_sashimi', name:'生三文魚腩刺身', price:48 },
+    { id:'salmon_hamachi_sashimi', name:'生三文魚腩刺身・油甘魚腩刺身', price:48 },
+  ],
+  '甜品': [
+    { id:'melon_sorbet', name:'蜜瓜味雪葩', price:13 },
+    { id:'frozen_mango', name:'冷凍芒果', price:13 },
+    { id:'soy_warabimochi', name:'黃豆粉蕨餅', price:13 },
+    { id:'choco_montblanc', name:'朱古力蒙布朗蛋糕', price:17 },
+    { id:'milk_soft_cream_cookie', name:'牛奶味軟雪糕(有曲奇)', price:18 },
+    { id:'milk_soft_cream', name:'牛奶味軟雪糕', price:18 },
+    { id:'crema_catalana', name:'卡達拉娜', price:22 },
+    { id:'sushiro_pudding', name:'壽司郎經典布甸', price:22 },
+    { id:'crepe_cake', name:'千層蛋糕', price:22 },
+    { id:'soy_warabi_parfait', name:'黃豆粉蕨餅芭菲', price:27 },
+    { id:'choco_berry_parfait', name:'朱古力香莓芭菲', price:27 },
+  ],
+  '飲料': [
+    { id:'pepsi_zero', name:'百事可樂(無糖)', price:8 },
+    { id:'pepsi', name:'百事可樂', price:8 },
+    { id:'mirinda_orange', name:'美年達橙汁', price:8 },
+    { id:'7up', name:'七喜', price:8 },
+    { id:'vita_lemon_tea', name:'維他氣泡檸檬茶', price:8 },
+    { id:'apple_juice', name:'100％蘋果汁', price:8 },
+    { id:'calpico', name:'可爾必思', price:8 },
+    { id:'sunsay_tea', name:'纖解茶', price:9 },
+    { id:'kikumasamune', name:'菊正宗', price:17 },
+    { id:'horoyoi_grape', name:'Horoyoi(葡萄味)', price:19 },
+    { id:'horoyoi_yuzu', name:'Horoyoi(柚子鹽味)', price:19 },
+    { id:'suntory_beer', name:'三得利頂級啤酒', price:24 },
+    { id:'umeshu', name:'梅酒(含梅子)', price:27 },
+    { id:'whisky_soda', name:'威士忌梳打', price:27 },
+    { id:'kikumasamune_daiginjo', name:'菊正宗(大吟釀)', price:59 },
+  ],
+};
+
+// ===== STATE =====
+let state = {
+  plates: { red:0, silver:0, gold:0, black:0 },
+  other: {},
+  modifications: [],
+};
+
+let modSign = '-';
+let modUnit = '$';
+let modalState = {};  // holds other copy during modal editing
+let saveTimer = null;
+
+// ===== INIT =====
+function init() {
+  loadState();
+  renderPlates();
+  renderOtherSummary();
+  renderModList();
+  updateBill();
+}
+
+// ===== STORAGE =====
+function saveState() {
+  try {
+    localStorage.setItem('sushiro-counter-state-v1', JSON.stringify(state));
+  } catch(e) { /* storage full, ignore */ }
+}
+
+function debounceSave() {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveState, 500);
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem('sushiro-counter-state-v1');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // Validate shape
+      if (parsed && typeof parsed === 'object' && parsed.plates && parsed.other && parsed.modifications) {
+        state = parsed;
+        return;
+      }
+    }
+  } catch(e) { /* corrupt, fall through to defaults */ }
+  // Default state already set above
+}
+
+// ===== PLATES =====
+function renderPlates() {
+  const el = document.getElementById('plate-section');
+  el.innerHTML = '';
+  PLATES.forEach(p => {
+    const count = state.plates[p.id] || 0;
+    const subtotal = count * p.price;
+    const row = document.createElement('div');
+    row.className = 'plate-row';
+    row.innerHTML = `
+      <div class="color-chip" style="background:${p.color}"></div>
+      <span class="plate-label">${p.label}</span>
+      <span class="plate-price">$${p.price}</span>
+      <div class="stepper">
+        <button onclick="changePlate('${p.id}',-1)">−</button>
+        <span class="count" id="count-${p.id}">${count}</span>
+        <button onclick="changePlate('${p.id}',1)">+</button>
+      </div>
+      <span class="plate-subtotal" id="psub-${p.id}">$${subtotal.toFixed(2)}</span>
+    `;
+    el.appendChild(row);
+  });
+}
+
+function changePlate(id, delta) {
+  const cur = state.plates[id] || 0;
+  state.plates[id] = Math.max(0, cur + delta);
+  renderPlates();
+  updateBill();
+  debounceSave();
+}
+
+// ===== OTHER SUMMARY =====
+function renderOtherSummary() {
+  const count = Object.values(state.other).reduce((a,b) => a+b, 0);
+  document.getElementById('other-count-badge').textContent = count;
+
+  const chips = document.getElementById('other-chips-summary');
+  chips.innerHTML = '';
+  if (count === 0) return;
+  const names = [];
+  Object.entries(state.other).forEach(([id, qty]) => {
+    // Find item name
+    for (const cat of Object.values(OTHER_ITEMS)) {
+      const item = cat.find(i => i.id === id);
+      if (item) { names.push(`${item.name}×${qty}`); break; }
+    }
+  });
+  names.forEach(n => {
+    const chip = document.createElement('span');
+    chip.className = 'other-chip';
+    chip.textContent = n;
+    chips.appendChild(chip);
+  });
+}
+
+// ===== MODAL =====
+function openModal() {
+  // Copy current other state into modalState
+  modalState = JSON.parse(JSON.stringify(state.other));
+  document.body.style.overflow = 'hidden';
+  document.getElementById('other-modal').classList.add('open');
+  renderModalItems();
+  renderModalSelected();
+}
+
+function closeModalNoSave(e) {
+  if (e && e.target !== document.getElementById('other-modal')) return;
+  document.getElementById('other-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function saveModal() {
+  state.other = JSON.parse(JSON.stringify(modalState));
+  document.getElementById('other-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  renderOtherSummary();
+  updateBill();
+  debounceSave();
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('other-modal');
+    if (modal.classList.contains('open')) closeModalNoSave();
+  }
+});
+
+function renderModalItems() {
+  const el = document.getElementById('modal-items');
+  el.innerHTML = '';
+  Object.entries(OTHER_ITEMS).forEach(([catName, items]) => {
+    const div = document.createElement('div');
+    div.className = 'modal-category';
+    const header = document.createElement('h3');
+    header.textContent = catName;
+    div.appendChild(header);
+    const grid = document.createElement('div');
+    grid.className = 'chip-grid';
+    items.forEach(item => {
+      const chip = document.createElement('span');
+      chip.className = 'chip' + ((modalState[item.id] || 0) > 0 ? ' selected' : '');
+      chip.textContent = item.name + ' $' + item.price;
+      chip.onclick = () => toggleModalChip(item.id);
+      grid.appendChild(chip);
+    });
+    div.appendChild(grid);
+    el.appendChild(div);
+  });
+}
+
+function toggleModalChip(id) {
+  if ((modalState[id] || 0) > 0) {
+    modalState[id] = (modalState[id] || 0) + 1;
+  } else {
+    modalState[id] = 1;
+  }
+  renderModalItems();
+  renderModalSelected();
+}
+
+function renderModalSelected() {
+  const el = document.getElementById('modal-selected-list');
+  el.innerHTML = '';
+  let hasItems = false;
+  Object.entries(modalState).forEach(([id, qty]) => {
+    if (qty <= 0) return;
+    hasItems = true;
+    let name = id;
+    for (const cat of Object.values(OTHER_ITEMS)) {
+      const item = cat.find(i => i.id === id);
+      if (item) { name = item.name; break; }
+    }
+    const row = document.createElement('div');
+    row.className = 'selected-row';
+    row.innerHTML = `
+      <span class="item-name">${name}</span>
+      <div class="qty-stepper">
+        <button onclick="modalQtyChange('${id}',-1)">−</button>
+        <span>${qty}</span>
+        <button onclick="modalQtyChange('${id}',1)">+</button>
+      </div>
+      <button class="remove-item" onclick="modalRemoveItem('${id}')">刪除</button>
+    `;
+    el.appendChild(row);
+  });
+  if (!hasItems) {
+    el.innerHTML = '<div style="font-size:0.85rem;color:#999;padding:8px 0;">尚未選擇任何項目</div>';
+  }
+}
+
+function modalQtyChange(id, delta) {
+  const cur = modalState[id] || 0;
+  const next = cur + delta;
+  if (next <= 0) {
+    delete modalState[id];
+  } else {
+    modalState[id] = next;
+  }
+  renderModalItems();
+  renderModalSelected();
+}
+
+function modalRemoveItem(id) {
+  delete modalState[id];
+  renderModalItems();
+  renderModalSelected();
+}
+
+// ===== MODIFICATIONS =====
+let modIdCounter = 0;
+
+function setModSign(val) {
+  modSign = val;
+  document.querySelectorAll('#mod-sign-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.value === val);
+  });
+}
+
+function setModUnit(val) {
+  modUnit = val;
+  document.querySelectorAll('#mod-unit-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.value === val);
+  });
+}
+
+function addModification() {
+  const labelInput = document.getElementById('mod-label');
+  const valueInput = document.getElementById('mod-value');
+  const errorEl = document.getElementById('mod-error');
+
+  const val = parseFloat(valueInput.value);
+  if (isNaN(val) || val <= 0) {
+    errorEl.style.display = 'block';
+    return;
+  }
+  errorEl.style.display = 'none';
+
+  let label = labelInput.value.trim();
+  if (!label) label = modSign === '-' ? '折扣' : '加成';
+
+  state.modifications.push({
+    id: 'm' + (modIdCounter++),
+    label: label,
+    sign: modSign,
+    unit: modUnit,
+    value: val,
+  });
+
+  labelInput.value = '';
+  valueInput.value = '';
+  renderModList();
+  updateBill();
+  debounceSave();
+}
+
+function removeModification(id) {
+  state.modifications = state.modifications.filter(m => m.id !== id);
+  renderModList();
+  updateBill();
+  debounceSave();
+}
+
+function renderModList() {
+  const el = document.getElementById('mod-list');
+  el.innerHTML = '';
+  state.modifications.forEach(m => {
+    const li = document.createElement('li');
+    const signChar = m.sign === '-' ? '−' : '+';
+    const unitChar = m.unit === '$' ? '$' : '%';
+    li.textContent = '';
+    const span = document.createElement('span');
+    span.textContent = `${m.label}  ${signChar}${unitChar}${m.value}`;
+    const btn = document.createElement('button');
+    btn.className = 'del-btn';
+    btn.textContent = '刪除';
+    btn.onclick = () => removeModification(m.id);
+    li.appendChild(span);
+    li.appendChild(btn);
+    el.appendChild(li);
+  });
+}
+
+// ===== BILL =====
+function computeBill() {
+  let plateTotal = 0;
+  PLATES.forEach(p => {
+    plateTotal += (state.plates[p.id] || 0) * p.price;
+  });
+  let otherTotal = 0;
+  Object.entries(state.other).forEach(([id, qty]) => {
+    for (const cat of Object.values(OTHER_ITEMS)) {
+      const item = cat.find(i => i.id === id);
+      if (item) { otherTotal += qty * item.price; break; }
+    }
+  });
+  const subtotal = plateTotal + otherTotal;
+
+  let adjustment = 0;
+  state.modifications.forEach(m => {
+    if (m.unit === '$') {
+      adjustment += (m.sign === '-' ? -1 : 1) * m.value;
+    } else {
+      adjustment += (m.sign === '-' ? -1 : 1) * (subtotal * m.value / 100);
+    }
+  });
+
+  let adjusted = subtotal + adjustment;
+  let clamped = false;
+  if (adjusted < 0) { adjusted = 0; clamped = true; }
+  adjusted = Math.round(adjusted * 100) / 100;
+
+  const service = Math.round(adjusted * 0.10 * 100) / 100;
+  const total = Math.round((adjusted + service) * 100) / 100;
+
+  return { subtotal, adjustment, adjusted, service, total, clamped };
+}
+
+function updateBill() {
+  const b = computeBill();
+  document.getElementById('bill-subtotal').textContent = '$' + b.subtotal.toFixed(2);
+  document.getElementById('bill-adjustment').textContent = '$' + b.adjustment.toFixed(2);
+  document.getElementById('bill-adjusted').textContent = '$' + b.adjusted.toFixed(2);
+  document.getElementById('bill-service').textContent = '$' + b.service.toFixed(2);
+  document.getElementById('bill-total').textContent = '$' + b.total.toFixed(2);
+  const warn = document.getElementById('clamp-warning');
+  warn.style.display = b.clamped ? 'block' : 'none';
+}
+
+// ===== RESET =====
+function resetAll() {
+  if (!confirm('確定要重置所有資料？')) return;
+  state = {
+    plates: { red:0, silver:0, gold:0, black:0 },
+    other: {},
+    modifications: [],
+  };
+  try { localStorage.removeItem('sushiro-counter-state-v1'); } catch(e) {}
+  renderPlates();
+  renderOtherSummary();
+  renderModList();
+  updateBill();
+}
+
+// ===== SELF-TEST =====
+window.__selftest = function() {
+  const details = [];
+  function assert(expr, msg) {
+    if (expr) {
+      details.push('✅ ' + msg);
+    } else {
+      details.push('❌ ' + msg);
+    }
+    return expr;
+  }
+
+  // Test 1: Standard bill
+  // red×2=24, black×1=27, chawanmushi=19, tonkotsu_ramen=32 → 小計=102
+  // −$20 → 加成調整=−20, 加成後小計=82, 服務費=8.20, 總計=90.20
+  const testState = {
+    plates: { red:2, silver:0, gold:0, black:1 },
+    other: { chawanmushi:1, tonkotsu_ramen:1 },
+    modifications: [{ id:'t1', label:'優惠券', sign:'-', unit:'$', value:20 }],
+  };
+
+  const saved = state;
+  state = testState;
+  let b = computeBill();
+  assert(b.subtotal === 102, `小計=102 (got ${b.subtotal})`);
+  assert(b.adjustment === -20, `加成調整=-20 (got ${b.adjustment})`);
+  assert(b.adjusted === 82, `加成後小計=82 (got ${b.adjusted})`);
+  assert(b.service === 8.20, `服務費=8.20 (got ${b.service})`);
+  assert(b.total === 90.20, `總計=90.20 (got ${b.total})`);
+
+  // Test 2: Negative clamp
+  testState.modifications = [{ id:'t2', label:'大折扣', sign:'-', unit:'$', value:999 }];
+  b = computeBill();
+  assert(b.adjusted === 0, `clamp 加成後小計=0 (got ${b.adjusted})`);
+  assert(b.clamped === true, `clamped flag=true`);
+
+  state = saved;
+
+  // Test 3: Bill display method
+  const dsp = '$' + (0).toFixed(2);
+  assert(dsp === '$0.00', `zero display: $0.00 (got ${dsp})`);
+
+  const pass = details.every(d => d.startsWith('✅'));
+  console.log('=== Sushiro Calculator Self-Test ===');
+  details.forEach(d => console.log(d));
+  console.log(pass ? '✅ ALL PASSED' : '❌ SOME FAILED');
+  return { pass, details };
+};
+
+// ===== START =====
+init();
+</script>
+</body>
+</html>
