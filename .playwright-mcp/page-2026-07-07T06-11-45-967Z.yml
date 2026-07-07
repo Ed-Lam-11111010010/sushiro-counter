@@ -1,0 +1,67 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - heading "壽司郎 HK 結算" [level=1] [ref=e4]
+    - button "重置" [ref=e5] [cursor=pointer]
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e9]: 紅碟
+      - generic [ref=e10]: $12
+      - generic [ref=e11]:
+        - button "−" [ref=e12] [cursor=pointer]
+        - generic [ref=e13]: "0"
+        - button "+" [ref=e14] [cursor=pointer]
+      - generic [ref=e15]: $0.00
+    - generic [ref=e16]:
+      - generic [ref=e18]: 銀碟
+      - generic [ref=e19]: $17
+      - generic [ref=e20]:
+        - button "−" [ref=e21] [cursor=pointer]
+        - generic [ref=e22]: "0"
+        - button "+" [ref=e23] [cursor=pointer]
+      - generic [ref=e24]: $0.00
+    - generic [ref=e25]:
+      - generic [ref=e27]: 金碟
+      - generic [ref=e28]: $22
+      - generic [ref=e29]:
+        - button "−" [ref=e30] [cursor=pointer]
+        - generic [ref=e31]: "0"
+        - button "+" [ref=e32] [cursor=pointer]
+      - generic [ref=e33]: $0.00
+    - generic [ref=e34]:
+      - generic [ref=e36]: 黑碟
+      - generic [ref=e37]: $27
+      - generic [ref=e38]:
+        - button "−" [ref=e39] [cursor=pointer]
+        - generic [ref=e40]: "0"
+        - button "+" [ref=e41] [cursor=pointer]
+      - generic [ref=e42]: $0.00
+  - generic [ref=e44]:
+    - generic [ref=e45]: 其他項目
+    - generic [ref=e46]: "0"
+    - button "加入其他項目 ▶" [ref=e47] [cursor=pointer]
+  - generic [ref=e48]:
+    - generic [ref=e49]: 加成 / 折扣
+    - generic [ref=e50]:
+      - textbox "名稱" [ref=e51]
+      - generic [ref=e52]:
+        - button "−" [ref=e53] [cursor=pointer]
+        - button "+" [ref=e54] [cursor=pointer]
+      - generic [ref=e55]:
+        - button "$" [ref=e56] [cursor=pointer]
+        - button "%" [ref=e57] [cursor=pointer]
+      - spinbutton "數值" [ref=e58]
+      - button "加入" [ref=e59] [cursor=pointer]
+    - list [ref=e60]
+  - generic [ref=e61]:
+    - generic [ref=e62]:
+      - generic [ref=e63]: 小計
+      - generic [ref=e64]: $0.00
+    - generic [ref=e65]:
+      - generic [ref=e66]: 加成後小計
+      - generic [ref=e67]: $0.00
+    - generic [ref=e68]:
+      - generic [ref=e69]: 服務費 (10%)
+      - generic [ref=e70]: $0.00
+    - generic [ref=e71]:
+      - generic [ref=e72]: 總計
+      - generic [ref=e73]: $0.00

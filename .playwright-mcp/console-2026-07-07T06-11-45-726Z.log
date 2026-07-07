@@ -1,0 +1,21 @@
+[     234ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8765/favicon.ico:0
+[   85178ms] [LOG] === Sushiro Calculator Self-Test === @ http://localhost:8765/index.html:604
+[   85178ms] [LOG] ✅ 小計=102 (got 102) @ http://localhost:8765/index.html:605
+[   85178ms] [LOG] ✅ 加成調整=-20 (got -20) @ http://localhost:8765/index.html:605
+[   85178ms] [LOG] ✅ 加成後小計=82 (got 82) @ http://localhost:8765/index.html:605
+[   85178ms] [LOG] ✅ 服務費=8.20 (got 8.2) @ http://localhost:8765/index.html:605
+[   85178ms] [LOG] ✅ 總計=90.20 (got 90.2) @ http://localhost:8765/index.html:605
+[   85178ms] [LOG] ✅ clamp 加成後小計=0 (got 0) @ http://localhost:8765/index.html:605
+[   85178ms] [LOG] ✅ clamped flag=true @ http://localhost:8765/index.html:605
+[   85178ms] [LOG] ✅ zero display: $0.00 (got $0.00) @ http://localhost:8765/index.html:605
+[   85178ms] [LOG] ✅ ALL PASSED @ http://localhost:8765/index.html:606
+[   95684ms] [LOG] === Sushiro Calculator Self-Test === @ http://localhost:8765/index.html:604
+[   95685ms] [LOG] ✅ 小計=102 (got 102) @ http://localhost:8765/index.html:605
+[   95685ms] [LOG] ✅ 加成調整=-20 (got -20) @ http://localhost:8765/index.html:605
+[   95685ms] [LOG] ✅ 加成後小計=82 (got 82) @ http://localhost:8765/index.html:605
+[   95685ms] [LOG] ✅ 服務費=8.20 (got 8.2) @ http://localhost:8765/index.html:605
+[   95686ms] [LOG] ✅ 總計=90.20 (got 90.2) @ http://localhost:8765/index.html:605
+[   95686ms] [LOG] ✅ clamp 加成後小計=0 (got 0) @ http://localhost:8765/index.html:605
+[   95686ms] [LOG] ✅ clamped flag=true @ http://localhost:8765/index.html:605
+[   95686ms] [LOG] ✅ zero display: $0.00 (got $0.00) @ http://localhost:8765/index.html:605
+[   95687ms] [LOG] ✅ ALL PASSED @ http://localhost:8765/index.html:606
