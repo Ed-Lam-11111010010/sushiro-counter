@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>壽司郎 HK 結算</title>
+<title>壽司郎結算器（個人用）</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; color: #333; }
@@ -14,7 +14,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .section { padding: 8px 0; }
 .section-title { font-size: 0.9rem; font-weight: 600; color: #555; margin-bottom: 4px; }
 
-.plate-row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid #eee; }
+.plate-row { display: flex; align-items: center; gap: 8px; padding: 10px 12px; margin-bottom: 6px; border-radius: 8px; border: 1px solid #e0e0e0; }
 .color-chip { width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0; }
 .plate-label { font-size: 0.95rem; font-weight: 500; min-width: 80px; }
 .plate-price { font-size: 0.85rem; color: #888; min-width: 40px; }
@@ -107,7 +107,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       <span class="count-badge" id="other-count-badge">0</span>
       <button class="open-btn" onclick="openModal()">加入其他項目 ▶</button>
     </div>
-    <div class="other-chips" id="other-chips-summary"></div>
+    <div id="other-selected-list"></div>
   </div>
 
   <!-- Modifications panel -->
@@ -134,7 +134,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
   <div class="bill-sticky" id="bill">
     <div class="warning" id="clamp-warning">⚠️ 加成後小計已調整至 $0</div>
     <div class="bill-row"><span>小計</span><span id="bill-subtotal">$0.00</span></div>
-    <div class="bill-row"><span>加成調整</span><span id="bill-adjustment">$0.00</span></div>
+    <div class="bill-row" id="bill-adjustment-row"><span>加成調整</span><span id="bill-adjustment">$0.00</span></div>
     <div class="bill-row"><span>加成後小計</span><span id="bill-adjusted">$0.00</span></div>
     <div class="bill-row"><span>服務費 (10%)</span><span id="bill-service">$0.00</span></div>
     <div class="bill-row total"><span>總計</span><span id="bill-total">$0.00</span></div>
@@ -142,20 +142,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 </div>
 
 <!-- Modal -->
-<div class="modal-overlay" id="other-modal" onclick="closeModalNoSave(event)">
+<div class="modal-overlay" id="other-modal" onclick="closeModal(event)">
   <div class="modal-panel" onclick="event.stopPropagation()">
     <div class="modal-header">
       <h2>其他項目</h2>
       <div>
-        <button class="close-btn" onclick="closeModalNoSave()">取消</button>
+        <button class="close-btn" onclick="closeModal()">關閉</button>
         <button class="done-btn" onclick="saveModal()">完成</button>
       </div>
     </div>
     <div id="modal-items"></div>
-    <div class="modal-selected" id="modal-selected-section">
-      <h4>已選項目</h4>
-      <div id="modal-selected-list"></div>
-    </div>
   </div>
 </div>
 
@@ -244,14 +240,13 @@ let state = {
 
 let modSign = '-';
 let modUnit = '$';
-let modalState = {};  // holds other copy during modal editing
 let saveTimer = null;
 
 // ===== INIT =====
 function init() {
   loadState();
   renderPlates();
-  renderOtherSummary();
+  renderOtherSelected();
   renderModList();
   updateBill();
 }
@@ -292,6 +287,7 @@ function renderPlates() {
     const subtotal = count * p.price;
     const row = document.createElement('div');
     row.className = 'plate-row';
+    row.style.background = p.bg;
     row.innerHTML = `
       <div class="color-chip" style="background:${p.color}"></div>
       <span class="plate-label">${p.label}</span>
@@ -315,59 +311,79 @@ function changePlate(id, delta) {
   debounceSave();
 }
 
-// ===== OTHER SUMMARY =====
-function renderOtherSummary() {
+// ===== OTHER SELECTED (main page) =====
+function renderOtherSelected() {
   const count = Object.values(state.other).reduce((a,b) => a+b, 0);
   document.getElementById('other-count-badge').textContent = count;
 
-  const chips = document.getElementById('other-chips-summary');
-  chips.innerHTML = '';
+  const list = document.getElementById('other-selected-list');
+  list.innerHTML = '';
   if (count === 0) return;
-  const names = [];
   Object.entries(state.other).forEach(([id, qty]) => {
-    // Find item name
+    if (qty <= 0) return;
+    let name = id;
     for (const cat of Object.values(OTHER_ITEMS)) {
       const item = cat.find(i => i.id === id);
-      if (item) { names.push(`${item.name}×${qty}`); break; }
+      if (item) { name = item.name; break; }
     }
-  });
-  names.forEach(n => {
-    const chip = document.createElement('span');
-    chip.className = 'other-chip';
-    chip.textContent = n;
-    chips.appendChild(chip);
+    const row = document.createElement('div');
+    row.className = 'selected-row';
+    row.innerHTML = `
+      <span class="item-name">${name}</span>
+      <div class="qty-stepper">
+        <button onclick="changeOtherQty('${id}',-1)">−</button>
+        <span>${qty}</span>
+        <button onclick="changeOtherQty('${id}',1)">+</button>
+      </div>
+      <button class="remove-item" onclick="removeOtherItem('${id}')">刪除</button>
+    `;
+    list.appendChild(row);
   });
 }
 
-// ===== MODAL =====
+function changeOtherQty(id, delta) {
+  const cur = state.other[id] || 0;
+  const next = cur + delta;
+  if (next <= 0) {
+    delete state.other[id];
+  } else {
+    state.other[id] = next;
+  }
+  renderOtherSelected();
+  if (document.getElementById('other-modal').classList.contains('open')) renderModalItems();
+  updateBill();
+  debounceSave();
+}
+
+function removeOtherItem(id) {
+  delete state.other[id];
+  renderOtherSelected();
+  if (document.getElementById('other-modal').classList.contains('open')) renderModalItems();
+  updateBill();
+  debounceSave();
+}
+
+// ===== MODAL (picker only — changes are live) =====
 function openModal() {
-  // Copy current other state into modalState
-  modalState = JSON.parse(JSON.stringify(state.other));
   document.body.style.overflow = 'hidden';
   document.getElementById('other-modal').classList.add('open');
   renderModalItems();
-  renderModalSelected();
 }
 
-function closeModalNoSave(e) {
+function closeModal(e) {
   if (e && e.target !== document.getElementById('other-modal')) return;
   document.getElementById('other-modal').classList.remove('open');
   document.body.style.overflow = '';
 }
 
 function saveModal() {
-  state.other = JSON.parse(JSON.stringify(modalState));
-  document.getElementById('other-modal').classList.remove('open');
-  document.body.style.overflow = '';
-  renderOtherSummary();
-  updateBill();
-  debounceSave();
+  closeModal();
 }
 
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     const modal = document.getElementById('other-modal');
-    if (modal.classList.contains('open')) closeModalNoSave();
+    if (modal.classList.contains('open')) closeModal();
   }
 });
 
@@ -384,7 +400,7 @@ function renderModalItems() {
     grid.className = 'chip-grid';
     items.forEach(item => {
       const chip = document.createElement('span');
-      chip.className = 'chip' + ((modalState[item.id] || 0) > 0 ? ' selected' : '');
+      chip.className = 'chip' + ((state.other[item.id] || 0) > 0 ? ' selected' : '');
       chip.textContent = item.name + ' $' + item.price;
       chip.onclick = () => toggleModalChip(item.id);
       grid.appendChild(chip);
@@ -395,61 +411,15 @@ function renderModalItems() {
 }
 
 function toggleModalChip(id) {
-  if ((modalState[id] || 0) > 0) {
-    modalState[id] = (modalState[id] || 0) + 1;
+  if ((state.other[id] || 0) > 0) {
+    state.other[id] = (state.other[id] || 0) + 1;
   } else {
-    modalState[id] = 1;
+    state.other[id] = 1;
   }
   renderModalItems();
-  renderModalSelected();
-}
-
-function renderModalSelected() {
-  const el = document.getElementById('modal-selected-list');
-  el.innerHTML = '';
-  let hasItems = false;
-  Object.entries(modalState).forEach(([id, qty]) => {
-    if (qty <= 0) return;
-    hasItems = true;
-    let name = id;
-    for (const cat of Object.values(OTHER_ITEMS)) {
-      const item = cat.find(i => i.id === id);
-      if (item) { name = item.name; break; }
-    }
-    const row = document.createElement('div');
-    row.className = 'selected-row';
-    row.innerHTML = `
-      <span class="item-name">${name}</span>
-      <div class="qty-stepper">
-        <button onclick="modalQtyChange('${id}',-1)">−</button>
-        <span>${qty}</span>
-        <button onclick="modalQtyChange('${id}',1)">+</button>
-      </div>
-      <button class="remove-item" onclick="modalRemoveItem('${id}')">刪除</button>
-    `;
-    el.appendChild(row);
-  });
-  if (!hasItems) {
-    el.innerHTML = '<div style="font-size:0.85rem;color:#999;padding:8px 0;">尚未選擇任何項目</div>';
-  }
-}
-
-function modalQtyChange(id, delta) {
-  const cur = modalState[id] || 0;
-  const next = cur + delta;
-  if (next <= 0) {
-    delete modalState[id];
-  } else {
-    modalState[id] = next;
-  }
-  renderModalItems();
-  renderModalSelected();
-}
-
-function modalRemoveItem(id) {
-  delete modalState[id];
-  renderModalItems();
-  renderModalSelected();
+  renderOtherSelected();
+  updateBill();
+  debounceSave();
 }
 
 // ===== MODIFICATIONS =====
@@ -570,6 +540,8 @@ function updateBill() {
   document.getElementById('bill-total').textContent = '$' + b.total.toFixed(2);
   const warn = document.getElementById('clamp-warning');
   warn.style.display = b.clamped ? 'block' : 'none';
+  const adjRow = document.getElementById('bill-adjustment-row');
+  adjRow.style.display = state.modifications.length > 0 ? 'flex' : 'none';
 }
 
 // ===== RESET =====
@@ -582,7 +554,7 @@ function resetAll() {
   };
   try { localStorage.removeItem('sushiro-counter-state-v1'); } catch(e) {}
   renderPlates();
-  renderOtherSummary();
+  renderOtherSelected();
   renderModList();
   updateBill();
 }
