@@ -308,8 +308,7 @@ def main() -> int:
         return 0
 
     MENU_PATH.write_text(
-        json.dumps(new_menu, ensure_ascii=False, indent=2) + "
-",
+        json.dumps(new_menu, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     counts = ", ".join(
