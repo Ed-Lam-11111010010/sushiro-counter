@@ -1,0 +1,19 @@
+{
+  "name": "壽司郎香港結算器",
+  "short_name": "壽司郎結算器",
+  "description": "離線計算壽司郎香港餐費，餐單會定期同步官方資料。",
+  "lang": "zh-HK",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#e53935",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
