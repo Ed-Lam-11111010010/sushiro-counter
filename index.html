@@ -204,7 +204,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       </div>
     </div>
     <div class="modal-tabs" id="modal-tabs" role="tablist" aria-label="其他項目分類"></div>
-    <div class="modal-items" id="modal-items"></div>
+    <div class="modal-items" id="modal-items" role="tabpanel" aria-live="polite"></div>
   </div>
 </div>
 
@@ -531,6 +531,12 @@ function renderModalItems() {
   });
 
   const el = document.getElementById('modal-items');
+  const activeIndex = Object.keys(OTHER_ITEMS).indexOf(activeOtherCategory);
+  if (activeIndex >= 0) {
+    el.setAttribute('aria-labelledby', 'modal-tab-' + activeIndex);
+  } else {
+    el.removeAttribute('aria-labelledby');
+  }
   el.innerHTML = '';
   const items = OTHER_ITEMS[activeOtherCategory] || [];
   const hint = document.getElementById('modal-category-hint');
@@ -595,18 +601,6 @@ function renderModalItems() {
     row.appendChild(stepper);
     el.appendChild(row);
   });
-}
-
-function toggleModalChip(id) {
-  if ((state.other[id] || 0) > 0) {
-    state.other[id] = (state.other[id] || 0) + 1;
-  } else {
-    state.other[id] = 1;
-  }
-  renderModalItems();
-  renderOtherSelected();
-  updateBill();
-  debounceSave();
 }
 
 // ===== MODIFICATIONS =====
