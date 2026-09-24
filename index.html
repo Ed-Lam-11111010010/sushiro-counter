@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>壽司郎結算器（個人用）</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#e53935">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; color: #333; }
@@ -13,6 +18,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .reset-btn { padding: 4px 12px; font-size: 0.8rem; border: 1px solid #ccc; border-radius: 6px; background: #fff; cursor: pointer; color: #757575; }
 .section { padding: 8px 0; }
 .section-title { font-size: 0.9rem; font-weight: 600; color: #555; margin-bottom: 4px; }
+.menu-status { font-size: 0.72rem; color: #777; padding: 4px 0 0; text-align: right; }
 
 .plate-row { display: flex; align-items: center; gap: 8px; padding: 10px 12px; margin-bottom: 6px; border-radius: 8px; border: 1px solid #e0e0e0; }
 .color-chip { width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0; }
@@ -96,6 +102,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
     <h1>壽司郎結算器</h1>
     <button class="reset-btn" onclick="resetAll()">重置</button>
   </div>
+  <div class="menu-status" id="menu-status" role="status" aria-live="polite">餐單載入中…</div>
 
   <!-- Plate counters -->
   <div class="section" id="plate-section"></div>
@@ -157,7 +164,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 
 <script>
 // ===== CONFIG =====
-// Regular menu verified against official Sushiro HK menu 2026-09-16
+// Fallback menu data; the served menu.json is refreshed by GitHub Actions
 const PLATES = [
   { id:'red',    label:'紅碟', price:12, color:'#e53935', bg:'#ffebee' },
   { id:'silver', label:'銀碟', price:17, color:'#757575', bg:'#f5f5f5' },
@@ -165,7 +172,7 @@ const PLATES = [
   { id:'black',  label:'黑碟', price:27, color:'#1a1a1a', bg:'#e0e0e0' },
 ];
 
-const OTHER_ITEMS = {
+const FALLBACK_OTHER_ITEMS = {
   '麵類・湯類': [
     { id:'steamed_clams', name:'出汁蒸蜆', price:18 },
     { id:'clam_miso',     name:'蜆肉海苔麵豉湯', price:20 },
@@ -238,6 +245,8 @@ const OTHER_ITEMS = {
   ],
 };
 
+let OTHER_ITEMS = FALLBACK_OTHER_ITEMS;
+
 // ===== STATE =====
 let state = {
   plates: { red:0, silver:0, gold:0, black:0 },
@@ -250,12 +259,51 @@ let modUnit = '$';
 let saveTimer = null;
 
 // ===== INIT =====
+function setMenuStatus(text) {
+  const el = document.getElementById('menu-status');
+  if (el) el.textContent = text;
+}
+
+function validateMenuData(menu) {
+  if (!menu || menu.schemaVersion !== 1 || !menu.categories || typeof menu.categories !== 'object') {
+    return false;
+  }
+  const items = Object.values(menu.categories).flat();
+  return items.length > 0 && items.every(item =>
+    item &&
+    typeof item.id === 'string' &&
+    typeof item.name === 'string' &&
+    Number.isFinite(Number(item.price))
+  );
+}
+
+async function loadMenu() {
+  try {
+    const response = await fetch('./menu.json?ts=' + Date.now(), { cache: 'no-store' });
+    if (!response.ok) throw new Error('menu fetch failed');
+    const menu = await response.json();
+    if (!validateMenuData(menu)) throw new Error('invalid menu data');
+    OTHER_ITEMS = menu.categories;
+    renderOtherSelected();
+    setMenuStatus('餐單資料' + (menu.updatedAt ? '（更新於 ' + menu.updatedAt + '）' : ''));
+  } catch (e) {
+    setMenuStatus('使用內置餐單（離線模式）');
+  }
+}
+
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+}
+
 function init() {
   loadState();
   renderPlates();
   renderOtherSelected();
   renderModList();
   updateBill();
+  loadMenu();
+  registerServiceWorker();
 }
 
 // ===== STORAGE =====

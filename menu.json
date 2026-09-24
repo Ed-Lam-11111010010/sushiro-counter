@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "region": "hk",
+  "currency": "HKD",
+  "updatedAt": "2026-09-25",
+  "source": [
+    "https://sushirohk.com.hk/tc/menu.php?cid=11&wid=5",
+    "https://sushirohk.com.hk/tc/menu.php?cid=13&wid=5",
+    "https://sushirohk.com.hk/tc/menu.php?cid=15&wid=5"
+  ],
+  "categories": {
+    "麵類・湯類": [
+      { "id": "steamed_clams", "name": "出汁蒸蜆", "price": 18 },
+      { "id": "clam_miso", "name": "蜆肉海苔麵豉湯", "price": 20 },
+      { "id": "tofu_udon", "name": "腐皮烏冬", "price": 27 },
+      { "id": "kamadama_udon", "name": "釜玉烏冬", "price": 28 },
+      { "id": "tempura_udon", "name": "炸蝦天婦羅烏冬", "price": 28 },
+      { "id": "tonkotsu_ramen", "name": "豚骨拉麵", "price": 32 },
+      { "id": "spicy_ramen", "name": "辣豚骨拉麵", "price": 32 },
+      { "id": "beef_udon", "name": "牛肉烏冬", "price": 33 }
+    ],
+    "副餐類": [
+      { "id": "mentaiko", "name": "明太子沙律醬", "price": 3 },
+      { "id": "onsen_tamago", "name": "溫泉蛋", "price": 6 },
+      { "id": "chicken_karaage_1", "name": "脆脆炸雞塊 1塊", "price": 12 },
+      { "id": "golden_fries", "name": "黃金脆薯", "price": 13 },
+      { "id": "pumpkin_tempura", "name": "南瓜天婦羅", "price": 13 },
+      { "id": "shrimp_tempura_half", "name": "炸蝦天婦羅拼盤(半份)", "price": 18 },
+      { "id": "shrimp_tempura", "name": "炸蝦天婦羅", "price": 18 },
+      { "id": "fried_cartilage", "name": "炸雞軟骨", "price": 19 },
+      { "id": "chawanmushi", "name": "茶碗蒸", "price": 19 },
+      { "id": "chicken_karaage_2", "name": "脆脆炸雞塊 2塊", "price": 22 },
+      { "id": "unagi_chawanmushi", "name": "店內特製鰻魚茶碗蒸", "price": 22 },
+      { "id": "akagai_sashimi", "name": "北寄貝刺身", "price": 22 },
+      { "id": "sweet_shrimp_sashimi", "name": "甜蝦刺身", "price": 22 },
+      { "id": "conch_sashimi", "name": "海螺刺身", "price": 22 },
+      { "id": "tuna_sashimi_set", "name": "吞拿魚2種刺身", "price": 22 },
+      { "id": "shrimp_tempura_full", "name": "炸蝦天婦羅拼盤", "price": 28 },
+      { "id": "salmon_sashimi_set", "name": "生三文魚刺身盛", "price": 39 },
+      { "id": "akaebi_sashimi", "name": "赤蝦刺身", "price": 39 },
+      { "id": "hotate_sashimi", "name": "日本產帆立貝刺身", "price": 42 },
+      { "id": "salmon_belly_sashimi", "name": "生三文魚腩刺身", "price": 48 },
+      { "id": "salmon_hamachi_sashimi", "name": "生三文魚腩刺身・油甘魚腩刺身", "price": 48 }
+    ],
+    "甜品": [
+      { "id": "melon_sorbet", "name": "蜜瓜味雪葩", "price": 13 },
+      { "id": "frozen_mango", "name": "冷凍芒果", "price": 13 },
+      { "id": "soy_warabimochi", "name": "黃豆粉蕨餅", "price": 13 },
+      { "id": "choco_montblanc", "name": "朱古力蒙布朗蛋糕", "price": 17 },
+      { "id": "milk_soft_cream_cookie", "name": "牛奶味軟雪糕(有曲奇)", "price": 18 },
+      { "id": "milk_soft_cream", "name": "牛奶味軟雪糕", "price": 18 },
+      { "id": "crema_catalana", "name": "卡達拉娜", "price": 22 },
+      { "id": "sushiro_pudding", "name": "壽司郎經典布甸", "price": 22 },
+      { "id": "crepe_cake", "name": "千層蛋糕", "price": 22 },
+      { "id": "soy_warabi_parfait", "name": "黃豆粉蕨餅芭菲", "price": 27 },
+      { "id": "choco_berry_parfait", "name": "朱古力香莓芭菲", "price": 27 }
+    ],
+    "飲料": [
+      { "id": "pepsi_zero", "name": "百事可樂(無糖)", "price": 8 },
+      { "id": "pepsi", "name": "百事可樂", "price": 8 },
+      { "id": "mirinda_orange", "name": "美年達橙汁", "price": 8 },
+      { "id": "7up", "name": "七喜", "price": 8 },
+      { "id": "vita_lemon_tea", "name": "維他氣泡檸檬茶", "price": 8 },
+      { "id": "apple_juice", "name": "100％蘋果汁", "price": 8 },
+      { "id": "calpico", "name": "可爾必思", "price": 8 },
+      { "id": "sunsay_tea", "name": "纖解茶", "price": 9 },
+      { "id": "kikumasamune", "name": "菊正宗", "price": 17 },
+      { "id": "horoyoi_grape", "name": "Horoyoi(葡萄味)", "price": 19 },
+      { "id": "horoyoi_yuzu", "name": "Horoyoi(檸檬蜜柑味)", "price": 19 },
+      { "id": "suntory_beer", "name": "三得利頂級啤酒", "price": 24 },
+      { "id": "umeshu", "name": "梅酒(含梅子)", "price": 27 },
+      { "id": "whisky_soda", "name": "威士忌梳打", "price": 27 },
+      { "id": "kikumasamune_daiginjo", "name": "菊正宗(大吟釀)", "price": 59 }
+    ],
+    "期間限定・漁吉丸（2026年9月）": [
+      { "id": "gyokichimaru_tuna_three", "name": "天然藍鰭吞拿魚三味", "price": 48 },
+      { "id": "gyokichimaru_fried_tuna", "name": "天然藍鰭炸吞拿魚塊", "price": 22 },
+      { "id": "gyokichimaru_kama_toro", "name": "天然藍鰭吞拿魚魚鮫拖羅（10店限定）", "price": 27 },
+      { "id": "gyokichimaru_noten", "name": "天然藍鰭吞拿魚燒霜腦天肉（10店限定）", "price": 17 },
+      { "id": "gyokichimaru_cheek", "name": "天然藍鰭吞拿魚炙燒臉頰肉（10店限定）", "price": 17 }
+    ]
+  }
+}

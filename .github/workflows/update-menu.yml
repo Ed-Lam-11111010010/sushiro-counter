@@ -1,0 +1,41 @@
+name: Check for Sushiro menu updates
+
+on:
+  schedule:
+    # Sunday 22:00 UTC = Monday 06:00 Hong Kong time.
+    - cron: "0 22 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-menu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Fetch and validate official menu
+        run: python scripts/update_menu.py
+
+      - name: Open menu update PR when needed
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update Sushiro HK menu"
+          branch: chore/auto-menu-update
+          delete-branch: true
+          title: "chore: update Sushiro HK menu"
+          body: |
+            Automated menu refresh from the official Sushiro HK pages.
+            The scraper validates the menu schema before opening this PR.
+          base: master

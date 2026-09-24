@@ -16,6 +16,8 @@
 - **自動儲存** — localStorage 記住你嘅選擇，refresh 唔會清空；附「重置」掣一鍵清零
 - **離線可用** — 純靜態檔，雙擊即開，唔使上網
 - **手機優先** — responsive 設計，手機餐廳現場用都得
+- **可安裝 PWA** — 可加入手機主畫面，離線時仍可用
+- **餐單自動同步** — `menu.json` 由排程工作流對照香港壽司郎官方餐單，有變更時才開 PR
 - **繁體中文（HK）** 介面
 
 ---
@@ -68,28 +70,29 @@
 
 ## 自訂
 
-打開 `index.html`，改檔案頂部嘅 config：
+餐單項目及價錢集中在 `menu.json`，格式如下：
 
-```js
-const PLATES = [
-  { id:'red',    label:'紅碟', price:12, color:'#e53935', ... },
-  { id:'silver', label:'銀碟', price:17, color:'#757575', ... },
-  // 改 price 就得；物價變時改呢度
-];
-
-const OTHER_ITEMS = {
-  '麵類・湯類': [ { id:'steamed_clams', name:'出汁蒸蜆', price:18 }, ... ],
-  '副餐類':     [ ... ],
-  '甜品':       [ ... ],
-  '飲料':       [ ... ],
-  '期間限定・活動名': [ ... ],
-  // 加減項目、改價錢都喺呢度
-};
+```json
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-25",
+  "categories": {
+    "麵類・湯類": [
+      { "id": "steamed_clams", "name": "出汁蒸蜆", "price": 18 }
+    ]
+  }
+}
 ```
 
-改完 save 就得，唔使重新 build 任何嘢。
+如需調整四種碟價，才需要修改 `index.html` 頂部的 `PLATES`。改完 save 就得，唔使重新 build。
 
----
+## 定期更新與安裝
+
+- 本專案係可安裝 PWA：用手機瀏覽線上版，在瀏覽器選「加入主畫面／安裝 App」即可。
+- `menu.json` 是餐單資料來源；頁面會優先讀取它，離線時使用瀏覽器快取及內置備份。
+- GitHub Actions 每週一香港時間 06:00 讀取香港壽司郎官方餐單頁面。只有資料通過基本驗證且有差異時，才會建立 `chore: update Sushiro HK menu` PR；合併後 GitHub Pages 自動部署。
+- 官方餐單可能因分店、供應及活動變更而不同，App 顯示的價格只供結帳前參考。
+- 期間限定分類會保留至分類名稱所標示的月份結束，下一次排程執行時自動移除；新增新活動仍可手動加入 `menu.json`。
 
 ## 自我測試
 
@@ -105,9 +108,10 @@ window.__selftest()
 
 ## 技術
 
-- 單一 `index.html`（HTML + inline CSS + inline JS）
-- Vanilla JavaScript，無框架、無 build step、無依賴
-- 無 backend、無網絡請求、無 analytics
+- PWA 外殼：`index.html` + `manifest.webmanifest` + `service-worker.js`
+- Vanilla JavaScript，無框架、無 build step、無前端依賴
+- `menu.json`：可快取、可版本化的餐單資料
+- 無 backend、無 runtime analytics；餐單同步只在 GitHub Actions 排程中讀取官方頁面
 - 手機優先 CSS，無 CSS framework
 - localStorage 持久化
 
@@ -123,4 +127,4 @@ MIT License — 自由使用、修改、分發。
 
 本工具係粉絲自製，**與壽司郎 / Sushiro / Food & Life Companies 無任何關係**。
 
-碟價及常設餐單項目價錢係由[壽司郎香港官方餐單](https://sushirohk.com.hk/tc/menu.php?wid=11&cid=23)整理；常設餐單最後核對日期為 2026-09-16。期間限定項目會按公開活動資料加入，供應分店、供應期及售罄情況可能不同。所有資料僅供參考，實際價格及供應情況請以店內及壽司郎香港官方公佈為準。
+碟價及常設餐單項目價錢係由[壽司郎香港官方餐單](https://sushirohk.com.hk/tc/menu.php?wid=5)抽取並由排程工作流更新；期間限定項目會按公開活動資料加入，供應分店、供應期及售罄情況可能不同。所有資料僅供參考，實際價格及供應情況請以店內及壽司郎香港官方公佈為準。

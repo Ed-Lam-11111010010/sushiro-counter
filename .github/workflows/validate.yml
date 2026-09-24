@@ -1,0 +1,43 @@
+name: Validate app
+
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "menu.json"
+      - "manifest.webmanifest"
+      - "service-worker.js"
+      - "scripts/**"
+      - ".github/workflows/**"
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate updater syntax
+        run: python -m py_compile scripts/update_menu.py
+
+      - name: Validate menu data
+        run: python scripts/update_menu.py --check
+
+      - name: Validate JSON metadata
+        run: node -e "JSON.parse(require('fs').readFileSync('menu.json','utf8')); JSON.parse(require('fs').readFileSync('manifest.webmanifest','utf8')); console.log('JSON metadata OK')"
+
+      - name: Validate frontend JavaScript
+        run: node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const start=html.indexOf('<script>')+8; const end=html.lastIndexOf('</script>'); new Function(html.slice(start,end)); console.log('index JavaScript OK')"
+
+      - name: Validate service worker
+        run: node --check service-worker.js
