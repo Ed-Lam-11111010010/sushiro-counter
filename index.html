@@ -32,12 +32,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .stepper .count { min-width: 32px; text-align: center; font-size: 1.1rem; font-weight: 600; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 4px 0; background: #fff; }
 .plate-subtotal { font-size: 1rem; font-weight: 600; min-width: 56px; text-align: right; }
 
-.other-summary { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
-.other-summary .count-badge { background: #e53935; color: #fff; border-radius: 10px; padding: 1px 8px; font-size: 0.8rem; font-weight: 600; }
-.other-summary .open-btn { padding: 6px 14px; font-size: 0.85rem; border: 1px solid #1976d2; border-radius: 6px; background: #e3f2fd; color: #1976d2; cursor: pointer; font-weight: 500; margin-left: auto; }
-.other-summary .open-btn:active { background: #bbdefb; }
-.other-chips { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px 0; }
-.other-chip { font-size: 0.75rem; background: #f5f5f5; border-radius: 12px; padding: 2px 8px; border: 1px solid #e0e0e0; }
+.other-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0 8px; }
+.other-copy { min-width: 0; }
+.other-title { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 600; color: #30343b; }
+.other-subtitle { margin-top: 3px; color: #6b7280; font-size: 0.75rem; }
+.count-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; padding: 2px 7px; border: 1px solid #f2b8b5; border-radius: 999px; background: #fff1f0; color: #b42318; font-size: 0.75rem; font-weight: 700; }
+.open-btn { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; padding: 8px 12px; font-size: 0.82rem; border: 1px solid #e53935; border-radius: 8px; background: #fff; color: #c62828; cursor: pointer; font-weight: 600; }
+.open-btn:hover { background: #fff5f4; }
+.open-btn:active { background: #ffebee; }
 
 .mod-section { padding: 8px 0; }
 .mod-input-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
@@ -60,22 +62,43 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .bill-row.total { font-size: 1.3rem; font-weight: 700; color: #d32f2f; border-top: 2px solid #d32f2f; padding-top: 6px; margin-top: 4px; }
 .warning { color: #e65100; font-size: 0.8rem; padding: 4px 0; display: none; }
 
-/* Modal */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 1000; }
+/* Other item picker */
+.modal-overlay { position: fixed; inset: 0; padding: 12px; background: rgba(17,24,39,0.52); display: none; align-items: center; justify-content: center; z-index: 1000; }
 .modal-overlay.open { display: flex; }
-.modal-panel { background: #fff; border-radius: 12px; max-width: 480px; width: calc(100% - 24px); max-height: 80vh; overflow-y: auto; padding: 16px; }
-.modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1px solid #eee; margin-bottom: 8px; }
-.modal-header h2 { font-size: 1.1rem; }
-.modal-header .close-btn { padding: 6px 14px; font-size: 0.85rem; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; }
-.modal-header .done-btn { padding: 6px 14px; font-size: 0.85rem; border: none; border-radius: 6px; background: #1976d2; color: #fff; cursor: pointer; }
-.modal-category { margin-bottom: 8px; }
-.modal-category h3 { font-size: 0.9rem; font-weight: 600; padding: 6px 0 4px; color: #555; border-bottom: 1px solid #eee; margin-bottom: 6px; cursor: pointer; }
-.chip-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; border: 1px solid #ddd; background: #fafafa; transition: all 0.12s; user-select: none; }
-.chip.selected { background: #e3f2fd; border-color: #1976d2; color: #1976d2; font-weight: 600; }
-.chip:active { transform: scale(0.96); }
-.modal-selected { margin-top: 12px; border-top: 1px solid #eee; padding-top: 8px; }
-.modal-selected h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
+.modal-panel { display: flex; flex-direction: column; background: #fff; border-radius: 16px; max-width: 480px; width: 100%; max-height: min(82vh, 720px); overflow: hidden; box-shadow: 0 12px 32px rgba(17,24,39,0.2); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-shrink: 0; padding: 16px 16px 12px; border-bottom: 1px solid #eceff1; }
+.modal-heading { min-width: 0; }
+.modal-heading h2 { font-size: 1.1rem; color: #20242a; }
+.modal-heading p { margin-top: 3px; color: #6b7280; font-size: 0.75rem; }
+.modal-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.modal-header .close-btn, .modal-header .done-btn { min-height: 36px; padding: 6px 12px; font-size: 0.82rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.modal-header .close-btn { border: 1px solid #d7dce1; background: #fff; color: #4b5563; }
+.modal-header .close-btn:hover { background: #f7f8f9; }
+.modal-header .done-btn { border: 1px solid #e53935; background: #e53935; color: #fff; }
+.modal-header .done-btn:hover { background: #c62828; }
+.modal-tabs { display: flex; gap: 6px; flex-shrink: 0; overflow-x: auto; padding: 10px 16px; background: #fafafa; border-bottom: 1px solid #eceff1; scrollbar-width: thin; }
+.modal-tab { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; min-height: 36px; padding: 6px 10px; border: 1px solid #dfe3e7; border-radius: 8px; background: #fff; color: #4b5563; cursor: pointer; font: inherit; font-size: 0.78rem; white-space: nowrap; }
+.modal-tab:hover { background: #fff5f4; }
+.modal-tab[aria-selected="true"] { border-color: #e53935; background: #fff1f0; color: #b42318; font-weight: 700; }
+.tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; background: #f1f3f5; color: #68707a; font-size: 0.68rem; font-weight: 700; }
+.modal-tab[aria-selected="true"] .tab-count { background: #e53935; color: #fff; }
+.modal-items { overflow-y: auto; padding: 0 16px 16px; }
+.modal-category-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 14px 0 8px; }
+.modal-category-header h3 { font-size: 0.9rem; font-weight: 700; color: #30343b; }
+.modal-category-count { color: #7a828c; font-size: 0.75rem; }
+.modal-item-row { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px 0; border-bottom: 1px solid #eceff1; }
+.modal-item-row:last-child { border-bottom: 0; }
+.modal-item-copy { flex: 1; min-width: 0; }
+.modal-item-name { display: block; font-size: 0.9rem; line-height: 1.35; color: #30343b; overflow-wrap: anywhere; }
+.modal-item-price { display: block; margin-top: 3px; color: #6b7280; font-size: 0.78rem; }
+.item-stepper { display: flex; align-items: center; flex-shrink: 0; }
+.item-stepper button { width: 34px; height: 34px; border: 1px solid #d7dce1; background: #fff; color: #30343b; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+.item-stepper button:first-child { border-radius: 7px 0 0 7px; }
+.item-stepper button:last-child { border-radius: 0 7px 7px 0; }
+.item-stepper button:hover:not(:disabled) { background: #fff5f4; border-color: #e53935; color: #b42318; }
+.item-stepper button:disabled { cursor: not-allowed; opacity: 0.38; }
+.item-stepper .item-qty { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 34px; border-top: 1px solid #d7dce1; border-bottom: 1px solid #d7dce1; color: #20242a; font-size: 0.9rem; font-weight: 700; }
+.modal-empty { padding: 24px 0; color: #6b7280; font-size: 0.85rem; text-align: center; }
 .selected-row { display: flex; align-items: center; gap: 6px; padding: 4px 0; }
 .selected-row .item-name { flex: 1; font-size: 0.85rem; }
 .selected-row .qty-stepper { display: flex; align-items: center; gap: 0; }
@@ -85,6 +108,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .selected-row .qty-stepper span { min-width: 24px; text-align: center; font-size: 0.9rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 2px 0; }
 .selected-row .remove-item { padding: 2px 8px; font-size: 0.75rem; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: #fff; color: #d32f2f; }
 
+.open-btn:focus-visible, .reset-btn:focus-visible, .modal-tab:focus-visible, .modal-header button:focus-visible, .item-stepper button:focus-visible, .selected-row button:focus-visible { outline: 3px solid rgba(229,57,53,0.28); outline-offset: 2px; }
+
 @media (max-width: 400px) {
   .plate-row { gap: 4px; }
   .plate-label { font-size: 0.85rem; min-width: 60px; }
@@ -92,6 +117,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
   .stepper button { width: 32px; height: 32px; font-size: 1rem; }
   .mod-input-row input[type="text"] { width: 64px; }
   .mod-input-row .label-input { width: 64px; }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal-panel { max-height: 88vh; border-radius: 16px 16px 0 0; }
+  .modal-header { padding-top: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
 }
 </style>
 </head>
@@ -110,9 +145,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
   <!-- Other summary -->
   <div class="section">
     <div class="other-summary">
-      <span style="font-size:0.9rem;font-weight:500;">其他項目</span>
-      <span class="count-badge" id="other-count-badge">0</span>
-      <button class="open-btn" onclick="openModal()">加入其他項目 ▶</button>
+      <div class="other-copy">
+        <div class="other-title">
+          <span>其他項目</span>
+          <span class="count-badge" id="other-count-badge" aria-label="已選其他項目數量">0</span>
+        </div>
+        <div class="other-subtitle">麵類、湯類、副餐、甜品、飲料及期間限定</div>
+      </div>
+      <button class="open-btn" type="button" onclick="openModal()">
+        <span>選擇項目</span><span aria-hidden="true">→</span>
+      </button>
     </div>
     <div id="other-selected-list"></div>
   </div>
@@ -152,13 +194,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 <div class="modal-overlay" id="other-modal" onclick="closeModal(event)">
   <div class="modal-panel" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <h2>其他項目</h2>
-      <div>
-        <button class="close-btn" onclick="closeModal()">關閉</button>
-        <button class="done-btn" onclick="saveModal()">完成</button>
+      <div class="modal-heading">
+        <h2>選擇其他項目</h2>
+        <p id="modal-category-hint">按分類揀選，數量會即時更新</p>
+      </div>
+      <div class="modal-actions">
+        <button class="close-btn" type="button" onclick="closeModal()">關閉</button>
+        <button class="done-btn" type="button" onclick="saveModal()">完成</button>
       </div>
     </div>
-    <div id="modal-items"></div>
+    <div class="modal-tabs" id="modal-tabs" role="tablist" aria-label="其他項目分類"></div>
+    <div class="modal-items" id="modal-items" role="tabpanel" aria-live="polite"></div>
   </div>
 </div>
 
@@ -246,6 +292,7 @@ const FALLBACK_OTHER_ITEMS = {
 };
 
 let OTHER_ITEMS = FALLBACK_OTHER_ITEMS;
+let activeOtherCategory = Object.keys(OTHER_ITEMS)[0] || '';
 
 // ===== STATE =====
 let state = {
@@ -277,6 +324,13 @@ function validateMenuData(menu) {
   );
 }
 
+function ensureActiveOtherCategory() {
+  const categories = Object.keys(OTHER_ITEMS);
+  if (!categories.includes(activeOtherCategory)) {
+    activeOtherCategory = categories[0] || '';
+  }
+}
+
 async function loadMenu() {
   try {
     const response = await fetch('./menu.json?ts=' + Date.now(), { cache: 'no-store' });
@@ -284,7 +338,9 @@ async function loadMenu() {
     const menu = await response.json();
     if (!validateMenuData(menu)) throw new Error('invalid menu data');
     OTHER_ITEMS = menu.categories;
+    ensureActiveOtherCategory();
     renderOtherSelected();
+    if (document.getElementById('other-modal').classList.contains('open')) renderModalItems();
     setMenuStatus('餐單資料' + (menu.updatedAt ? '（更新於 ' + menu.updatedAt + '）' : ''));
   } catch (e) {
     setMenuStatus('使用內置餐單（離線模式）');
@@ -298,6 +354,7 @@ function registerServiceWorker() {
 
 function init() {
   loadState();
+  ensureActiveOtherCategory();
   renderPlates();
   renderOtherSelected();
   renderModList();
@@ -422,6 +479,7 @@ function removeOtherItem(id) {
 function openModal() {
   document.body.style.overflow = 'hidden';
   document.getElementById('other-modal').classList.add('open');
+  ensureActiveOtherCategory();
   renderModalItems();
 }
 
@@ -435,6 +493,12 @@ function saveModal() {
   closeModal();
 }
 
+function selectOtherCategory(categoryName) {
+  if (!Object.prototype.hasOwnProperty.call(OTHER_ITEMS, categoryName)) return;
+  activeOtherCategory = categoryName;
+  renderModalItems();
+}
+
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     const modal = document.getElementById('other-modal');
@@ -443,38 +507,100 @@ document.addEventListener('keydown', function(e) {
 });
 
 function renderModalItems() {
-  const el = document.getElementById('modal-items');
-  el.innerHTML = '';
-  Object.entries(OTHER_ITEMS).forEach(([catName, items]) => {
-    const div = document.createElement('div');
-    div.className = 'modal-category';
-    const header = document.createElement('h3');
-    header.textContent = catName;
-    div.appendChild(header);
-    const grid = document.createElement('div');
-    grid.className = 'chip-grid';
-    items.forEach(item => {
-      const chip = document.createElement('span');
-      chip.className = 'chip' + ((state.other[item.id] || 0) > 0 ? ' selected' : '');
-      chip.textContent = item.name + ' $' + item.price;
-      chip.onclick = () => toggleModalChip(item.id);
-      grid.appendChild(chip);
-    });
-    div.appendChild(grid);
-    el.appendChild(div);
+  ensureActiveOtherCategory();
+  const tabsEl = document.getElementById('modal-tabs');
+  tabsEl.innerHTML = '';
+  Object.entries(OTHER_ITEMS).forEach(([catName, items], index) => {
+    const selectedCount = items.reduce((sum, item) => sum + (state.other[item.id] || 0), 0);
+    const tab = document.createElement('button');
+    tab.type = 'button';
+    tab.className = 'modal-tab';
+    tab.id = 'modal-tab-' + index;
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('aria-selected', String(catName === activeOtherCategory));
+    tab.setAttribute('aria-controls', 'modal-items');
+    tab.textContent = catName;
+    if (selectedCount > 0) {
+      const count = document.createElement('span');
+      count.className = 'tab-count';
+      count.textContent = selectedCount;
+      tab.appendChild(count);
+    }
+    tab.onclick = () => selectOtherCategory(catName);
+    tabsEl.appendChild(tab);
   });
-}
 
-function toggleModalChip(id) {
-  if ((state.other[id] || 0) > 0) {
-    state.other[id] = (state.other[id] || 0) + 1;
+  const el = document.getElementById('modal-items');
+  const activeIndex = Object.keys(OTHER_ITEMS).indexOf(activeOtherCategory);
+  if (activeIndex >= 0) {
+    el.setAttribute('aria-labelledby', 'modal-tab-' + activeIndex);
   } else {
-    state.other[id] = 1;
+    el.removeAttribute('aria-labelledby');
   }
-  renderModalItems();
-  renderOtherSelected();
-  updateBill();
-  debounceSave();
+  el.innerHTML = '';
+  const items = OTHER_ITEMS[activeOtherCategory] || [];
+  const hint = document.getElementById('modal-category-hint');
+  hint.textContent = activeOtherCategory ? `${activeOtherCategory} · ${items.length} 項` : '暫時沒有可選項目';
+  if (items.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'modal-empty';
+    empty.textContent = '此分類暫時沒有項目';
+    el.appendChild(empty);
+    return;
+  }
+
+  const header = document.createElement('div');
+  header.className = 'modal-category-header';
+  const title = document.createElement('h3');
+  title.textContent = activeOtherCategory;
+  const count = document.createElement('span');
+  count.className = 'modal-category-count';
+  count.textContent = '按 + 加入，− 調整數量';
+  header.appendChild(title);
+  header.appendChild(count);
+  el.appendChild(header);
+
+  items.forEach(item => {
+    const qty = state.other[item.id] || 0;
+    const row = document.createElement('div');
+    row.className = 'modal-item-row';
+
+    const copy = document.createElement('div');
+    copy.className = 'modal-item-copy';
+    const name = document.createElement('span');
+    name.className = 'modal-item-name';
+    name.textContent = item.name;
+    const price = document.createElement('span');
+    price.className = 'modal-item-price';
+    price.textContent = '$' + item.price;
+    copy.appendChild(name);
+    copy.appendChild(price);
+
+    const stepper = document.createElement('div');
+    stepper.className = 'item-stepper';
+    const minus = document.createElement('button');
+    minus.type = 'button';
+    minus.textContent = '−';
+    minus.setAttribute('aria-label', '減少 ' + item.name);
+    minus.disabled = qty === 0;
+    minus.onclick = () => changeOtherQty(item.id, -1);
+    const quantity = document.createElement('span');
+    quantity.className = 'item-qty';
+    quantity.textContent = qty;
+    quantity.setAttribute('aria-label', item.name + '數量 ' + qty);
+    const plus = document.createElement('button');
+    plus.type = 'button';
+    plus.textContent = '+';
+    plus.setAttribute('aria-label', '增加 ' + item.name);
+    plus.onclick = () => changeOtherQty(item.id, 1);
+    stepper.appendChild(minus);
+    stepper.appendChild(quantity);
+    stepper.appendChild(plus);
+
+    row.appendChild(copy);
+    row.appendChild(stepper);
+    el.appendChild(row);
+  });
 }
 
 // ===== MODIFICATIONS =====
@@ -668,3 +794,4 @@ init();
 </script>
 </body>
 </html>
+
