@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "region": "hk",
   "currency": "HKD",
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-10-07",
   "source": [
     "https://sushirohk.com.hk/tc/menu.php?cid=11&wid=5",
     "https://sushirohk.com.hk/tc/menu.php?cid=13&wid=5",
@@ -73,18 +73,33 @@
         "price": 13
       },
       {
-        "id": "pumpkin_tempura",
-        "name": "南瓜天婦羅",
-        "price": 13
+        "id": "item_f7ae066dff",
+        "name": "日本產蕃薯天婦羅",
+        "price": 18
       },
       {
-        "id": "shrimp_tempura_half",
-        "name": "炸蝦天婦羅拼盤(半份)",
+        "id": "item_4dc79222bb",
+        "name": "蕃薯炸蝦天婦羅拼盤(半份)",
         "price": 18
       },
       {
         "id": "shrimp_tempura",
         "name": "炸蝦天婦羅",
+        "price": 18
+      },
+      {
+        "id": "item_4b54ee46a0",
+        "name": "蟹柳天婦羅",
+        "price": 18
+      },
+      {
+        "id": "item_17545198ca",
+        "name": "珍寶魷魚天婦羅",
+        "price": 18
+      },
+      {
+        "id": "item_7bfb164de8",
+        "name": "炸三寶",
         "price": 18
       },
       {
@@ -98,8 +113,8 @@
         "price": 19
       },
       {
-        "id": "shrimp_tempura_full",
-        "name": "炸蝦天婦羅拼盤",
+        "id": "item_669c1aefe4",
+        "name": "蕃薯炸蝦天婦羅拼盤",
         "price": 28
       },
       {
