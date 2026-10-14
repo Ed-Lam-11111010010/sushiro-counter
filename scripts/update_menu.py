@@ -9,6 +9,7 @@ import html
 import json
 import re
 import sys
+import time
 from datetime import date, datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -20,6 +21,36 @@ SOURCE_URLS = {
     "麵類・湯類": "https://sushirohk.com.hk/tc/menu.php?cid=11&wid=5",
     "副餐類": "https://sushirohk.com.hk/tc/menu.php?cid=13&wid=5",
     "甜品・飲料": "https://sushirohk.com.hk/tc/menu.php?cid=15&wid=5",
+}
+
+FETCH_ATTEMPTS = 3
+SPECIAL_SOURCE_URLS = (
+    "https://www.instagram.com/sushiro.hk/",
+    "https://sushirohk.com.hk/tc/index.php",
+)
+CURATED_SPECIAL_CATEGORIES: dict[str, list[dict[str, int | str]]] = {
+    "期間限定・北海道祭（2026年10月）": [
+        {"name": "油霜帆立貝", "price": 27},
+        {"name": "真烏賊配明太子", "price": 22},
+        {"name": "薯仔可樂餅配牛油", "price": 12},
+        {"name": "昆布漬石鰈", "price": 17},
+        {"name": "炙燒醬油水八爪魚", "price": 12},
+        {"name": "厚蝦夷法螺", "price": 17},
+        {"name": "炙燒豚肉叉燒", "price": 12},
+        {"name": "北海道軍艦三貫", "price": 17},
+        {"name": "函館鹽味拉麵", "price": 36},
+        {"name": "蘋果肉桂芭菲", "price": 27},
+    ],
+    "期間限定・Opanchu Usagi（2026年9月15日至2026年10月20日）": [
+        {"name": "吞拿魚新香萩餅配魷魚", "price": 17},
+        {"name": "脆脆焦糖蕃薯配雲呢拿雪糕", "price": 34},
+        {"name": "炙燒羅勒雙味（三文魚・鮮蝦）", "price": 17},
+        {"name": "聯乘飲品套裝", "price": 99},
+    ],
+    "期間限定・冷泡茶（2026年10月）": [
+        {"name": "白桃四季春冷泡茶（指定分店）", "price": 14},
+        {"name": "青提綠茶冷泡茶（指定分店）", "price": 14},
+    ],
 }
 
 NAV_LABELS = {
@@ -88,6 +119,22 @@ KNOWN_IDS = {
     "梅酒(含梅子)": "umeshu",
     "威士忌梳打": "whisky_soda",
     "菊正宗(大吟釀)": "kikumasamune_daiginjo",
+    "油霜帆立貝": "hokkaido_oil_scallop",
+    "真烏賊配明太子": "hokkaido_squid_mentaiko",
+    "薯仔可樂餅配牛油": "hokkaido_potato_croquette",
+    "昆布漬石鰈": "hokkaido_kombu_flounder",
+    "炙燒醬油水八爪魚": "hokkaido_aburi_octopus",
+    "厚蝦夷法螺": "hokkaido_ezo_whelk",
+    "炙燒豚肉叉燒": "hokkaido_pork_chashu",
+    "北海道軍艦三貫": "hokkaido_warship_three",
+    "函館鹽味拉麵": "hokkaido_hakodate_ramen",
+    "蘋果肉桂芭菲": "hokkaido_apple_cinnamon_parfait",
+    "吞拿魚新香萩餅配魷魚": "opanchu_tuna_ohagi_squid",
+    "脆脆焦糖蕃薯配雲呢拿雪糕": "opanchu_caramel_sweet_potato",
+    "炙燒羅勒雙味（三文魚・鮮蝦）": "opanchu_aburi_basil_duo",
+    "聯乘飲品套裝": "opanchu_drink_set",
+    "白桃四季春冷泡茶（指定分店）": "hokkaido_peach_sijichun_cold_brew",
+    "青提綠茶冷泡茶（指定分店）": "hokkaido_green_grape_cold_brew",
 }
 
 
@@ -164,9 +211,31 @@ def parse_items(page: str) -> list[dict[str, int | str]]:
 
 
 def fetch(url: str) -> str:
-    request = Request(url, headers={"User-Agent": "sushiro-counter-menu-updater/1.0"})
+    request = Request(
+        url,
+        headers={
+            "User-Agent": "Mozilla/5.0 (compatible; sushiro-counter-menu-updater/1.0)",
+            "Accept": "text/html,application/xhtml+xml",
+            "Accept-Language": "zh-HK,zh;q=0.9,en;q=0.8",
+            "Cache-Control": "no-cache",
+        },
+    )
     with urlopen(request, timeout=30) as response:
         return response.read().decode("utf-8", errors="strict")
+
+
+def fetch_items(url: str) -> list[dict[str, int | str]]:
+    last_error: Exception | None = None
+    for attempt in range(1, FETCH_ATTEMPTS + 1):
+        try:
+            return parse_items(fetch(url))
+        except (OSError, UnicodeError, ValueError) as exc:
+            last_error = exc
+            if attempt < FETCH_ATTEMPTS:
+                time.sleep(2 ** (attempt - 1))
+    raise ValueError(
+        f"Could not parse {url} after {FETCH_ATTEMPTS} attempts: {last_error}"
+    )
 
 
 def split_desserts_and_drinks(items: list[dict[str, int | str]]) -> dict[str, list[dict[str, int | str]]]:
@@ -212,6 +281,15 @@ def stable_id(name: str, existing_ids: dict[str, str]) -> str:
 
 
 def seasonal_is_active(category: str, today: date) -> bool:
+    range_match = re.search(
+        r"(\d{4})年(\d{1,2})月(\d{1,2})日至(\d{4})年(\d{1,2})月(\d{1,2})日",
+        category,
+    )
+    if range_match:
+        start = date(*(int(range_match.group(index)) for index in (1, 2, 3)))
+        end = date(*(int(range_match.group(index)) for index in (4, 5, 6)))
+        return start <= today <= end
+
     match = re.search(r"(\d{4})年(\d{1,2})月", category)
     if not match:
         return True
@@ -222,14 +300,20 @@ def seasonal_is_active(category: str, today: date) -> bool:
 
 def make_menu(existing: dict[str, object]) -> dict[str, object]:
     existing_ids = load_existing_ids(existing)
-    noodles = parse_items(fetch(SOURCE_URLS["麵類・湯類"]))
-    sides = parse_items(fetch(SOURCE_URLS["副餐類"]))
-    dessert_drink = parse_items(fetch(SOURCE_URLS["甜品・飲料"]))
+    today = datetime.now(timezone.utc).date()
+    noodles = fetch_items(SOURCE_URLS["麵類・湯類"])
+    sides = fetch_items(SOURCE_URLS["副餐類"])
+    dessert_drink = fetch_items(SOURCE_URLS["甜品・飲料"])
 
     raw_categories = {
         "麵類・湯類": noodles,
         "副餐類": sides,
         **split_desserts_and_drinks(dessert_drink),
+        **{
+            category: items
+            for category, items in CURATED_SPECIAL_CATEGORIES.items()
+            if seasonal_is_active(category, today)
+        },
     }
     categories: dict[str, list[dict[str, int | str]]] = {}
     for category, items in raw_categories.items():
@@ -242,7 +326,6 @@ def make_menu(existing: dict[str, object]) -> dict[str, object]:
             for item in items
         ]
 
-    today = datetime.now(timezone.utc).date()
     for category, items in existing.get("categories", {}).items():
         if category.startswith("期間限定") and isinstance(items, list) and seasonal_is_active(category, today):
             categories[category] = items
@@ -252,7 +335,7 @@ def make_menu(existing: dict[str, object]) -> dict[str, object]:
         "region": "hk",
         "currency": "HKD",
         "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-        "source": list(SOURCE_URLS.values()),
+        "source": list(SOURCE_URLS.values()) + list(SPECIAL_SOURCE_URLS),
         "categories": categories,
     }
 
