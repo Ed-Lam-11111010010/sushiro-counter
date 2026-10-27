@@ -33,11 +33,17 @@ jobs:
       - name: Validate menu data
         run: python scripts/update_menu.py --check
 
+      - name: Test menu ID and price validation
+        run: python -m unittest discover -s scripts -p 'test_update_menu.py'
+
       - name: Validate JSON metadata
         run: node -e "JSON.parse(require('fs').readFileSync('menu.json','utf8')); JSON.parse(require('fs').readFileSync('manifest.webmanifest','utf8')); console.log('JSON metadata OK')"
 
       - name: Validate frontend JavaScript
         run: node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const start=html.indexOf('<script>')+8; const end=html.lastIndexOf('</script>'); new Function(html.slice(start,end)); console.log('index JavaScript OK')"
+
+      - name: Test saved orders and bill recalculation
+        run: node --test scripts/test-menu-load.cjs
 
       - name: Validate service worker
         run: node --check service-worker.js

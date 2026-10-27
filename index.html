@@ -181,6 +181,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 
   <!-- Sticky bill -->
   <div class="bill-sticky" id="bill">
+    <div class="warning" id="unpriced-warning" role="status">⚠️ 有項目缺少價格，請重新選擇或刪除該項目後再結算。</div>
     <div class="warning" id="clamp-warning">⚠️ 加成後小計已調整至 $0</div>
     <div class="bill-row"><span>小計</span><span id="bill-subtotal">$0.00</span></div>
     <div class="bill-row" id="bill-adjustment-row"><span>加成調整</span><span id="bill-adjustment">$0.00</span></div>
@@ -307,18 +308,26 @@ const FALLBACK_OTHER_ITEMS = {
 };
 
 let OTHER_ITEMS = FALLBACK_OTHER_ITEMS;
+let menuLoaded = false;
+let loadedMenuUpdatedAt = null;
 let activeOtherCategory = Object.keys(OTHER_ITEMS)[0] || '';
 
 // ===== STATE =====
-let state = {
-  plates: { red:0, silver:0, gold:0, black:0 },
-  other: {},
-  modifications: [],
-};
+function createDefaultState() {
+  return {
+    plates: { red:0, silver:0, gold:0, black:0 },
+    other: {},
+    otherItemDetails: {},
+    modifications: [],
+  };
+}
+
+let state = createDefaultState();
+let lastKnownStorageValue;
+let hasKnownStorageValue = false;
 
 let modSign = '-';
 let modUnit = '$';
-let saveTimer = null;
 
 // ===== INIT =====
 function setMenuStatus(text) {
@@ -330,13 +339,24 @@ function validateMenuData(menu) {
   if (!menu || menu.schemaVersion !== 1 || !menu.categories || typeof menu.categories !== 'object') {
     return false;
   }
-  const items = Object.values(menu.categories).flat();
-  return items.length > 0 && items.every(item =>
-    item &&
-    typeof item.id === 'string' &&
-    typeof item.name === 'string' &&
-    Number.isFinite(Number(item.price))
-  );
+  if (menu.updatedAt !== undefined && (typeof menu.updatedAt !== 'string' || !Number.isFinite(Date.parse(menu.updatedAt)))) {
+    return false;
+  }
+  const categories = Object.values(menu.categories);
+  if (categories.length === 0 || categories.some(items => !Array.isArray(items) || items.length === 0)) {
+    return false;
+  }
+
+  const ids = new Set();
+  for (const item of categories.flat()) {
+    if (!item || typeof item.id !== 'string' || !item.id.trim() || ids.has(item.id) ||
+        typeof item.name !== 'string' || !item.name.trim() ||
+        typeof item.price !== 'number' || !Number.isFinite(item.price) || item.price < 0) {
+      return false;
+    }
+    ids.add(item.id);
+  }
+  return ids.size > 0;
 }
 
 function ensureActiveOtherCategory() {
@@ -346,20 +366,105 @@ function ensureActiveOtherCategory() {
   }
 }
 
+// Use current menu prices when loaded; otherwise prefer the last saved prices.
+function findCurrentOtherItem(id) {
+  let current;
+  for (const items of Object.values(OTHER_ITEMS)) {
+    current = items.find(item => item.id === id);
+    if (current) break;
+  }
+  return current;
+}
+
+function isMenuVersionAtLeast(candidate, baseline) {
+  if (!baseline) return true;
+  const candidateTime = Date.parse(candidate || '');
+  const baselineTime = Date.parse(baseline);
+  return Number.isFinite(candidateTime) && Number.isFinite(baselineTime) && candidateTime >= baselineTime;
+}
+
+function getValidSavedOtherItem(id) {
+  const saved = state.otherItemDetails && state.otherItemDetails[id];
+  if (!saved || typeof saved.name !== 'string' || !saved.name.trim() ||
+      !Number.isFinite(saved.price) || saved.price < 0) return undefined;
+  const versionIsValid = typeof saved.menuUpdatedAt === 'string' && Number.isFinite(Date.parse(saved.menuUpdatedAt));
+  return versionIsValid ? saved : { name: saved.name, price: saved.price };
+}
+
+function getOtherItem(id) {
+  const current = findCurrentOtherItem(id);
+  const saved = getValidSavedOtherItem(id);
+  const currentIsNewEnough = menuLoaded && current &&
+    (!saved || isMenuVersionAtLeast(loadedMenuUpdatedAt, saved.menuUpdatedAt));
+  return currentIsNewEnough ? current : (saved || current);
+}
+
+function rememberSelectedItems() {
+  if (!state.otherItemDetails) state.otherItemDetails = {};
+  Object.keys(state.other).forEach(id => {
+    const current = findCurrentOtherItem(id);
+    const saved = getValidSavedOtherItem(id);
+    const useCurrent = menuLoaded && current &&
+      (!saved || isMenuVersionAtLeast(loadedMenuUpdatedAt, saved.menuUpdatedAt));
+    const item = useCurrent ? current : (saved || current);
+    if (item && typeof item.name === 'string' && Number.isFinite(Number(item.price)) && Number(item.price) >= 0) {
+      const details = { name: item.name, price: Number(item.price) };
+      const menuUpdatedAt = useCurrent ? loadedMenuUpdatedAt : saved && saved.menuUpdatedAt;
+      if (menuUpdatedAt) details.menuUpdatedAt = menuUpdatedAt;
+      state.otherItemDetails[id] = details;
+    }
+  });
+}
+
 async function loadMenu() {
   try {
     const response = await fetch('./menu.json?ts=' + Date.now(), { cache: 'no-store' });
     if (!response.ok) throw new Error('menu fetch failed');
     const menu = await response.json();
     if (!validateMenuData(menu)) throw new Error('invalid menu data');
+    // User actions and other tabs may have changed storage while the request was pending.
+    loadStateIfStorageChanged();
+    // Preserve selected items that disappear from the replacement menu.
+    rememberSelectedItems();
     OTHER_ITEMS = menu.categories;
+    menuLoaded = true;
+    loadedMenuUpdatedAt = menu.updatedAt || null;
+    rememberSelectedItems();
     ensureActiveOtherCategory();
+    renderPlates();
     renderOtherSelected();
+    renderModList();
+    // Restored selections were initially priced using the fallback menu.
+    updateBill();
     if (document.getElementById('other-modal').classList.contains('open')) renderModalItems();
     setMenuStatus('餐單資料' + (menu.updatedAt ? '（更新於 ' + menu.updatedAt + '）' : ''));
+    saveState();
   } catch (e) {
+    // A failed request must not persist the state captured before a newer save.
+    loadStateIfStorageChanged();
+    rememberSelectedItems();
+    ensureActiveOtherCategory();
+    renderPlates();
+    renderOtherSelected();
+    renderModList();
+    updateBill();
+    if (document.getElementById('other-modal').classList.contains('open')) renderModalItems();
     setMenuStatus('使用內置餐單（離線模式）');
+    saveState();
   }
+}
+
+function syncStateFromStorage(event) {
+  if (event && event.key && event.key !== 'sushiro-counter-state-v1') return false;
+  if (!loadStateIfStorageChanged()) return false;
+  rememberSelectedItems();
+  ensureActiveOtherCategory();
+  renderPlates();
+  renderOtherSelected();
+  renderModList();
+  updateBill();
+  if (document.getElementById('other-modal').classList.contains('open')) renderModalItems();
+  return true;
 }
 
 function registerServiceWorker() {
@@ -368,7 +473,9 @@ function registerServiceWorker() {
 }
 
 function init() {
+  window.addEventListener('storage', syncStateFromStorage);
   loadState();
+  rememberSelectedItems();
   ensureActiveOtherCategory();
   renderPlates();
   renderOtherSelected();
@@ -381,28 +488,62 @@ function init() {
 // ===== STORAGE =====
 function saveState() {
   try {
-    localStorage.setItem('sushiro-counter-state-v1', JSON.stringify(state));
+    const serialized = JSON.stringify(state);
+    localStorage.setItem('sushiro-counter-state-v1', serialized);
+    lastKnownStorageValue = serialized;
+    hasKnownStorageValue = true;
+    return true;
   } catch(e) { /* storage full, ignore */ }
-}
-
-function debounceSave() {
-  if (saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveState, 500);
+  return false;
 }
 
 function loadState() {
   try {
     const raw = localStorage.getItem('sushiro-counter-state-v1');
+    lastKnownStorageValue = raw;
+    hasKnownStorageValue = true;
+    loadStateFromValue(raw);
+  } catch(e) {
+    hasKnownStorageValue = false;
+    lastKnownStorageValue = undefined;
+    state = createDefaultState();
+    modIdCounter = 0;
+  }
+}
+
+function loadStateIfStorageChanged() {
+  try {
+    const raw = localStorage.getItem('sushiro-counter-state-v1');
+    if (!hasKnownStorageValue || raw !== lastKnownStorageValue) {
+      lastKnownStorageValue = raw;
+      hasKnownStorageValue = true;
+      loadStateFromValue(raw);
+      return true;
+    }
+    return false;
+  } catch(e) { /* preserve in-memory edits when storage cannot be read */ }
+  return false;
+}
+
+function loadStateFromValue(raw) {
+  try {
     if (raw) {
       const parsed = JSON.parse(raw);
       // Validate shape
-      if (parsed && typeof parsed === 'object' && parsed.plates && parsed.other && parsed.modifications) {
+      if (parsed && typeof parsed === 'object' && parsed.plates && parsed.other && Array.isArray(parsed.modifications)) {
         state = parsed;
+        if (!state.otherItemDetails || typeof state.otherItemDetails !== 'object' || Array.isArray(state.otherItemDetails)) {
+          state.otherItemDetails = {};
+        }
+        // IDs are local UI handles; rebuild them to repair legacy collisions.
+        state.modifications.forEach((mod, index) => { mod.id = 'm' + index; });
+        modIdCounter = state.modifications.length;
         return;
       }
     }
   } catch(e) { /* corrupt, fall through to defaults */ }
-  // Default state already set above
+  state = createDefaultState();
+  modIdCounter = 0;
 }
 
 // ===== PLATES =====
@@ -431,11 +572,12 @@ function renderPlates() {
 }
 
 function changePlate(id, delta) {
+  syncStateFromStorage();
   const cur = state.plates[id] || 0;
   state.plates[id] = Math.max(0, cur + delta);
   renderPlates();
   updateBill();
-  debounceSave();
+  saveState();
 }
 
 // ===== OTHER SELECTED (main page) =====
@@ -448,11 +590,8 @@ function renderOtherSelected() {
   if (count === 0) return;
   Object.entries(state.other).forEach(([id, qty]) => {
     if (qty <= 0) return;
-    let name = id;
-    for (const cat of Object.values(OTHER_ITEMS)) {
-      const item = cat.find(i => i.id === id);
-      if (item) { name = item.name; break; }
-    }
+    const item = getOtherItem(id);
+    const name = item ? item.name : '未能識別項目（價格待確認）';
     const row = document.createElement('div');
     row.className = 'selected-row';
     row.innerHTML = `
@@ -469,25 +608,30 @@ function renderOtherSelected() {
 }
 
 function changeOtherQty(id, delta) {
+  syncStateFromStorage();
   const cur = state.other[id] || 0;
   const next = cur + delta;
   if (next <= 0) {
     delete state.other[id];
+    if (state.otherItemDetails) delete state.otherItemDetails[id];
   } else {
     state.other[id] = next;
+    rememberSelectedItems();
   }
   renderOtherSelected();
   if (document.getElementById('other-modal').classList.contains('open')) renderModalItems();
   updateBill();
-  debounceSave();
+  saveState();
 }
 
 function removeOtherItem(id) {
+  syncStateFromStorage();
   delete state.other[id];
+  if (state.otherItemDetails) delete state.otherItemDetails[id];
   renderOtherSelected();
   if (document.getElementById('other-modal').classList.contains('open')) renderModalItems();
   updateBill();
-  debounceSave();
+  saveState();
 }
 
 // ===== MODAL (picker only — changes are live) =====
@@ -587,7 +731,8 @@ function renderModalItems() {
     name.textContent = item.name;
     const price = document.createElement('span');
     price.className = 'modal-item-price';
-    price.textContent = '$' + item.price;
+    const pricedItem = getOtherItem(item.id) || item;
+    price.textContent = '$' + pricedItem.price;
     copy.appendChild(name);
     copy.appendChild(price);
 
@@ -636,6 +781,7 @@ function setModUnit(val) {
 }
 
 function addModification() {
+  syncStateFromStorage();
   const labelInput = document.getElementById('mod-label');
   const valueInput = document.getElementById('mod-value');
   const errorEl = document.getElementById('mod-error');
@@ -662,14 +808,24 @@ function addModification() {
   valueInput.value = '';
   renderModList();
   updateBill();
-  debounceSave();
+  saveState();
 }
 
 function removeModification(id) {
+  const selectedModification = state.modifications.find(mod => mod.id === id);
+  if (syncStateFromStorage()) {
+    if (!selectedModification) return;
+    const matches = state.modifications.filter(mod =>
+      mod.label === selectedModification.label && mod.sign === selectedModification.sign &&
+      mod.unit === selectedModification.unit && mod.value === selectedModification.value
+    );
+    if (matches.length !== 1) return;
+    id = matches[0].id;
+  }
   state.modifications = state.modifications.filter(m => m.id !== id);
   renderModList();
   updateBill();
-  debounceSave();
+  saveState();
 }
 
 function renderModList() {
@@ -699,11 +855,12 @@ function computeBill() {
     plateTotal += (state.plates[p.id] || 0) * p.price;
   });
   let otherTotal = 0;
+  const unpricedItems = [];
   Object.entries(state.other).forEach(([id, qty]) => {
-    for (const cat of Object.values(OTHER_ITEMS)) {
-      const item = cat.find(i => i.id === id);
-      if (item) { otherTotal += qty * item.price; break; }
-    }
+    if (qty <= 0) return;
+    const item = getOtherItem(id);
+    if (item) otherTotal += qty * item.price;
+    else unpricedItems.push(id);
   });
   const subtotal = plateTotal + otherTotal;
 
@@ -724,18 +881,21 @@ function computeBill() {
   const service = Math.round(adjusted * 0.10 * 100) / 100;
   const total = Math.round((adjusted + service) * 100) / 100;
 
-  return { subtotal, adjustment, adjusted, service, total, clamped };
+  return { subtotal, adjustment, adjusted, service, total, clamped, unpricedItems };
 }
 
 function updateBill() {
   const b = computeBill();
-  document.getElementById('bill-subtotal').textContent = '$' + b.subtotal.toFixed(2);
-  document.getElementById('bill-adjustment').textContent = '$' + b.adjustment.toFixed(2);
-  document.getElementById('bill-adjusted').textContent = '$' + b.adjusted.toFixed(2);
-  document.getElementById('bill-service').textContent = '$' + b.service.toFixed(2);
-  document.getElementById('bill-total').textContent = '$' + b.total.toFixed(2);
+  const incomplete = b.unpricedItems.length > 0;
+  const amount = value => incomplete ? '待確認價格' : '$' + value.toFixed(2);
+  document.getElementById('bill-subtotal').textContent = amount(b.subtotal);
+  document.getElementById('bill-adjustment').textContent = amount(b.adjustment);
+  document.getElementById('bill-adjusted').textContent = amount(b.adjusted);
+  document.getElementById('bill-service').textContent = amount(b.service);
+  document.getElementById('bill-total').textContent = amount(b.total);
+  document.getElementById('unpriced-warning').style.display = incomplete ? 'block' : 'none';
   const warn = document.getElementById('clamp-warning');
-  warn.style.display = b.clamped ? 'block' : 'none';
+  warn.style.display = b.clamped && !incomplete ? 'block' : 'none';
   const adjRow = document.getElementById('bill-adjustment-row');
   adjRow.style.display = state.modifications.length > 0 ? 'flex' : 'none';
 }
@@ -743,16 +903,13 @@ function updateBill() {
 // ===== RESET =====
 function resetAll() {
   if (!confirm('確定要重置所有資料？')) return;
-  state = {
-    plates: { red:0, silver:0, gold:0, black:0 },
-    other: {},
-    modifications: [],
-  };
-  try { localStorage.removeItem('sushiro-counter-state-v1'); } catch(e) {}
+  state = createDefaultState();
+  modIdCounter = 0;
   renderPlates();
   renderOtherSelected();
   renderModList();
   updateBill();
+  saveState();
 }
 
 // ===== SELF-TEST =====

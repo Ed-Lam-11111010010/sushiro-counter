@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import html
 import json
+import math
 import re
 import sys
 import time
@@ -343,23 +344,25 @@ def make_menu(existing: dict[str, object]) -> dict[str, object]:
 def validate_menu(data: dict[str, object]) -> None:
     if data.get("schemaVersion") != 1 or not isinstance(data.get("categories"), dict):
         raise ValueError("Invalid menu schema")
+    ids: set[str] = set()
     for category, items in data["categories"].items():
         if not isinstance(category, str) or not isinstance(items, list) or not items:
             raise ValueError(f"Invalid category: {category}")
-        ids: set[str] = set()
         for item in items:
             if not isinstance(item, dict):
                 raise ValueError("Menu item is not an object")
             item_id = item.get("id")
             name = item.get("name")
             price = item.get("price")
-            if not isinstance(item_id, str) or not item_id:
+            if not isinstance(item_id, str) or not item_id.strip():
                 raise ValueError("Menu item has no id")
             if item_id in ids:
                 raise ValueError(f"Duplicate item id: {item_id}")
-            if not isinstance(name, str) or not name:
+            if not isinstance(name, str) or not name.strip():
                 raise ValueError("Menu item has no name")
-            if not isinstance(price, (int, float)) or price < 0:
+            if isinstance(price, bool) or not isinstance(price, (int, float)) or price < 0:
+                raise ValueError(f"Invalid price for {item_id}")
+            if isinstance(price, float) and not math.isfinite(price):
                 raise ValueError(f"Invalid price for {item_id}")
             ids.add(item_id)
 
