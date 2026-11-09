@@ -219,6 +219,12 @@ const PLATES = [
   { id:'black',  label:'黑碟', price:27, color:'#1a1a1a', bg:'#e0e0e0' },
 ];
 
+// Retained only so previously saved orders can still show a name and price;
+// these expired items are intentionally absent from the selectable menu below.
+const LEGACY_OTHER_ITEMS = {
+  opanchu_drink_set: { name:'聯乘飲品套裝', price:99 },
+};
+
 const FALLBACK_OTHER_ITEMS = {
   '麵類・湯類': [
     { id:'steamed_clams', name:'出汁蒸蜆', price:18 },
@@ -283,28 +289,23 @@ const FALLBACK_OTHER_ITEMS = {
     { id:'whisky_soda', name:'威士忌梳打', price:27 },
     { id:'kikumasamune_daiginjo', name:'菊正宗(大吟釀)', price:59 },
   ],
-  '期間限定・北海道祭（2026年10月）': [
-    { id:'hokkaido_oil_scallop', name:'油霜帆立貝', price:27 },
-    { id:'hokkaido_squid_mentaiko', name:'真烏賊配明太子', price:22 },
-    { id:'hokkaido_potato_croquette', name:'薯仔可樂餅配牛油', price:12 },
-    { id:'hokkaido_kombu_flounder', name:'昆布漬石鰈', price:17 },
-    { id:'hokkaido_aburi_octopus', name:'炙燒醬油水八爪魚', price:12 },
-    { id:'hokkaido_ezo_whelk', name:'厚蝦夷法螺', price:17 },
-    { id:'hokkaido_pork_chashu', name:'炙燒豚肉叉燒', price:12 },
-    { id:'hokkaido_warship_three', name:'北海道軍艦三貫', price:17 },
-    { id:'hokkaido_hakodate_ramen', name:'函館鹽味拉麵', price:36 },
-    { id:'hokkaido_apple_cinnamon_parfait', name:'蘋果肉桂芭菲', price:27 },
-  ],
-  '期間限定・Opanchu Usagi（2026年9月15日至2026年10月20日）': [
-    { id:'opanchu_tuna_ohagi_squid', name:'吞拿魚新香萩餅配魷魚', price:17 },
-    { id:'opanchu_caramel_sweet_potato', name:'脆脆焦糖蕃薯配雲呢拿雪糕', price:34 },
-    { id:'opanchu_aburi_basil_duo', name:'炙燒羅勒雙味（三文魚・鮮蝦）', price:17 },
-    { id:'opanchu_drink_set', name:'聯乘飲品套裝', price:99 },
-  ],
-  '期間限定・冷泡茶（2026年10月）': [
-    { id:'hokkaido_peach_sijichun_cold_brew', name:'白桃四季春冷泡茶（指定分店）', price:14 },
-    { id:'hokkaido_green_grape_cold_brew', name:'青提綠茶冷泡茶（指定分店）', price:14 },
-  ],
+  "期間限定・赤醋飯祭／京都伊根生黑鮪（2026年11月3日起）": [
+    {"id":"kyoto_ine_bluefin_two","name":"京都伊根生黑鮪吞拿魚二貫盛","price":32},
+    {"id":"kyoto_ine_bluefin_otoro","name":"京都伊根生黑鮪大吞拿魚腩","price":25},
+    {"id":"wasabi_stem","name":"山葵莖Wasabi","price":6},
+    {"id":"crab_duo_mountain","name":"蟹肉雙味山","price":27},
+    {"id":"tottori_kohada","name":"鳥取產醋漬小肌","price":12},
+    {"id":"aburi_isaki","name":"炙燒日本產伊佐木","price":12},
+    {"id":"bluefin_toro_nori_wrap","name":"京都伊根生黑鮪吞拿魚蓉海苔包","price":17},
+    {"id":"crispy_shrimp_handroll","name":"脆脆蝦手卷配蟹柳沙律","price":17},
+    {"id":"large_akagai","name":"特大赤貝","price":22},
+    {"id":"nanban_shrimp_salmon_roe","name":"南蠻蝦配三文魚子","price":22},
+    {"id":"passionfruit_mousse_cake","name":"百香果慕絲蛋糕","price":22},
+    {"id":"mushroom_chawanmushi","name":"菇菇羹茶碗蒸","price":22},
+    {"id":"sweet_potato_honey_butter","name":"炸蕃薯條配蜂蜜&牛油","price":22},
+    {"id":"abalone_liver_tempura_platter","name":"汁煮鮑魚與鮑魚肝天婦羅盛(大)","price":88}
+  ]
+
 };
 
 let OTHER_ITEMS = FALLBACK_OTHER_ITEMS;
@@ -393,10 +394,11 @@ function getValidSavedOtherItem(id) {
 
 function getOtherItem(id) {
   const current = findCurrentOtherItem(id);
+  const legacy = LEGACY_OTHER_ITEMS[id];
   const saved = getValidSavedOtherItem(id);
   const currentIsNewEnough = menuLoaded && current &&
     (!saved || isMenuVersionAtLeast(loadedMenuUpdatedAt, saved.menuUpdatedAt));
-  return currentIsNewEnough ? current : (saved || current);
+  return currentIsNewEnough ? current : (saved || current || legacy);
 }
 
 function rememberSelectedItems() {
@@ -406,7 +408,7 @@ function rememberSelectedItems() {
     const saved = getValidSavedOtherItem(id);
     const useCurrent = menuLoaded && current &&
       (!saved || isMenuVersionAtLeast(loadedMenuUpdatedAt, saved.menuUpdatedAt));
-    const item = useCurrent ? current : (saved || current);
+    const item = useCurrent ? current : (saved || current || LEGACY_OTHER_ITEMS[id]);
     if (item && typeof item.name === 'string' && Number.isFinite(Number(item.price)) && Number(item.price) >= 0) {
       const details = { name: item.name, price: Number(item.price) };
       const menuUpdatedAt = useCurrent ? loadedMenuUpdatedAt : saved && saved.menuUpdatedAt;

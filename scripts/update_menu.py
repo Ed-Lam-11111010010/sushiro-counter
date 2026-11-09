@@ -11,13 +11,14 @@ import math
 import re
 import sys
 import time
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.request import Request, urlopen
 
 REPO_URL = "https://github.com/Ed-Lam-11111010010/sushiro-counter"
 MENU_PATH = Path(__file__).resolve().parents[1] / "menu.json"
+INDEX_PATH = MENU_PATH.parent / "index.html"
 SOURCE_URLS = {
     "麵類・湯類": "https://sushirohk.com.hk/tc/menu.php?cid=11&wid=5",
     "副餐類": "https://sushirohk.com.hk/tc/menu.php?cid=13&wid=5",
@@ -25,32 +26,35 @@ SOURCE_URLS = {
 }
 
 FETCH_ATTEMPTS = 3
+HONG_KONG_TZ = timezone(timedelta(hours=8), "Asia/Hong_Kong")
 SPECIAL_SOURCE_URLS = (
     "https://www.instagram.com/sushiro.hk/",
     "https://sushirohk.com.hk/tc/index.php",
 )
 CURATED_SPECIAL_CATEGORIES: dict[str, list[dict[str, int | str]]] = {
-    "期間限定・北海道祭（2026年10月）": [
-        {"name": "油霜帆立貝", "price": 27},
-        {"name": "真烏賊配明太子", "price": 22},
-        {"name": "薯仔可樂餅配牛油", "price": 12},
-        {"name": "昆布漬石鰈", "price": 17},
-        {"name": "炙燒醬油水八爪魚", "price": 12},
-        {"name": "厚蝦夷法螺", "price": 17},
-        {"name": "炙燒豚肉叉燒", "price": 12},
-        {"name": "北海道軍艦三貫", "price": 17},
-        {"name": "函館鹽味拉麵", "price": 36},
-        {"name": "蘋果肉桂芭菲", "price": 27},
+    # The official posts describe this campaign as available from 3 November
+    # until sold out. The month in the category name gives it a safe automatic
+    # expiry at the end of November if no newer campaign replaces it.
+    "期間限定・赤醋飯祭／京都伊根生黑鮪（2026年11月3日起）": [
+        {"name": "京都伊根生黑鮪吞拿魚二貫盛", "price": 32},
+        {"name": "京都伊根生黑鮪大吞拿魚腩", "price": 25},
+        {"name": "山葵莖Wasabi", "price": 6},
+        {"name": "蟹肉雙味山", "price": 27},
+        {"name": "鳥取產醋漬小肌", "price": 12},
+        {"name": "炙燒日本產伊佐木", "price": 12},
+        {"name": "京都伊根生黑鮪吞拿魚蓉海苔包", "price": 17},
+        {"name": "脆脆蝦手卷配蟹柳沙律", "price": 17},
+        {"name": "特大赤貝", "price": 22},
+        {"name": "南蠻蝦配三文魚子", "price": 22},
+        {"name": "百香果慕絲蛋糕", "price": 22},
+        {"name": "菇菇羹茶碗蒸", "price": 22},
+        {"name": "炸蕃薯條配蜂蜜&牛油", "price": 22},
+        {"name": "汁煮鮑魚與鮑魚肝天婦羅盛(大)", "price": 88},
     ],
-    "期間限定・Opanchu Usagi（2026年9月15日至2026年10月20日）": [
-        {"name": "吞拿魚新香萩餅配魷魚", "price": 17},
-        {"name": "脆脆焦糖蕃薯配雲呢拿雪糕", "price": 34},
-        {"name": "炙燒羅勒雙味（三文魚・鮮蝦）", "price": 17},
-        {"name": "聯乘飲品套裝", "price": 99},
-    ],
-    "期間限定・冷泡茶（2026年10月）": [
-        {"name": "白桃四季春冷泡茶（指定分店）", "price": 14},
-        {"name": "青提綠茶冷泡茶（指定分店）", "price": 14},
+    "期間限定・赤醋飯祭同場加映（2026年11月24日至2026年12月1日）": [
+        {"name": "鹽燒黑毛和牛肩胛小排", "price": 27},
+        {"name": "喜之次雙味（炙燒・醬烤）", "price": 27},
+        {"name": "生三文魚配蟹柳沙律", "price": 22},
     ],
 }
 
@@ -120,22 +124,23 @@ KNOWN_IDS = {
     "梅酒(含梅子)": "umeshu",
     "威士忌梳打": "whisky_soda",
     "菊正宗(大吟釀)": "kikumasamune_daiginjo",
-    "油霜帆立貝": "hokkaido_oil_scallop",
-    "真烏賊配明太子": "hokkaido_squid_mentaiko",
-    "薯仔可樂餅配牛油": "hokkaido_potato_croquette",
-    "昆布漬石鰈": "hokkaido_kombu_flounder",
-    "炙燒醬油水八爪魚": "hokkaido_aburi_octopus",
-    "厚蝦夷法螺": "hokkaido_ezo_whelk",
-    "炙燒豚肉叉燒": "hokkaido_pork_chashu",
-    "北海道軍艦三貫": "hokkaido_warship_three",
-    "函館鹽味拉麵": "hokkaido_hakodate_ramen",
-    "蘋果肉桂芭菲": "hokkaido_apple_cinnamon_parfait",
-    "吞拿魚新香萩餅配魷魚": "opanchu_tuna_ohagi_squid",
-    "脆脆焦糖蕃薯配雲呢拿雪糕": "opanchu_caramel_sweet_potato",
-    "炙燒羅勒雙味（三文魚・鮮蝦）": "opanchu_aburi_basil_duo",
-    "聯乘飲品套裝": "opanchu_drink_set",
-    "白桃四季春冷泡茶（指定分店）": "hokkaido_peach_sijichun_cold_brew",
-    "青提綠茶冷泡茶（指定分店）": "hokkaido_green_grape_cold_brew",
+    "京都伊根生黑鮪吞拿魚二貫盛": "kyoto_ine_bluefin_two",
+    "京都伊根生黑鮪大吞拿魚腩": "kyoto_ine_bluefin_otoro",
+    "山葵莖Wasabi": "wasabi_stem",
+    "蟹肉雙味山": "crab_duo_mountain",
+    "鳥取產醋漬小肌": "tottori_kohada",
+    "炙燒日本產伊佐木": "aburi_isaki",
+    "京都伊根生黑鮪吞拿魚蓉海苔包": "bluefin_toro_nori_wrap",
+    "脆脆蝦手卷配蟹柳沙律": "crispy_shrimp_handroll",
+    "特大赤貝": "large_akagai",
+    "南蠻蝦配三文魚子": "nanban_shrimp_salmon_roe",
+    "百香果慕絲蛋糕": "passionfruit_mousse_cake",
+    "菇菇羹茶碗蒸": "mushroom_chawanmushi",
+    "炸蕃薯條配蜂蜜&牛油": "sweet_potato_honey_butter",
+    "汁煮鮑魚與鮑魚肝天婦羅盛(大)": "abalone_liver_tempura_platter",
+    "鹽燒黑毛和牛肩胛小排": "salt_grilled_wagyu_short_rib",
+    "喜之次雙味（炙燒・醬烤）": "kinki_two_flavors",
+    "生三文魚配蟹柳沙律": "salmon_crab_stick_salad",
 }
 
 
@@ -301,7 +306,7 @@ def seasonal_is_active(category: str, today: date) -> bool:
 
 def make_menu(existing: dict[str, object]) -> dict[str, object]:
     existing_ids = load_existing_ids(existing)
-    today = datetime.now(timezone.utc).date()
+    today = datetime.now(HONG_KONG_TZ).date()
     noodles = fetch_items(SOURCE_URLS["麵類・湯類"])
     sides = fetch_items(SOURCE_URLS["副餐類"])
     dessert_drink = fetch_items(SOURCE_URLS["甜品・飲料"])
@@ -328,17 +333,73 @@ def make_menu(existing: dict[str, object]) -> dict[str, object]:
         ]
 
     for category, items in existing.get("categories", {}).items():
-        if category.startswith("期間限定") and isinstance(items, list) and seasonal_is_active(category, today):
+        if (
+            category not in CURATED_SPECIAL_CATEGORIES
+            and category.startswith("期間限定")
+            and isinstance(items, list)
+            and seasonal_is_active(category, today)
+        ):
             categories[category] = items
 
     return {
         "schemaVersion": 1,
         "region": "hk",
         "currency": "HKD",
-        "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "updatedAt": datetime.now(HONG_KONG_TZ).strftime("%Y-%m-%d"),
         "source": list(SOURCE_URLS.values()) + list(SPECIAL_SOURCE_URLS),
         "categories": categories,
     }
+
+
+def format_fallback_menu(categories: dict[str, object]) -> str:
+    lines = ["{"]
+    category_items = list(categories.items())
+    for category_index, (category, items) in enumerate(category_items):
+        if not isinstance(items, list):
+            raise ValueError(f"Invalid fallback category: {category}")
+        category_json = json.dumps(category, ensure_ascii=False)
+        lines.append(f"  {category_json}: [")
+        for item_index, item in enumerate(items):
+            item_json = json.dumps(item, ensure_ascii=False, separators=(",", ":"))
+            comma = "," if item_index < len(items) - 1 else ""
+            lines.append(f"    {item_json}{comma}")
+        category_comma = "," if category_index < len(category_items) - 1 else ""
+        lines.append(f"  ]{category_comma}")
+    lines.append("}")
+    return "\n".join(lines)
+
+
+def sync_fallback_menu(data: dict[str, object]) -> bool:
+    """Keep the offline menu in index.html aligned with menu.json."""
+    if not INDEX_PATH.exists():
+        return False
+
+    text = INDEX_PATH.read_text(encoding="utf-8")
+    end_match = re.search(r"\n};\n+let OTHER_ITEMS", text)
+    if not end_match:
+        raise ValueError("Could not locate the offline menu fallback in index.html")
+    content_end = end_match.start()
+
+    categories = data.get("categories")
+    if not isinstance(categories, dict):
+        raise ValueError("Cannot sync fallback without menu categories")
+
+    special_categories = {
+        category: items
+        for category, items in categories.items()
+        if category.startswith("期間限定")
+    }
+    special_match = re.search(r"\n  ['\"]期間限定", text[:content_end])
+    content_start = special_match.start() if special_match else content_end
+    fallback = format_fallback_menu(special_categories)
+    special_block = f"\n{fallback[2:-1]}" if fallback != "{}" else ""
+    fallback_tail = "\n};\n\nlet OTHER_ITEMS" + text[end_match.end():]
+    updated = text[:content_start] + special_block + fallback_tail
+    if updated == text:
+        return False
+
+    INDEX_PATH.write_text(updated, encoding="utf-8")
+    return True
 
 
 def validate_menu(data: dict[str, object]) -> None:
@@ -385,23 +446,31 @@ def main() -> int:
     try:
         new_menu = make_menu(existing)
         validate_menu(new_menu)
+        fallback_changed = sync_fallback_menu(new_menu)
     except Exception as exc:
         print(f"Menu update failed: {exc}", file=sys.stderr)
         return 1
 
-    if existing.get("categories") == new_menu.get("categories"):
-        print("No menu item or price changes found")
+    menu_changed = existing.get("categories") != new_menu.get("categories")
+    if not menu_changed and not fallback_changed:
+        print("No menu item, price, or fallback changes found")
         return 0
 
-    MENU_PATH.write_text(
-        json.dumps(new_menu, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
+    if menu_changed:
+        MENU_PATH.write_text(
+            json.dumps(new_menu, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    total_items = sum(len(items) for items in new_menu["categories"].values())
+    changed_files = [
+        path
+        for path, changed in (("menu.json", menu_changed), ("index.html", fallback_changed))
+        if changed
+    ]
+    print(
+        f"Updated {', '.join(changed_files)} "
+        f"({total_items} items across {len(new_menu['categories'])} categories)"
     )
-    counts = ", ".join(
-        f"{category}: {len(items)}"
-        for category, items in new_menu["categories"].items()
-    )
-    print(f"Updated menu.json ({counts})")
     return 0
 
 

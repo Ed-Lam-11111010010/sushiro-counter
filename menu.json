@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "region": "hk",
   "currency": "HKD",
-  "updatedAt": "2026-11-02",
+  "updatedAt": "2026-11-09",
   "source": [
     "https://sushirohk.com.hk/tc/menu.php?cid=11&wid=5",
     "https://sushirohk.com.hk/tc/menu.php?cid=13&wid=5",
@@ -307,6 +307,78 @@
         "id": "kikumasamune_daiginjo",
         "name": "菊正宗(大吟釀)",
         "price": 59
+      }
+    ],
+    "期間限定・赤醋飯祭／京都伊根生黑鮪（2026年11月3日起）": [
+      {
+        "id": "kyoto_ine_bluefin_two",
+        "name": "京都伊根生黑鮪吞拿魚二貫盛",
+        "price": 32
+      },
+      {
+        "id": "kyoto_ine_bluefin_otoro",
+        "name": "京都伊根生黑鮪大吞拿魚腩",
+        "price": 25
+      },
+      {
+        "id": "wasabi_stem",
+        "name": "山葵莖Wasabi",
+        "price": 6
+      },
+      {
+        "id": "crab_duo_mountain",
+        "name": "蟹肉雙味山",
+        "price": 27
+      },
+      {
+        "id": "tottori_kohada",
+        "name": "鳥取產醋漬小肌",
+        "price": 12
+      },
+      {
+        "id": "aburi_isaki",
+        "name": "炙燒日本產伊佐木",
+        "price": 12
+      },
+      {
+        "id": "bluefin_toro_nori_wrap",
+        "name": "京都伊根生黑鮪吞拿魚蓉海苔包",
+        "price": 17
+      },
+      {
+        "id": "crispy_shrimp_handroll",
+        "name": "脆脆蝦手卷配蟹柳沙律",
+        "price": 17
+      },
+      {
+        "id": "large_akagai",
+        "name": "特大赤貝",
+        "price": 22
+      },
+      {
+        "id": "nanban_shrimp_salmon_roe",
+        "name": "南蠻蝦配三文魚子",
+        "price": 22
+      },
+      {
+        "id": "passionfruit_mousse_cake",
+        "name": "百香果慕絲蛋糕",
+        "price": 22
+      },
+      {
+        "id": "mushroom_chawanmushi",
+        "name": "菇菇羹茶碗蒸",
+        "price": 22
+      },
+      {
+        "id": "sweet_potato_honey_butter",
+        "name": "炸蕃薯條配蜂蜜&牛油",
+        "price": 22
+      },
+      {
+        "id": "abalone_liver_tempura_platter",
+        "name": "汁煮鮑魚與鮑魚肝天婦羅盛(大)",
+        "price": 88
       }
     ]
   }

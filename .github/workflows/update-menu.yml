@@ -42,9 +42,9 @@ jobs:
         id: menu-changes
         shell: bash
         run: |
-          if git diff --quiet -- menu.json; then
+          if git diff --quiet -- menu.json index.html; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No menu data changes found."
+            echo "No menu data or fallback changes found."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
