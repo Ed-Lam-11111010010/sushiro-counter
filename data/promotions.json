@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-11-17",
+  "promotions": [
+    {
+      "id": "red-vinegar-bluefin-2026-11",
+      "category": "期間限定・赤醋飯祭／京都伊根生黑鮪（2026年11月3日起）",
+      "verificationStatus": "verified",
+      "sourceUrls": [
+        "https://www.instagram.com/sushiro.hk/",
+        "https://sushirohk.com.hk/tc/index.php"
+      ],
+      "announcementDate": "2026-11-03",
+      "startDate": "2026-11-03",
+      "endDate": null,
+      "availability": "售罄前供應；各分店供應情況可能不同。",
+      "items": [
+        {
+          "id": "kyoto_ine_bluefin_two",
+          "name": "京都伊根生黑鮪吞拿魚二貫盛",
+          "price": 32,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "kyoto_ine_bluefin_otoro",
+          "name": "京都伊根生黑鮪大吞拿魚腩",
+          "price": 25,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "wasabi_stem",
+          "name": "山葵莖Wasabi",
+          "price": 6,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "crab_duo_mountain",
+          "name": "蟹肉雙味山",
+          "price": 27,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "tottori_kohada",
+          "name": "鳥取產醋漬小肌",
+          "price": 12,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "aburi_isaki",
+          "name": "炙燒日本產伊佐木",
+          "price": 12,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "bluefin_toro_nori_wrap",
+          "name": "京都伊根生黑鮪吞拿魚蓉海苔包",
+          "price": 17,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "crispy_shrimp_handroll",
+          "name": "脆脆蝦手卷配蟹柳沙律",
+          "price": 17,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "large_akagai",
+          "name": "特大赤貝",
+          "price": 22,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "nanban_shrimp_salmon_roe",
+          "name": "南蠻蝦配三文魚子",
+          "price": 22,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "passionfruit_mousse_cake",
+          "name": "百香果慕絲蛋糕",
+          "price": 22,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "mushroom_chawanmushi",
+          "name": "菇菇羹茶碗蒸",
+          "price": 22,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "sweet_potato_honey_butter",
+          "name": "炸蕃薯條配蜂蜜&牛油",
+          "price": 22,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "abalone_liver_tempura_platter",
+          "name": "汁煮鮑魚與鮑魚肝天婦羅盛(大)",
+          "price": 88,
+          "verificationStatus": "verified"
+        }
+      ]
+    },
+    {
+      "id": "red-vinegar-bluefin-extra-2026-11",
+      "category": "期間限定・赤醋飯祭同場加映（2026年11月24日至2026年12月1日）",
+      "verificationStatus": "verified",
+      "sourceUrls": [
+        "https://www.instagram.com/sushiro.hk/",
+        "https://sushirohk.com.hk/tc/index.php"
+      ],
+      "announcementDate": "2026-11-17",
+      "startDate": "2026-11-24",
+      "endDate": "2026-12-01",
+      "availability": "期間限定；各分店供應情況可能不同。",
+      "items": [
+        {
+          "id": "salt_grilled_wagyu_short_rib",
+          "name": "鹽燒黑毛和牛肩胛小排",
+          "price": 27,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "kinki_two_flavors",
+          "name": "喜之次雙味（炙燒・醬烤）",
+          "price": 27,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "salmon_crab_stick_salad",
+          "name": "生三文魚配蟹柳沙律",
+          "price": 22,
+          "verificationStatus": "verified"
+        }
+      ]
+    }
+  ]
+}

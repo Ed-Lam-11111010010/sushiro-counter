@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "account": "sushiro.hk",
+  "profileUrl": "https://www.instagram.com/sushiro.hk/",
+  "sourceMethod": "public-html-best-effort",
+  "profileFetchStatus": "success",
+  "postDiscoveryStatus": "none",
+  "sourceStatus": "profile_only",
+  "requiresReview": true,
+  "limitations": [
+    "No public post candidate was available in this run.",
+    "Profile HTTP access succeeded, but the returned HTML exposed no public post links; client-rendered Instagram content may require a supported API or manual source entry."
+  ],
+  "posts": []
+}

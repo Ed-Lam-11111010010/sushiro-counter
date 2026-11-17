@@ -1,7 +1,10 @@
+import json
 import hashlib
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import update_menu
@@ -52,6 +55,206 @@ class MenuIdentityTests(unittest.TestCase):
                 data = menu_with(("測試分類", [item]))
                 with self.assertRaises(ValueError):
                     update_menu.validate_menu(data)
+
+
+class PromotionDataTests(unittest.TestCase):
+    def test_structured_promotions_are_valid_and_use_explicit_ids(self):
+        data = json.loads(update_menu.PROMOTIONS_PATH.read_text(encoding="utf-8"))
+        update_menu.validate_promotion_data(data)
+        categories = update_menu.active_promotion_categories(data, update_menu.date(2026, 11, 25))
+        self.assertIn("期間限定・赤醋飯祭／京都伊根生黑鮪（2026年11月3日起）", categories)
+        self.assertIn("期間限定・赤醋飯祭同場加映（2026年11月24日至2026年12月1日）", categories)
+        self.assertEqual(categories["期間限定・赤醋飯祭同場加映（2026年11月24日至2026年12月1日）"][0]["id"], "salt_grilled_wagyu_short_rib")
+
+    def test_until_sold_out_promotion_does_not_expire_at_month_end(self):
+        promotion = {
+            "id": "until-sold-out",
+            "category": "期間限定・售罄前",
+            "verificationStatus": "verified",
+            "sourceUrls": ["https://example.test/post"],
+            "startDate": "2026-11-03",
+            "endDate": None,
+            "items": [{"id": "until-sold-out-item", "name": "限定品", "price": 22, "verificationStatus": "verified"}],
+        }
+        self.assertTrue(update_menu.promotion_is_active(promotion, update_menu.date(2026, 12, 31)))
+
+    def test_future_and_review_only_promotions_are_not_active(self):
+        base = {
+            "id": "not-live",
+            "category": "期間限定・未上架",
+            "sourceUrls": ["https://example.test/post"],
+            "startDate": "2026-12-01",
+            "endDate": "2026-12-31",
+            "items": [{"id": "not-live-item", "name": "未上架品", "price": 22, "verificationStatus": "verified"}],
+        }
+        future = {**base, "verificationStatus": "verified"}
+        needs_review = {**base, "verificationStatus": "needs_review"}
+        self.assertFalse(update_menu.promotion_is_active(future, update_menu.date(2026, 11, 30)))
+        self.assertTrue(update_menu.promotion_is_active(future, update_menu.date(2026, 12, 1)))
+        self.assertTrue(update_menu.promotion_is_active(future, update_menu.date(2026, 12, 2)))
+        self.assertFalse(update_menu.promotion_is_active(needs_review, update_menu.date(2026, 12, 2)))
+
+    def test_unverified_item_never_enters_menu_under_verified_promotion(self):
+        data = {
+            "schemaVersion": 1,
+            "promotions": [{
+                "id": "item-review-gate",
+                "category": "期間限定・項目待審核",
+                "verificationStatus": "verified",
+                "sourceUrls": ["https://example.test/post"],
+                "startDate": "2026-11-01",
+                "endDate": None,
+                "items": [{
+                    "id": "item-review-only",
+                    "name": "待審核品項",
+                    "price": 22,
+                    "verificationStatus": "needs_review",
+                }],
+            }],
+        }
+        update_menu.validate_promotion_data(data)
+        self.assertFalse(update_menu.promotion_is_active(data["promotions"][0], update_menu.date(2026, 11, 17)))
+        self.assertEqual(update_menu.active_promotion_categories(data, update_menu.date(2026, 11, 17)), {})
+
+        missing_status = json.loads(json.dumps(data))
+        del missing_status["promotions"][0]["items"][0]["verificationStatus"]
+        with self.assertRaisesRegex(ValueError, "verification status"):
+            update_menu.validate_promotion_data(missing_status)
+
+    def test_invalid_promotion_file_does_not_remove_existing_seasonal_data(self):
+        existing = menu_with(("期間限定・2026年10月舊活動", [{"id": "old-special", "name": "仍有效品項", "price": 18}]))
+        invalid = {"schemaVersion": 1, "promotions": "not-a-list"}
+
+        with tempfile.TemporaryDirectory() as directory:
+            missing_path = Path(directory) / "missing-promotions.json"
+            invalid_path = Path(directory) / "invalid-promotions.json"
+            invalid_path.write_text(json.dumps(invalid), encoding="utf-8")
+            def fake_fetch(url):
+                if url == update_menu.SOURCE_URLS["甜品・飲料"]:
+                    return [
+                        {"name": "甜品", "price": 12},
+                        {"name": "可樂", "price": 8},
+                    ]
+                return [{"name": "常設品項", "price": 18}]
+
+            for promotions_path in (missing_path, invalid_path):
+                with self.subTest(promotions_path=promotions_path.name), patch.object(
+                    update_menu, "PROMOTIONS_PATH", promotions_path
+                ), patch.object(update_menu, "fetch_items", side_effect=fake_fetch):
+                    result = update_menu.make_menu(existing)
+                self.assertIn("期間限定・2026年10月舊活動", result["categories"])
+
+    def test_pending_same_category_does_not_remove_existing_live_data(self):
+        category = "期間限定・2026年10月同名活動"
+        existing = menu_with((category, [{"id": "old-special", "name": "原有有效品項", "price": 18}]))
+        pending = {
+            "schemaVersion": 1,
+            "promotions": [{
+                "id": "pending-same-category",
+                "category": category,
+                "verificationStatus": "needs_review",
+                "sourceUrls": ["https://example.test/post"],
+                "startDate": "2026-10-01",
+                "endDate": "2026-10-31",
+                "items": [{
+                    "id": "pending-item",
+                    "name": "待審核新項目",
+                    "price": 22,
+                    "verificationStatus": "needs_review",
+                }],
+            }],
+        }
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "promotions.json"
+            path.write_text(json.dumps(pending), encoding="utf-8")
+
+            def fake_fetch(url):
+                if url == update_menu.SOURCE_URLS["甜品・飲料"]:
+                    return [{"name": "甜品", "price": 12}, {"name": "可樂", "price": 8}]
+                return [{"name": "常設品項", "price": 18}]
+
+            with patch.object(update_menu, "PROMOTIONS_PATH", path), patch.object(
+                update_menu, "fetch_items", side_effect=fake_fetch
+            ):
+                result = update_menu.make_menu(existing)
+
+        self.assertIn(category, result["categories"])
+        self.assertEqual(result["categories"][category][0]["id"], "old-special")
+
+    def test_future_same_category_preserves_old_data_until_start_date(self):
+        category = "期間限定・2026年10月同名未來活動"
+        existing = menu_with((category, [{"id": "old-special", "name": "現有品項", "price": 18}]))
+        future = {
+            "schemaVersion": 1,
+            "promotions": [{
+                "id": "future-same-category",
+                "category": category,
+                "verificationStatus": "verified",
+                "sourceUrls": ["https://example.test/post"],
+                "startDate": "2026-12-01",
+                "endDate": "2026-12-31",
+                "items": [{
+                    "id": "future-item",
+                    "name": "未來品項",
+                    "price": 22,
+                    "verificationStatus": "verified",
+                }],
+            }],
+        }
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "promotions.json"
+            path.write_text(json.dumps(future), encoding="utf-8")
+
+            def fake_fetch(url):
+                if url == update_menu.SOURCE_URLS["甜品・飲料"]:
+                    return [{"name": "甜品", "price": 12}, {"name": "可樂", "price": 8}]
+                return [{"name": "常設品項", "price": 18}]
+
+            with patch.object(update_menu, "PROMOTIONS_PATH", path), patch.object(
+                update_menu, "fetch_items", side_effect=fake_fetch
+            ):
+                result = update_menu.make_menu(existing)
+
+        self.assertEqual(result["categories"][category][0]["id"], "old-special")
+
+    def test_expired_and_rejected_promotions_do_not_preserve_old_month_data_forever(self):
+        category = "期間限定・2026年10月已結束活動"
+        existing = menu_with((category, [{"id": "old-special", "name": "已結束品項", "price": 18}]))
+
+        for status in ("expired", "rejected"):
+            with self.subTest(status=status), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "promotions.json"
+                path.write_text(json.dumps({
+                    "schemaVersion": 1,
+                    "promotions": [{
+                        "id": f"{status}-promotion",
+                        "category": category,
+                        "verificationStatus": status,
+                        "sourceUrls": ["https://example.test/post"],
+                        "startDate": "2026-10-01",
+                        "endDate": "2026-10-31",
+                        "items": [{
+                            "id": f"{status}-item",
+                            "name": "已結束品項",
+                            "price": 18,
+                            "verificationStatus": "verified",
+                        }],
+                    }],
+                }), encoding="utf-8")
+
+                def fake_fetch(url):
+                    if url == update_menu.SOURCE_URLS["甜品・飲料"]:
+                        return [{"name": "甜品", "price": 12}, {"name": "可樂", "price": 8}]
+                    return [{"name": "常設品項", "price": 18}]
+
+                with patch.object(update_menu, "PROMOTIONS_PATH", path), patch.object(
+                    update_menu, "fetch_items", side_effect=fake_fetch
+                ):
+                    result = update_menu.make_menu(existing)
+
+                self.assertNotIn(category, result["categories"])
 
 
 if __name__ == "__main__":

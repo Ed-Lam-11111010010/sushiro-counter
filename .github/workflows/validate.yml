@@ -5,6 +5,7 @@ on:
     paths:
       - "index.html"
       - "menu.json"
+      - "data/**"
       - "manifest.webmanifest"
       - "service-worker.js"
       - "scripts/**"
@@ -28,16 +29,25 @@ jobs:
           python-version: "3.x"
 
       - name: Validate updater syntax
-        run: python -m py_compile scripts/update_menu.py
+        run: python -m py_compile scripts/update_menu.py scripts/detect_instagram_menu.py
 
       - name: Validate menu data
         run: python scripts/update_menu.py --check
 
+      - name: Validate structured promotions
+        run: python -c "import json; from pathlib import Path; import sys; sys.path.insert(0, 'scripts'); import update_menu; data=json.loads(Path('data/promotions.json').read_text(encoding='utf-8')); update_menu.validate_promotion_data(data); print('Promotion data OK')"
+
+      - name: Validate Instagram candidate report when present
+        run: python scripts/detect_instagram_menu.py --check
+
       - name: Test menu ID and price validation
         run: python -m unittest discover -s scripts -p 'test_update_menu.py'
 
+      - name: Test Instagram candidate safety
+        run: python -m unittest discover -s scripts -p 'test_instagram_menu.py'
+
       - name: Validate JSON metadata
-        run: node -e "JSON.parse(require('fs').readFileSync('menu.json','utf8')); JSON.parse(require('fs').readFileSync('manifest.webmanifest','utf8')); console.log('JSON metadata OK')"
+        run: node -e "for (const file of ['menu.json','manifest.webmanifest','data/promotions.json','data/instagram_sources.json']) JSON.parse(require('fs').readFileSync(file,'utf8')); console.log('JSON metadata OK')"
 
       - name: Validate frontend JavaScript
         run: node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const start=html.indexOf('<script>')+8; const end=html.lastIndexOf('</script>'); new Function(html.slice(start,end)); console.log('index JavaScript OK')"

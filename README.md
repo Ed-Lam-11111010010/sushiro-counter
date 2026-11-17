@@ -10,7 +10,7 @@
 
 - **四色碟計數** — 紅碟 $12 / 銀碟 $17 / 金碟 $22 / 黑碟 $27，每行 `− 數量 +` stepper，即時顯示每色小計
 - **其他堂食單品** — 預設項目按類別整理（麵類・湯類 / 副餐類 / 甜品 / 飲料 / 期間限定），打開選擇器後可在頂部小分頁切換，每項以整行加減器呈現，可調數量、可刪除
-- **期間限定** — 會按需要加入當期無法單靠四色碟價處理嘅限定品項，例如 2026 年 9 月「漁吉丸」天然藍鰭吞拿魚系列
+- **期間限定** — 由 `data/promotions.json` 管理名稱、價格、來源及供應期，唔需要每次改 Python hardcoded 清單
 - **加成 / 折扣** — 支援 `+` 同 `−`、`$` 同 `%`，可加多行、可刪除（例如 −$20 優惠券、+10% 附加費）
 - **即時結算** — sticky 結算欄顯示 小計 → 加成調整 → 加成後小計 → 服務費 10% → 總計
 - **自動儲存** — localStorage 記住你嘅選擇，refresh 唔會清空；附「重置」掣一鍵清零
@@ -19,6 +19,7 @@
 - **手機優先** — responsive 設計，手機餐廳現場用都得
 - **可安裝 PWA** — 可加入手機主畫面，離線時仍可用
 - **餐單自動同步** — `menu.json` 由排程工作流對照香港壽司郎官方餐單，有變更時才開 PR
+- **Instagram 候選偵測** — 每日嘗試讀取壽司郎香港公開 Instagram 貼文，將新菜式、明確 HK$ 價格及活動日期寫入 review-only 候選報告
 - **繁體中文（HK）** 介面
 
 ---
@@ -91,9 +92,43 @@
 
 - 本專案係可安裝 PWA：用手機瀏覽線上版，在瀏覽器選「加入主畫面／安裝 App」即可。
 - `menu.json` 是餐單資料來源；頁面會優先讀取它，離線時使用瀏覽器快取及內置備份。
-- GitHub Actions 每週一香港時間 06:00 讀取香港壽司郎官方餐單頁面。只有資料通過基本驗證且有差異時，才會建立 `chore: update Sushiro HK menu` PR；合併後 GitHub Pages 自動部署。
+- 官方餐單同步工作流每日香港時間 06:00 讀取香港壽司郎官方餐單頁面。只有資料通過基本驗證且有差異時，才會建立 `chore: update Sushiro HK menu` PR；官方餐單 PR 可按現有流程自動合併，再觸發 GitHub Pages 部署。每日執行亦確保已核實的 future promotion 在開始日期及時加入，而不是等待下一個星期一或四。
+- Instagram 候選偵測工作流每日香港時間 06:00 執行。它只使用公開頁面 HTML 及 `data/instagram_sources.json` 的人工補充資料，不使用登入、私有 API 或繞過限制的方法。
+- Instagram 候選只會寫入 `data/instagram_candidates.json` 並開 review-only PR，**不會自動合併、不會直接修改 `menu.json`，亦不會觸發部署**。人工核對貼文、價格、日期及分店供應後，先將確認項目加入 `data/promotions.json`，並為 promotion 及每個 item 都設為 `verified`，再由官方同步工作流更新頁面。
+- 如果 Instagram 暫時無法存取，偵測器會記錄限制並保留既有候選；官方餐單同步及現有有效資料不受影響。
 - 官方餐單可能因分店、供應及活動變更而不同，App 顯示的價格只供結帳前參考。
-- 期間限定分類會保留至分類名稱所標示的月份結束，下一次排程執行時自動移除；新增新活動仍可手動加入 `menu.json`。
+
+### 結構化期間限定資料
+
+`data/promotions.json` 以 promotion 為單位保存：
+
+- `verificationStatus`: promotion 及每個 item 都必須是 `verified` 才會進入 `menu.json`；候選及未核對資料不可直接上架。
+- `sourceUrls`: 官方網站或官方 Instagram 貼文／帳戶來源。
+- `startDate` / `endDate`: 使用 `YYYY-MM-DD`；`endDate: null` 代表未有確定終止日（例如售罄前），唔會因月份結束而自行刪除。
+- `items`: 每個項目有穩定 `id`、名稱及明確價格。
+- future promotion 會等到 `startDate` 才接管同名分類；`needs_review`／`unavailable` 會保留原有資料，`expired`／`rejected` 則不會無限期阻止舊活動清理。
+
+如需手動補充官方貼文，將貼文 URL、caption、圖片 URL 或逐項轉錄資料放入 `data/instagram_sources.json`。這是偵測器的輸入，不代表已核實；所有結果仍要人工審核。
+
+例如：
+
+```json
+{
+  "schemaVersion": 1,
+  "account": "sushiro.hk",
+  "posts": [
+    {
+      "url": "https://www.instagram.com/p/POST_ID/",
+      "caption": "新菜式，HK$22；2026年12月1日起",
+      "publishedAt": "2026-11-30",
+      "imageUrls": [],
+      "items": [{ "name": "新菜式", "price": 22 }]
+    }
+  ]
+}
+```
+
+目前公開 profile HTML 在執行環境只回傳帳戶頁資料，未暴露可用的貼文連結；因此現有已核實 promotion 的來源仍保留官方帳戶／網站 URL，並沒有假裝已成功自動讀取某一篇 Instagram 貼文。若要把新貼文納入審核，請先把該篇公開 URL 放入上述 source file。
 
 ## 自我測試
 
@@ -102,9 +137,12 @@
 ```sh
 node --test scripts/test-menu-load.cjs
 python -m unittest discover -s scripts -p 'test_update_menu.py'
+python -m unittest discover -s scripts -p 'test_instagram_menu.py'
+python scripts/update_menu.py --check
+python scripts/detect_instagram_menu.py --check
 ```
 
-測試會確認同步存檔、刷新後的新菜色及跨分類計算、離線／下架價格保留、未知價格提示、重設、多項加成折扣，以及 service worker 不會以無效回應覆蓋有效餐單快取；更新器測試會確認自動 ID 穩定，並拒絕重複 ID 或無效資料。一般驗證及自動餐單更新工作流亦會執行。
+測試會確認同步存檔、刷新後的新菜色及跨分類計算、離線／下架價格保留、未知價格提示、重設、多項加成折扣，以及 service worker 不會以無效回應覆蓋有效餐單快取；更新器測試會確認自動 ID 穩定、雙重審核、跨月份設定檔失效保留及 future promotion 日期；Instagram 測試會確認公開 HTML caption、可見圖片 URL、carousel 多項價格、跨年活動日期、模糊價格、去重及來源失效時保留資料。carousel 圖片內文字不會 OCR，未支援內容要人工補充。一般驗證及自動餐單更新工作流亦會執行。
 
 喺瀏覽器 console 跑：
 
@@ -121,7 +159,8 @@ window.__selftest()
 - PWA 外殼：`index.html` + `manifest.webmanifest` + `service-worker.js`
 - Vanilla JavaScript，無框架、無 build step、無前端依賴
 - `menu.json`：可快取、可版本化的餐單資料
-- 無 backend、無 runtime analytics；餐單同步只在 GitHub Actions 排程中讀取官方頁面
+- 無 backend、無 runtime analytics；官方餐單同步及 Instagram 候選偵測只在 GitHub Actions 排程中執行
+- Instagram 偵測係 best-effort public HTML reader；report 會分開記錄 profile HTTP 狀態及 post discovery 狀態。Instagram 可能提供登入頁、限制存取或改變頁面格式，因此不能保證每次發文都會被自動發現；carousel 圖片內容亦不會自動 OCR。
 - 手機優先 CSS，無 CSS framework
 - localStorage 持久化
 

@@ -2,9 +2,9 @@ name: Check for Sushiro menu updates
 
 on:
   schedule:
-    # Sunday and Wednesday 22:00 UTC = Monday and Thursday 06:00 Hong Kong time.
-    - cron: "0 22 * * 0"
-    - cron: "0 22 * * 3"
+    # 22:00 UTC = 06:00 Hong Kong time. Run daily so verified promotions
+    # become visible on their start date instead of waiting for a weekly run.
+    - cron: "0 22 * * *"
   workflow_dispatch:
 
 permissions:

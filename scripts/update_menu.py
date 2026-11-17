@@ -19,6 +19,7 @@ from urllib.request import Request, urlopen
 REPO_URL = "https://github.com/Ed-Lam-11111010010/sushiro-counter"
 MENU_PATH = Path(__file__).resolve().parents[1] / "menu.json"
 INDEX_PATH = MENU_PATH.parent / "index.html"
+PROMOTIONS_PATH = MENU_PATH.parent / "data" / "promotions.json"
 SOURCE_URLS = {
     "麵類・湯類": "https://sushirohk.com.hk/tc/menu.php?cid=11&wid=5",
     "副餐類": "https://sushirohk.com.hk/tc/menu.php?cid=13&wid=5",
@@ -31,32 +32,6 @@ SPECIAL_SOURCE_URLS = (
     "https://www.instagram.com/sushiro.hk/",
     "https://sushirohk.com.hk/tc/index.php",
 )
-CURATED_SPECIAL_CATEGORIES: dict[str, list[dict[str, int | str]]] = {
-    # The official posts describe this campaign as available from 3 November
-    # until sold out. The month in the category name gives it a safe automatic
-    # expiry at the end of November if no newer campaign replaces it.
-    "期間限定・赤醋飯祭／京都伊根生黑鮪（2026年11月3日起）": [
-        {"name": "京都伊根生黑鮪吞拿魚二貫盛", "price": 32},
-        {"name": "京都伊根生黑鮪大吞拿魚腩", "price": 25},
-        {"name": "山葵莖Wasabi", "price": 6},
-        {"name": "蟹肉雙味山", "price": 27},
-        {"name": "鳥取產醋漬小肌", "price": 12},
-        {"name": "炙燒日本產伊佐木", "price": 12},
-        {"name": "京都伊根生黑鮪吞拿魚蓉海苔包", "price": 17},
-        {"name": "脆脆蝦手卷配蟹柳沙律", "price": 17},
-        {"name": "特大赤貝", "price": 22},
-        {"name": "南蠻蝦配三文魚子", "price": 22},
-        {"name": "百香果慕絲蛋糕", "price": 22},
-        {"name": "菇菇羹茶碗蒸", "price": 22},
-        {"name": "炸蕃薯條配蜂蜜&牛油", "price": 22},
-        {"name": "汁煮鮑魚與鮑魚肝天婦羅盛(大)", "price": 88},
-    ],
-    "期間限定・赤醋飯祭同場加映（2026年11月24日至2026年12月1日）": [
-        {"name": "鹽燒黑毛和牛肩胛小排", "price": 27},
-        {"name": "喜之次雙味（炙燒・醬烤）", "price": 27},
-        {"name": "生三文魚配蟹柳沙律", "price": 22},
-    ],
-}
 
 NAV_LABELS = {
     "Sushiro HK", "菜單", "握壽司", "軍艦・卷物", "麵類・湯類",
@@ -124,23 +99,6 @@ KNOWN_IDS = {
     "梅酒(含梅子)": "umeshu",
     "威士忌梳打": "whisky_soda",
     "菊正宗(大吟釀)": "kikumasamune_daiginjo",
-    "京都伊根生黑鮪吞拿魚二貫盛": "kyoto_ine_bluefin_two",
-    "京都伊根生黑鮪大吞拿魚腩": "kyoto_ine_bluefin_otoro",
-    "山葵莖Wasabi": "wasabi_stem",
-    "蟹肉雙味山": "crab_duo_mountain",
-    "鳥取產醋漬小肌": "tottori_kohada",
-    "炙燒日本產伊佐木": "aburi_isaki",
-    "京都伊根生黑鮪吞拿魚蓉海苔包": "bluefin_toro_nori_wrap",
-    "脆脆蝦手卷配蟹柳沙律": "crispy_shrimp_handroll",
-    "特大赤貝": "large_akagai",
-    "南蠻蝦配三文魚子": "nanban_shrimp_salmon_roe",
-    "百香果慕絲蛋糕": "passionfruit_mousse_cake",
-    "菇菇羹茶碗蒸": "mushroom_chawanmushi",
-    "炸蕃薯條配蜂蜜&牛油": "sweet_potato_honey_butter",
-    "汁煮鮑魚與鮑魚肝天婦羅盛(大)": "abalone_liver_tempura_platter",
-    "鹽燒黑毛和牛肩胛小排": "salt_grilled_wagyu_short_rib",
-    "喜之次雙味（炙燒・醬烤）": "kinki_two_flavors",
-    "生三文魚配蟹柳沙律": "salmon_crab_stick_salad",
 }
 
 
@@ -278,6 +236,193 @@ def load_existing_ids(data: dict[str, object]) -> dict[str, str]:
     return result
 
 
+def parse_iso_date(value: object, field: str, *, allow_none: bool = False) -> date | None:
+    if value is None and allow_none:
+        return None
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"Invalid {field}: expected YYYY-MM-DD")
+    try:
+        return date.fromisoformat(value)
+    except ValueError as exc:
+        raise ValueError(f"Invalid {field}: expected YYYY-MM-DD") from exc
+
+
+def validate_promotion_data(data: dict[str, object]) -> None:
+    if data.get("schemaVersion") != 1 or not isinstance(data.get("promotions"), list):
+        raise ValueError("Invalid promotions schema")
+
+    promotion_ids: set[str] = set()
+    categories: set[str] = set()
+    item_ids: set[str] = set()
+    valid_statuses = {"verified", "needs_review", "rejected", "expired", "unavailable"}
+
+    for promotion in data["promotions"]:
+        if not isinstance(promotion, dict):
+            raise ValueError("Promotion is not an object")
+        promotion_id = promotion.get("id")
+        category = promotion.get("category")
+        status = promotion.get("verificationStatus")
+        source_urls = promotion.get("sourceUrls")
+        items = promotion.get("items")
+        if not isinstance(promotion_id, str) or not promotion_id.strip():
+            raise ValueError("Promotion has no id")
+        if promotion_id in promotion_ids:
+            raise ValueError(f"Duplicate promotion id: {promotion_id}")
+        if not isinstance(category, str) or not category.strip():
+            raise ValueError(f"Promotion {promotion_id} has no category")
+        if category in categories:
+            raise ValueError(f"Duplicate promotion category: {category}")
+        if status not in valid_statuses:
+            raise ValueError(f"Invalid promotion verification status: {promotion_id}")
+        if (
+            not isinstance(source_urls, list)
+            or not source_urls
+            or any(not isinstance(url, str) or not url.strip() for url in source_urls)
+        ):
+            raise ValueError(f"Promotion {promotion_id} has no valid source URLs")
+        announcement_date = promotion.get("announcementDate")
+        if announcement_date is not None:
+            parse_iso_date(announcement_date, f"announcementDate for {promotion_id}")
+        start_date = parse_iso_date(promotion.get("startDate"), f"startDate for {promotion_id}")
+        end_date = parse_iso_date(
+            promotion.get("endDate"),
+            f"endDate for {promotion_id}",
+            allow_none=True,
+        )
+        if start_date is None:
+            raise ValueError(f"Promotion {promotion_id} has no start date")
+        if end_date is not None and end_date < start_date:
+            raise ValueError(f"Promotion {promotion_id} ends before it starts")
+        if not isinstance(items, list) or not items:
+            raise ValueError(f"Promotion {promotion_id} has no items")
+
+        promotion_ids.add(promotion_id)
+        categories.add(category)
+        for item in items:
+            if not isinstance(item, dict):
+                raise ValueError(f"Promotion {promotion_id} item is not an object")
+            item_id = item.get("id")
+            name = item.get("name")
+            price = item.get("price")
+            if not isinstance(item_id, str) or not item_id.strip():
+                raise ValueError(f"Promotion {promotion_id} item has no id")
+            if item_id in item_ids:
+                raise ValueError(f"Duplicate promotion item id: {item_id}")
+            if not isinstance(name, str) or not name.strip():
+                raise ValueError(f"Promotion {promotion_id} item has no name")
+            if isinstance(price, bool) or not isinstance(price, (int, float)) or price < 0:
+                raise ValueError(f"Invalid promotion price for {item_id}")
+            if isinstance(price, float) and not math.isfinite(price):
+                raise ValueError(f"Invalid promotion price for {item_id}")
+            item_status = item.get("verificationStatus")
+            if item_status not in valid_statuses:
+                raise ValueError(f"Invalid promotion item verification status: {item_id}")
+            item_ids.add(item_id)
+
+
+def load_promotion_data() -> tuple[dict[str, object], bool]:
+    """Load structured promotions without making official sync depend on them."""
+    empty: dict[str, object] = {"schemaVersion": 1, "promotions": []}
+    if not PROMOTIONS_PATH.exists():
+        print(f"Promotions file not found; keeping existing seasonal data: {PROMOTIONS_PATH}", file=sys.stderr)
+        return empty, False
+    try:
+        data = json.loads(PROMOTIONS_PATH.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            raise ValueError("Promotions root is not an object")
+        validate_promotion_data(data)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        print(f"Promotions file ignored ({exc}); official menu sync will continue", file=sys.stderr)
+        return empty, False
+    return data, True
+
+
+def promotion_is_active(promotion: dict[str, object], today: date) -> bool:
+    if promotion.get("verificationStatus") != "verified":
+        return False
+    items = promotion.get("items")
+    if not isinstance(items, list) or not any(
+        isinstance(item, dict) and item.get("verificationStatus") == "verified"
+        for item in items
+    ):
+        return False
+    start_date = parse_iso_date(promotion.get("startDate"), "promotion startDate")
+    end_date = parse_iso_date(promotion.get("endDate"), "promotion endDate", allow_none=True)
+    return start_date is not None and start_date <= today and (end_date is None or today <= end_date)
+
+
+def active_promotion_categories(data: dict[str, object], today: date) -> dict[str, list[dict[str, int | str]]]:
+    categories: dict[str, list[dict[str, int | str]]] = {}
+    for promotion in data.get("promotions", []):
+        if not isinstance(promotion, dict) or not promotion_is_active(promotion, today):
+            continue
+        category = str(promotion["category"])
+        verified_items = [
+            {
+                "id": str(item["id"]),
+                "name": str(item["name"]),
+                "price": item["price"],
+            }
+            for item in promotion["items"]
+            if isinstance(item, dict) and item.get("verificationStatus") == "verified"
+        ]
+        if verified_items:
+            categories[category] = verified_items
+    return categories
+
+
+def promotion_has_verified_item(promotion: dict[str, object]) -> bool:
+    return any(
+        isinstance(item, dict) and item.get("verificationStatus") == "verified"
+        for item in promotion.get("items", [])
+    )
+
+
+def managed_promotion_categories(data: dict[str, object], today: date) -> set[str]:
+    return {
+        str(promotion["category"])
+        for promotion in data.get("promotions", [])
+        if (
+            isinstance(promotion, dict)
+            and promotion.get("verificationStatus") == "verified"
+            and isinstance(promotion.get("category"), str)
+            and promotion_has_verified_item(promotion)
+            and (start_date := parse_iso_date(promotion.get("startDate"), "promotion startDate")) is not None
+            and start_date <= today
+        )
+    }
+
+
+def pending_promotion_categories(data: dict[str, object], today: date) -> set[str]:
+    categories: set[str] = set()
+    managed = managed_promotion_categories(data, today)
+    for promotion in data.get("promotions", []):
+        if not isinstance(promotion, dict) or not isinstance(promotion.get("category"), str):
+            continue
+        if promotion["category"] in managed:
+            continue
+        status = promotion.get("verificationStatus")
+        start_date = parse_iso_date(promotion.get("startDate"), "promotion startDate")
+        if status in {"needs_review", "unavailable"}:
+            categories.add(promotion["category"])
+        elif status == "verified" and (
+            (start_date is not None and start_date > today) or not promotion_has_verified_item(promotion)
+        ):
+            categories.add(promotion["category"])
+    return categories
+
+
+def promotion_source_urls(data: dict[str, object]) -> list[str]:
+    urls: list[str] = []
+    for promotion in data.get("promotions", []):
+        if not isinstance(promotion, dict):
+            continue
+        for url in promotion.get("sourceUrls", []):
+            if isinstance(url, str) and url not in urls:
+                urls.append(url)
+    return urls
+
+
 def stable_id(name: str, existing_ids: dict[str, str]) -> str:
     return (
         existing_ids.get(name)
@@ -307,6 +452,7 @@ def seasonal_is_active(category: str, today: date) -> bool:
 def make_menu(existing: dict[str, object]) -> dict[str, object]:
     existing_ids = load_existing_ids(existing)
     today = datetime.now(HONG_KONG_TZ).date()
+    promotion_data, promotion_config_valid = load_promotion_data()
     noodles = fetch_items(SOURCE_URLS["麵類・湯類"])
     sides = fetch_items(SOURCE_URLS["副餐類"])
     dessert_drink = fetch_items(SOURCE_URLS["甜品・飲料"])
@@ -315,38 +461,46 @@ def make_menu(existing: dict[str, object]) -> dict[str, object]:
         "麵類・湯類": noodles,
         "副餐類": sides,
         **split_desserts_and_drinks(dessert_drink),
-        **{
-            category: items
-            for category, items in CURATED_SPECIAL_CATEGORIES.items()
-            if seasonal_is_active(category, today)
-        },
+        **active_promotion_categories(promotion_data, today),
     }
     categories: dict[str, list[dict[str, int | str]]] = {}
     for category, items in raw_categories.items():
         categories[category] = [
             {
-                "id": stable_id(str(item["name"]), existing_ids),
+                "id": str(item.get("id") or stable_id(str(item["name"]), existing_ids)),
                 "name": str(item["name"]),
                 "price": item["price"],
             }
             for item in items
         ]
 
+    managed_categories = managed_promotion_categories(promotion_data, today) if promotion_config_valid else set()
+    pending_categories = pending_promotion_categories(promotion_data, today) if promotion_config_valid else set()
     for category, items in existing.get("categories", {}).items():
         if (
-            category not in CURATED_SPECIAL_CATEGORIES
-            and category.startswith("期間限定")
+            category.startswith("期間限定")
             and isinstance(items, list)
-            and seasonal_is_active(category, today)
+            and (
+                not promotion_config_valid
+                or (
+                    category not in managed_categories
+                    and (category in pending_categories or seasonal_is_active(category, today))
+                )
+            )
         ):
             categories[category] = items
+
+    source_urls: list[str] = []
+    for url in (*SOURCE_URLS.values(), *SPECIAL_SOURCE_URLS, *promotion_source_urls(promotion_data)):
+        if url not in source_urls:
+            source_urls.append(url)
 
     return {
         "schemaVersion": 1,
         "region": "hk",
         "currency": "HKD",
         "updatedAt": datetime.now(HONG_KONG_TZ).strftime("%Y-%m-%d"),
-        "source": list(SOURCE_URLS.values()) + list(SPECIAL_SOURCE_URLS),
+        "source": source_urls,
         "categories": categories,
     }
 
