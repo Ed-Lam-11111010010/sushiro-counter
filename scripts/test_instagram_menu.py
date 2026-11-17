@@ -273,7 +273,9 @@ class InstagramSafetyTests(unittest.TestCase):
                 today=date(2026, 11, 17),
             )
 
-        self.assertTrue(changed)
+        # A source outage changes diagnostics, not the preserved candidate posts;
+        # it must not create a status-only review PR.
+        self.assertFalse(changed)
         self.assertEqual(report["sourceStatus"], "unavailable")
         self.assertEqual(report["profileFetchStatus"], "unavailable")
         self.assertEqual(report["postDiscoveryStatus"], "unavailable")
@@ -421,6 +423,129 @@ class InstagramSafetyTests(unittest.TestCase):
         self.assertEqual(compact["posts"][0]["reviewStatus"], "review-only")
         self.assertEqual(item["priceConfidence"], "explicit-hkd")
         self.assertNotIn("caption", compact["posts"][0])
+
+    def test_public_search_rss_discovers_only_direct_instagram_links(self):
+        feed = """<rss version="2.0"><channel>
+            <item><link>https://www.instagram.com/p/INDEX123/</link></item>
+            <item><link>https://www.instagram.com/sushiro.hk/p/INDEX123/</link></item>
+            <item><link>https://example.com/p/UNRELATED/</link></item>
+            <item><link>https://www.bing.com/ck/a?redirect=1</link></item>
+        </channel></rss>"""
+        self.assertEqual(
+            detector.discover_public_index_posts(feed),
+            ["https://www.instagram.com/p/INDEX123/"],
+        )
+        with self.assertRaisesRegex(ValueError, "RSS"):
+            detector.discover_public_index_posts("<html>not RSS</html>")
+
+    def test_public_official_site_fallback_when_profile_has_no_posts(self):
+        official = '<a href="https://www.instagram.com/sushiro.hk/p/OFCL123/">announcement</a>'
+        post = '<meta property="og:description" content="新限定壽司 HK$22" />'
+
+        def fetch(url):
+            if url == detector.PROFILE_URL:
+                return "<html><body>No exposed Instagram post links</body></html>"
+            if url == detector.OFFICIAL_DISCOVERY_URL:
+                return official
+            if url == detector.PUBLIC_INDEX_FEED_URL:
+                return "<rss><channel /></rss>"
+            if url == "https://www.instagram.com/p/OFCL123/":
+                return post
+            raise AssertionError(url)
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "instagram_candidates.json"
+            state = root / "instagram_scan_state.json"
+            report, changed = detector.detect(
+                output_path=output,
+                state_path=state,
+                sources_path=root / "missing-sources.json",
+                fetcher=fetch,
+                today=date(2026, 11, 17),
+                now=datetime(2026, 11, 17, 6, tzinfo=timezone(timedelta(hours=8))),
+            )
+            checkpoint = json.loads(state.read_text(encoding="utf-8"))
+
+        self.assertTrue(changed)
+        self.assertEqual(report["postDiscoveryStatus"], "partial")
+        self.assertEqual(report["posts"][0]["postId"], "OFCL123")
+        self.assertEqual(report["discoverySourceCounts"]["officialWebsiteLinks"], 1)
+        self.assertEqual(report["discoverySourceCounts"]["instagramProfileAnchors"], 0)
+        self.assertTrue(report["posts"][0]["requiresReview"])
+        self.assertEqual(report["posts"][0]["items"][0]["price"], 22)
+        self.assertIsNone(checkpoint["lastSuccessfulScanAt"])
+
+    def test_search_index_requires_independent_post_owner_evidence(self):
+        feed = (
+            "<rss><channel><item>"
+            "<link>https://www.instagram.com/p/INDEX123/</link>"
+            "</item></channel></rss>"
+        )
+        owner_post = '<meta property="og:description" content="Sushiro HK (@sushiro.hk) on Instagram: 新限定 HK$22" />'
+        other_post = '<meta property="og:description" content="Other business on Instagram: 新限定 HK$22" />'
+
+        for post_html, expected_posts in ((owner_post, 1), (other_post, 0)):
+            def fetch(url):
+                if url == detector.PROFILE_URL:
+                    return "<html>Profile has no post anchors</html>"
+                if url == detector.OFFICIAL_DISCOVERY_URL:
+                    return "<html>No official post anchors</html>"
+                if url == detector.PUBLIC_INDEX_FEED_URL:
+                    return feed
+                return post_html
+
+            with self.subTest(expected_posts=expected_posts), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                output = root / "instagram_candidates.json"
+                report, changed = detector.detect(
+                    output_path=output,
+                    state_path=root / "instagram_scan_state.json",
+                    sources_path=root / "missing-sources.json",
+                    fetcher=fetch,
+                    today=date(2026, 11, 17),
+                )
+                self.assertEqual(len(report["posts"]), expected_posts)
+                self.assertEqual(changed, bool(expected_posts))
+                self.assertEqual(output.exists(), bool(expected_posts))
+                self.assertEqual(report["postDiscoveryStatus"], "partial")
+                self.assertEqual(report["discoverySourceCounts"]["publicSearchRssLinks"], 1)
+
+    def test_empty_discovery_does_not_open_status_only_candidate_change(self):
+        def fetch(url):
+            if url == detector.PROFILE_URL:
+                return "<html><body>Account page without links</body></html>"
+            if url == detector.OFFICIAL_DISCOVERY_URL:
+                return "<html><body>Official site without IG links</body></html>"
+            if url == detector.PUBLIC_INDEX_FEED_URL:
+                return "<rss><channel /></rss>"
+            raise AssertionError(url)
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "instagram_candidates.json"
+            existing = {
+                "schemaVersion": 1,
+                "account": "sushiro.hk",
+                "profileFetchStatus": "success",
+                "postDiscoveryStatus": "none",
+                "sourceStatus": "profile_only",
+                "posts": [],
+            }
+            original = json.dumps(existing)
+            output.write_text(original, encoding="utf-8")
+            report, changed = detector.detect(
+                output_path=output,
+                state_path=root / "instagram_scan_state.json",
+                sources_path=root / "missing-sources.json",
+                fetcher=fetch,
+                today=date(2026, 11, 17),
+            )
+            self.assertEqual(output.read_text(encoding="utf-8"), original)
+
+        self.assertFalse(changed)
+        self.assertEqual(report["posts"], [])
+        self.assertEqual(report["postDiscoveryStatus"], "none")
 
     def test_no_new_posts_advances_success_checkpoint_without_candidate_churn(self):
         profile = '<a href="/sushiro.hk/p/STABLE123/">one</a>'
