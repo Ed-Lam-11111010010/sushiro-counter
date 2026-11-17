@@ -109,6 +109,7 @@ jobs:
                   f"- Profile HTTP: **{report.get('profileFetchStatus', 'unknown')}**",
                   f"- Discovery: **{report.get('postDiscoveryStatus', 'unknown')}**",
                   f"- Posts found: **{len(posts)}**; candidates: **{items}**",
+                  f"- Source links (profile / official site / public search index): **{report.get('discoverySourceCounts', {}).get('instagramProfileAnchors', 0)} / {report.get('discoverySourceCounts', {}).get('officialWebsiteLinks', 0)} / {report.get('discoverySourceCounts', {}).get('publicSearchRssLinks', 0)}**",
                   "- Successful workflow execution does not guarantee complete Instagram discovery.",
               ])
               if not posts:
