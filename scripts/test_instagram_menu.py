@@ -470,6 +470,8 @@ class InstagramSafetyTests(unittest.TestCase):
         self.assertTrue(changed)
         self.assertEqual(report["postDiscoveryStatus"], "partial")
         self.assertEqual(report["posts"][0]["postId"], "OFCL123")
+        self.assertEqual(report["discoverySourceCounts"]["officialWebsiteLinks"], 1)
+        self.assertEqual(report["discoverySourceCounts"]["instagramProfileAnchors"], 0)
         self.assertTrue(report["posts"][0]["requiresReview"])
         self.assertEqual(report["posts"][0]["items"][0]["price"], 22)
         self.assertIsNone(checkpoint["lastSuccessfulScanAt"])
@@ -507,6 +509,7 @@ class InstagramSafetyTests(unittest.TestCase):
                 self.assertEqual(changed, bool(expected_posts))
                 self.assertEqual(output.exists(), bool(expected_posts))
                 self.assertEqual(report["postDiscoveryStatus"], "partial")
+                self.assertEqual(report["discoverySourceCounts"]["publicSearchRssLinks"], 1)
 
     def test_empty_discovery_does_not_open_status_only_candidate_change(self):
         def fetch(url):
