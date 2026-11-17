@@ -2,8 +2,9 @@ name: Check for Sushiro menu updates
 
 on:
   schedule:
-    # Sunday 22:00 UTC = Monday 06:00 Hong Kong time.
+    # Sunday and Wednesday 22:00 UTC = Monday and Thursday 06:00 Hong Kong time.
     - cron: "0 22 * * 0"
+    - cron: "0 22 * * 3"
   workflow_dispatch:
 
 permissions:
