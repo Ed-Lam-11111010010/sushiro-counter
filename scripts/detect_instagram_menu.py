@@ -20,7 +20,8 @@ from datetime import date, datetime, timedelta, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urlencode, urljoin, urlparse
+from xml.etree import ElementTree
 from urllib.request import Request, urlopen
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -29,6 +30,11 @@ OUTPUT_PATH = REPO_ROOT / "data" / "instagram_candidates.json"
 STATE_PATH = REPO_ROOT / "data" / "instagram_scan_state.json"
 MENU_PATH = REPO_ROOT / "menu.json"
 PROFILE_URL = "https://www.instagram.com/sushiro.hk/"
+OFFICIAL_DISCOVERY_URL = "https://sushirohk.com.hk/tc/index.php"
+PUBLIC_INDEX_FEED_URL = "https://www.bing.com/search?" + urlencode({
+    "q": '"sushiro.hk" site:instagram.com',
+    "format": "rss",
+})
 FETCH_ATTEMPTS = 2
 MAX_DISCOVERED_POSTS = 24
 OVERLAP_DAYS = 7
@@ -185,6 +191,39 @@ def has_usable_post_metadata(post_url: str, post_data: dict[str, object]) -> boo
         return False
     page_url = metadata.get("og:url")
     return not page_url or canonical_post_url(str(page_url), PROFILE_URL) == canonical_post_url(post_url, PROFILE_URL)
+
+
+
+def discover_public_index_posts(feed: str) -> list[str]:
+    """Best-effort direct Instagram post links from a public RSS search index.
+
+    Indexed results are NOT proof of account ownership. The fetched post must
+    also identify @sushiro.hk before it can become a review-only candidate.
+    """
+    try:
+        document = ElementTree.fromstring(feed)
+    except ElementTree.ParseError as exc:
+        raise ValueError("Public search index did not return parseable RSS.") from exc
+    if document.tag.lower() != "rss":
+        raise ValueError("Public search index did not return an RSS document.")
+    urls: set[str] = set()
+    for item in document.findall(".//item"):
+        link = item.findtext("link") or ""
+        post_url = canonical_post_url(link, PROFILE_URL)
+        if post_url:
+            urls.add(post_url)
+    return sorted(urls)
+
+
+def indexed_post_owner_confirmed(metadata: dict[str, str]) -> bool:
+    """Do not trust a search result alone to attribute a post to this account."""
+    for field in ("og:title", "og:description"):
+        value = normalize(metadata.get(field, ""))[:240]
+        if re.search(r"@sushiro\.hk\b", value, re.IGNORECASE):
+            return True
+        if re.search(r"\bsushiro\.hk\s+on\s+instagram\b", value, re.IGNORECASE):
+            return True
+    return False
 
 
 def fetch_public(url: str) -> str:
@@ -1111,6 +1150,8 @@ def detect(
     current_posts: dict[str, dict[str, object]] = {}
     profile_fetch_status = "success"
     automatic_post_urls: list[str] = []
+    fallback_post_sources: dict[str, set[str]] = {}
+    fallback_errors = False
     post_fetch_failed = False
     manual_fetch_failed = False
     discovery_incomplete = False
@@ -1136,7 +1177,33 @@ def detect(
             limitations.append(
                 "Profile HTTP access succeeded, but the returned HTML exposed no public post anchors; an empty result is not treated as a successful scan."
             )
-        for post_url in automatic_post_urls[:MAX_DISCOVERED_POSTS]:
+    # These sources are only supplementary, public, and best-effort. A search
+    # result is never trusted to establish account ownership by itself.
+    for source_name, source_url in (
+        ("official-website-link", OFFICIAL_DISCOVERY_URL),
+        ("public-search-rss", PUBLIC_INDEX_FEED_URL),
+    ):
+        try:
+            source_content = fetcher(source_url)
+            if source_name == "official-website-link":
+                source_posts = parse_public_page(source_content, source_url)["postUrls"]
+            else:
+                source_posts = discover_public_index_posts(source_content)
+            for discovered_url in source_posts:
+                fallback_post_sources.setdefault(discovered_url, set()).add(source_name)
+        except Exception as exc:
+            fallback_errors = True
+            limitations.append(f"{source_name} was unavailable; fallback coverage is incomplete.")
+            print(f"Instagram fallback unavailable ({source_name}): {exc}", file=sys.stderr)
+
+    all_discovered_post_urls = sorted(set(automatic_post_urls) | set(fallback_post_sources))
+    if len(all_discovered_post_urls) > MAX_DISCOVERED_POSTS:
+        discovery_incomplete = True
+        limitations.append(
+            f"Combined public sources exposed {len(all_discovered_post_urls)} post URLs; "
+            f"only the first {MAX_DISCOVERED_POSTS} canonical URLs were processed."
+        )
+    for post_url in all_discovered_post_urls[:MAX_DISCOVERED_POSTS]:
             try:
                 post_page = fetcher(post_url)
             except Exception as exc:
@@ -1156,6 +1223,19 @@ def detect(
                 )
                 continue
             metadata = post_data["metadata"]
+            sources = fallback_post_sources.get(post_url, set())
+            # Official website links come from a first-party page. Search-index
+            # URLs must independently prove account ownership on the post page.
+            if (
+                post_url not in automatic_post_urls
+                and "official-website-link" not in sources
+                and not indexed_post_owner_confirmed(metadata)
+            ):
+                limitations.append(
+                    f"Search-index post {canonical_post_id(post_url)} had no verified @sushiro.hk "
+                    "owner evidence; ignored."
+                )
+                continue
             candidate = make_candidate(
                 post_url,
                 metadata if isinstance(metadata, dict) else {},
@@ -1229,9 +1309,13 @@ def detect(
         source_status = "partial"
         post_discovery_status = "partial"
         limitations.append("One or more discovered public post pages could not be fetched or had unusable public metadata; those candidates remain review-only.")
-    elif discovery_incomplete and automatic_post_urls:
+    elif discovery_incomplete and all_discovered_post_urls:
         source_status = "partial"
         post_discovery_status = "partial"
+    elif all_discovered_post_urls and not automatic_post_urls:
+        source_status = "partial"
+        post_discovery_status = "partial"
+        limitations.append("Profile discovery was empty; indexed or official-site links are only partial coverage.")
     elif automatic_post_urls:
         source_status = "posts_found"
         post_discovery_status = "found"
@@ -1241,13 +1325,14 @@ def detect(
     else:
         source_status = "profile_only"
         post_discovery_status = "none"
-    if not automatic_post_urls and not current_posts:
+    if not all_discovered_post_urls and not current_posts:
         limitations.append("No public post candidate was available in this run.")
     automatic_scan_successful = (
         profile_fetch_status == "success"
         and bool(automatic_post_urls)
         and not discovery_incomplete
         and not post_fetch_failed
+        and not fallback_errors
     )
     if automatic_scan_successful:
         scan_state["lastSuccessfulScanAt"] = attempt_at
@@ -1270,7 +1355,9 @@ def detect(
     if report_path is not None:
         write_machine_report(report_path, report, attempt_at)
     write_scan_state(state_path, scan_state)
-    changed = report != existing
+    # Operational diagnostics belong in the Actions artifact, not in a PR.
+    # Only new or edited reviewable posts should change the tracked report.
+    changed = posts != existing.get("posts", [])
     if changed:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
