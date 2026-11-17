@@ -1185,7 +1185,12 @@ def detect(
         try:
             source_content = fetcher(source_url)
             if source_name == "official-website-link":
-                source_posts = parse_public_page(source_content, source_url)["postUrls"]
+                official_parser = PublicPageParser()
+                official_parser.feed(source_content)
+                source_posts = sorted({
+                    post_url for link in official_parser.links
+                    if (post_url := canonical_post_url(urljoin(source_url, link), PROFILE_URL))
+                })
             else:
                 source_posts = discover_public_index_posts(source_content)
             for discovered_url in source_posts:
