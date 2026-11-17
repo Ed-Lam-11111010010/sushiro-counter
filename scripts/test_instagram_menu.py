@@ -273,7 +273,9 @@ class InstagramSafetyTests(unittest.TestCase):
                 today=date(2026, 11, 17),
             )
 
-        self.assertTrue(changed)
+        # A source outage changes diagnostics, not the preserved candidate posts;
+        # it must not create a status-only review PR.
+        self.assertFalse(changed)
         self.assertEqual(report["sourceStatus"], "unavailable")
         self.assertEqual(report["profileFetchStatus"], "unavailable")
         self.assertEqual(report["postDiscoveryStatus"], "unavailable")
