@@ -133,6 +133,56 @@
           "verificationStatus": "verified"
         }
       ]
+    },
+    {
+      "id": "jujutsu-kolei-food-2026-11-17",
+      "category": "期間限定・咒術迴戰聯乘（2026年11月17日起）",
+      "verificationStatus": "verified",
+      "sourceUrls": [
+        "https://www.instagram.com/p/Dfn7uyiCgAt/"
+      ],
+      "startDate": "2026-11-17",
+      "endDate": null,
+      "availability": "全線活動分店（灣仔英皇集團中心店、深水埗西九龍中心店除外），售完即止。聯乘壽司11月17日至12月1日為赤醋飯，12月2日起改為白醋飯；蛋糕及飲品不涉及飯種。",
+      "items": [
+        {
+          "id": "jujutsu_salt_marinated_albacore_202611",
+          "name": "大切鹽味醬漬長鰭吞拿魚",
+          "price": 17,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "jujutsu_black_sesame_mille_crepe_202611",
+          "name": "黑芝麻千層蛋糕",
+          "price": 38,
+          "verificationStatus": "verified"
+        },
+        {
+          "id": "jujutsu_drink_set_202611",
+          "name": "聯乘飲品套裝",
+          "price": 59,
+          "verificationStatus": "verified"
+        }
+      ]
+    },
+    {
+      "id": "jujutsu-kolei-scallop-2026-12-01",
+      "category": "期間限定・咒術迴戰聯乘（2026年12月1日起）",
+      "verificationStatus": "verified",
+      "sourceUrls": [
+        "https://www.instagram.com/p/Dfn7uyiCgAt/"
+      ],
+      "startDate": "2026-12-01",
+      "endDate": null,
+      "availability": "全線活動分店（灣仔英皇集團中心店、深水埗西九龍中心店除外），售完即止。12月1日為赤醋飯，12月2日起改為白醋飯。",
+      "items": [
+        {
+          "id": "jujutsu_surf_clam_nori_flying_fish_roe_202612",
+          "name": "特盛海灣貝海苔包配飛魚子",
+          "price": 17,
+          "verificationStatus": "verified"
+        }
+      ]
     }
   ]
 }
