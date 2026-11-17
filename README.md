@@ -95,6 +95,8 @@
 - 官方餐單同步工作流每日香港時間 06:00 讀取香港壽司郎官方餐單頁面。只有資料通過基本驗證且有差異時，才會建立 `chore: update Sushiro HK menu` PR；官方餐單 PR 可按現有流程自動合併，再觸發 GitHub Pages 部署。每日執行亦確保已核實的 future promotion 在開始日期及時加入，而不是等待下一個星期一或四。
 - Instagram 候選偵測工作流每日香港時間 06:00 執行。它只使用公開頁面 HTML 及 `data/instagram_sources.json` 的人工補充資料，不使用登入、私有 API 或繞過限制的方法。
 - Instagram detector 會將 runner 的 `.cache/instagram_scan_state.json` 存入 GitHub Actions cache，記錄 `lastAttemptAt`、`lastSuccessfulScanAt`、已發現的 post ID、內容 fingerprint 及最近看到的時間。每次成功 profile/post discovery 會以最近一次成功掃描為基準，加上 7 日 overlap；caption 或可見 media metadata 改變時會重新處理。profile 沒有 post links、被封鎖或有任何 post fetch 失敗時，只記錄 attempt，不推進 successful checkpoint。
+- 如果 Instagram 個人頁未提供 post anchors，scanner 會 best-effort 檢查壽司郎官方網站上的公開 Instagram 連結，及公開搜尋索引提供的 RSS 連結。搜尋索引只是線索：相關貼文必須另有 `@sushiro.hk` 的公開作者 metadata 才接受；這兩種後備來源無法證明已找到所有新貼文，所以結果標示 `partial`，不會推進完整掃描 checkpoint。公開 RSS 服務及 Instagram 頁面可能受限制，失敗不影響正式餐單。
+- 未發現任何新／編輯貼文時，scanner 不會只因 `discovery=none`、來源錯誤或掃描時間改變而修改 `data/instagram_candidates.json` 或建立新 PR；運作診斷仍保存在 Actions artifact 與 job summary，並清楚區分「workflow success」與「discovery success」。
 - 每次 Instagram scan 亦會產生 compact `instagram_scan_report.json`，包括 post ID、publication date、item-level promotion dates、item type、price confidence 及 review status；GitHub Actions 會把它作為 artifact 保存。profile 暴露超過安全上限時，會按 canonical URL 穩定排序，只處理前 `MAX_DISCOVERED_POSTS` 篇並標記 `partial`，不會推進成功 checkpoint。
 - 貼文有多個商品時，只會把明確的 `販售期間` 區段日期配到附近商品；日期段落無法可靠歸屬時保留空值，並設 item-level 日期審核標記。`data/instagram_scan_report.json` 保留前一版 12-post scan；`data/instagram_scan_report_review2.json` 保存本輪結果，方便比較。
 - Instagram 候選只會寫入 `data/instagram_candidates.json` 並開 review-only PR，**不會自動合併、不會直接修改 `menu.json`，亦不會觸發部署**。人工核對貼文、價格、日期及分店供應後，先將確認項目加入 `data/promotions.json`，並為 promotion 及每個 item 都設為 `verified`，再由官方同步工作流更新頁面。
