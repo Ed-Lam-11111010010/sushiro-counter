@@ -1,16 +1,30 @@
 import json
 import tempfile
 import unittest
-from datetime import date
+from unittest import mock
+from datetime import date, datetime, timezone, timedelta
 from pathlib import Path
 
 import detect_instagram_menu as detector
 
 
 POST_URL = "https://www.instagram.com/p/ABC123/"
+JUJUTSU_CAPTION = (
+    "大切鹽味醬漬長鰭吞拿魚｜$17 附送插牌 📅販售期間：11月17日起～售完即止 "
+    "特盛海灣貝海苔包配飛魚子｜$17 附送插牌 📅販售期間：12月1日起～售完即止 "
+    "黑芝麻千層蛋糕｜$38 聯乘飲品套裝｜$59 亞加力場景立牌｜$129 "
+    "襟章・第一彈｜$39（共5款，款式隨機） 📅販售期間：11月17日～售完即止 "
+    "襟章・第二彈｜$39（共8款，款式隨機） 📅販售期間：12月1日～售完即止 "
+    "襟章・第三彈｜$39（共2款，款式隨機） 📅販售期間：12月7日～售完即止"
+)
 
 
 class InstagramParserTests(unittest.TestCase):
+    def test_owner_prefixed_public_profile_anchor_is_canonicalized(self):
+        page = '<a href="/sushiro.hk/p/Dfn7uyiCgAt/">public post</a>'
+        parsed = detector.parse_public_page(page, detector.PROFILE_URL)
+        self.assertEqual(parsed["postUrls"], ["https://www.instagram.com/p/Dfn7uyiCgAt/"])
+
     def test_public_html_finds_post_links_and_images(self):
         page = """
         <html><head>
@@ -68,8 +82,10 @@ class InstagramParserTests(unittest.TestCase):
             today=date(2026, 11, 17),
         )
         self.assertEqual(candidate["status"], "needs_review")
-        self.assertEqual(candidate["items"], [])
-        self.assertTrue(any("explicit HKD" in reason for reason in candidate["reviewReasons"]))
+        self.assertEqual(candidate["items"][0]["name"], "新菜式")
+        self.assertNotIn("price", candidate["items"][0])
+        self.assertEqual(candidate["items"][0]["priceText"], "$32")
+        self.assertTrue(any("numeric value was not imported" in reason for reason in candidate["reviewReasons"]))
 
     def test_future_and_expired_date_windows_are_explicit(self):
         future = detector.make_candidate(
@@ -95,6 +111,111 @@ class InstagramParserTests(unittest.TestCase):
         self.assertEqual(cross_year["startDate"], "2026-12-24")
         self.assertEqual(cross_year["endDate"], "2027-01-03")
         self.assertEqual(cross_year["status"], "future")
+
+        repeated = detector.make_candidate(
+            "https://www.instagram.com/p/REPEATED/",
+            {"og:description": "活動 HK$22 11月17日至12月1日，另於11月17日及12月1日提醒"},
+            today=date(2026, 11, 1),
+        )
+        self.assertEqual(repeated["startDate"], "2026-11-17")
+        self.assertEqual(repeated["endDate"], "2026-12-01")
+
+    def test_caption_items_are_classified_without_importing_ambiguous_prices(self):
+        candidate = detector.make_candidate(
+            POST_URL,
+            {"og:description": "壽司 HK$22 飲品套裝 HK$59 亞加力場景立牌 HK$129 凡於堂食消費滿$200即可加購"},
+            today=date(2026, 11, 17),
+        )
+        by_name = {item["name"]: item for item in candidate["items"]}
+        self.assertEqual(by_name["壽司"]["itemType"], "dish")
+        self.assertEqual(by_name["飲品套裝"]["itemType"], "drink")
+        self.assertEqual(by_name["亞加力場景立牌"]["itemType"], "merchandise")
+        self.assertEqual(by_name["亞加力場景立牌"]["purchaseCondition"], "conditional-add-on")
+        self.assertEqual(by_name["亞加力場景立牌"]["price"], 129)
+
+        steamed_egg = detector.make_candidate(
+            POST_URL,
+            {"og:description": "🍄菇菇羹茶碗蒸｜HK$22"},
+            today=date(2026, 11, 17),
+        )
+        self.assertEqual(steamed_egg["items"][0]["name"], "菇菇羹茶碗蒸")
+        self.assertEqual(steamed_egg["items"][0]["itemType"], "dish")
+
+        existing = detector.make_candidate(POST_URL, {"og:description": "玉子燒 HK$12"}, today=date(2026, 11, 17))
+        detector.annotate_existing_menu_matches(existing, {"玉子燒": "tamago"})
+        self.assertEqual(existing["items"][0]["existingMenuId"], "tamago")
+
+    def test_known_post_fixture_is_extracted_from_public_post_html(self):
+        post_url = "https://www.instagram.com/p/Dfn7uyiCgAt/"
+        page = '<meta property="og:description" content="新聯乘商品 ｜$17 2026年11月17日起～售完即止" />'
+        parsed = detector.parse_public_page(page, post_url)
+        candidate = detector.make_candidate(post_url, parsed["metadata"], today=date(2026, 11, 17))
+        self.assertEqual(candidate["postId"], "Dfn7uyiCgAt")
+        self.assertEqual(candidate["items"][0]["priceText"], "$17")
+        self.assertNotIn("price", candidate["items"][0])
+        self.assertEqual(candidate["supplyCondition"], "until-sold-out")
+
+    def test_jjk_mixed_promotion_dates_stay_on_their_items(self):
+        candidate = detector.make_candidate(
+            "https://www.instagram.com/p/Dfn7uyiCgAt/",
+            {"og:description": JUJUTSU_CAPTION},
+            manual_post={"publishedAt": "2026-11-11", "caption": JUJUTSU_CAPTION},
+            today=date(2026, 11, 17),
+        )
+        by_name = {item["name"]: item for item in candidate["items"]}
+        self.assertEqual(candidate["dateScope"], "item-specific")
+        self.assertIsNone(candidate["startDate"])
+        self.assertIsNone(candidate["endDate"])
+        self.assertEqual(by_name["大切鹽味醬漬長鰭吞拿魚"]["startDate"], "2026-11-17")
+        self.assertEqual(by_name["特盛海灣貝海苔包配飛魚子"]["startDate"], "2026-12-01")
+        self.assertEqual(by_name["襟章・第一彈"]["startDate"], "2026-11-17")
+        self.assertEqual(by_name["襟章・第二彈"]["startDate"], "2026-12-01")
+        self.assertEqual(by_name["襟章・第三彈"]["startDate"], "2026-12-07")
+        self.assertTrue(all(item.get("supplyCondition") == "until-sold-out" for item in by_name.values() if item.get("startDate")))
+        self.assertNotIn("2027", json.dumps(candidate, ensure_ascii=False))
+
+        drink_package = by_name["聯乘飲品套裝"]
+        self.assertEqual(drink_package["itemType"], "drink")
+        self.assertIsNone(drink_package.get("startDate"))
+        self.assertIsNone(drink_package.get("endDate"))
+        self.assertEqual(drink_package["dateConfidence"], "not-stated")
+        self.assertTrue(drink_package["dateReviewRequired"])
+
+    def test_dfpq_caption_keeps_salmon_period_with_its_promotion_section(self):
+        caption = (
+            "🌱加上山葵莖Wasabi｜$6 粒粒口感，讓滋味升級！ "
+            "🔸【京都伊根生黑鮪吞拿魚】限定商品11月3日（二）起，於全線分店有售。 "
+            "🎬同場加映！美味壽司月中繼續有～ "
+            "📅販售期間：11月24日〜售完即止 "
+            "🐂鹽燒黑毛和牛肩胛小排｜$27 "
+            "🐟喜之次雙味（炙燒・醬烤）｜$27 "
+            "📅販售期間：11月24日〜12月1日 "
+            "🐟生三文魚配蟹柳沙律｜$22"
+        )
+        candidate = detector.make_candidate(
+            "https://www.instagram.com/p/DfPQcXcCZCx/",
+            {"og:description": caption},
+            manual_post={"publishedAt": "2026-11-02", "caption": caption},
+            today=date(2026, 11, 17),
+        )
+        by_name = {item["name"]: item for item in candidate["items"]}
+        self.assertEqual(by_name["生三文魚配蟹柳沙律"]["startDate"], "2026-11-24")
+        self.assertEqual(by_name["生三文魚配蟹柳沙律"]["endDate"], "2026-12-01")
+        self.assertNotIn("supplyCondition", by_name["生三文魚配蟹柳沙律"])
+        self.assertNotIn("startDate", by_name["加上山葵莖Wasabi"])
+        self.assertEqual(by_name["鹽燒黑毛和牛肩胛小排"]["startDate"], "2026-11-24")
+        self.assertEqual(by_name["鹽燒黑毛和牛肩胛小排"]["supplyCondition"], "until-sold-out")
+
+    def test_punctuation_only_and_marketing_paragraph_names_are_rejected(self):
+        for caption in ("→ HK$22", "！HK$22", "推薦大家今天來香港旅遊並享受超級美味的限定商品！ HK$22"):
+            with self.subTest(caption=caption):
+                candidate = detector.make_candidate(
+                    POST_URL,
+                    {"og:description": caption},
+                    today=date(2026, 11, 17),
+                )
+                self.assertEqual(candidate["items"], [])
+                self.assertTrue(any("reliable item name" in reason for reason in candidate["reviewReasons"]))
 
     def test_manual_carousel_items_are_supported_but_remain_review_only(self):
         candidate = detector.make_candidate(
@@ -182,6 +303,212 @@ class InstagramSafetyTests(unittest.TestCase):
         self.assertEqual(report["postDiscoveryStatus"], "found")
         self.assertEqual(report["posts"][0]["items"][0]["price"], 22)
         self.assertNotIn("categories", report)
+
+    def test_auto_profile_discovery_is_distinct_from_manual_url_retrieval(self):
+        profile = '<a href="/sushiro.hk/p/AUTO123/">one</a>'
+        post = '<meta property="og:description" content="自動發現 HK$22" />'
+
+        def fake_fetch(url):
+            return profile if url == detector.PROFILE_URL else post
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "instagram_candidates.json"
+            state = root / "instagram_scan_state.json"
+            sources = root / "instagram_sources.json"
+            sources.write_text(json.dumps({"schemaVersion": 1, "account": "sushiro.hk", "posts": []}), encoding="utf-8")
+            report, _ = detector.detect(
+                output_path=output,
+                state_path=state,
+                sources_path=sources,
+                fetcher=fake_fetch,
+                today=date(2026, 11, 17),
+                now=datetime(2026, 11, 17, 6, tzinfo=timezone(timedelta(hours=8))),
+            )
+            saved_state = json.loads(state.read_text(encoding="utf-8"))
+
+        self.assertEqual(report["postDiscoveryStatus"], "found")
+        self.assertEqual(report["posts"][0]["postId"], "AUTO123")
+        self.assertEqual(saved_state["lastAttemptAt"], "2026-11-17T06:00:00+08:00")
+        self.assertEqual(saved_state["lastSuccessfulScanAt"], "2026-11-17T06:00:00+08:00")
+        self.assertIn("AUTO123", saved_state["discoveredPosts"])
+
+    def test_http_200_unusable_post_does_not_advance_success_checkpoint(self):
+        profile = '<a href="/sushiro.hk/p/EMPTYMETA/">one</a>'
+        login_shell = (
+            '<html><head><meta property="og:description" '
+            'content="Log in to Instagram to see photos and videos from friends and discover accounts you will love." />'
+            '</head><body>login shell</body></html>'
+        )
+        parsed_login_shell = detector.parse_public_page(login_shell, "https://www.instagram.com/p/EMPTYMETA/")
+        self.assertFalse(detector.has_usable_post_metadata("https://www.instagram.com/p/EMPTYMETA/", parsed_login_shell))
+
+        def unusable_fetch(url):
+            return profile if url == detector.PROFILE_URL else login_shell
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "instagram_candidates.json"
+            state = root / "instagram_scan_state.json"
+            sources = root / "instagram_sources.json"
+            sources.write_text(json.dumps({"schemaVersion": 1, "account": "sushiro.hk", "posts": []}), encoding="utf-8")
+            report, _ = detector.detect(
+                output_path=output,
+                state_path=state,
+                sources_path=sources,
+                fetcher=unusable_fetch,
+                today=date(2026, 11, 17),
+                now=datetime(2026, 11, 17, 6, tzinfo=timezone(timedelta(hours=8))),
+            )
+            saved_state = json.loads(state.read_text(encoding="utf-8"))
+
+        self.assertEqual(report["postDiscoveryStatus"], "partial")
+        self.assertIsNone(saved_state["lastSuccessfulScanAt"])
+        self.assertEqual(saved_state["lastAttemptAt"], "2026-11-17T06:00:00+08:00")
+        self.assertEqual(report["posts"][0]["status"], "unavailable")
+        self.assertTrue(any("unusable public metadata" in reason for reason in report["limitations"]))
+
+    def test_over_max_profile_links_are_stably_ordered_and_marked_partial(self):
+        links = ''.join(f'<a href="/sushiro.hk/p/POST{index:02d}/">post</a>' for index in (3, 1, 2))
+
+        def fake_fetch(url):
+            return links if url == detector.PROFILE_URL else '<meta property="og:description" content="菜式 HK$22" />'
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "instagram_candidates.json"
+            state = root / "instagram_scan_state.json"
+            sources = root / "instagram_sources.json"
+            sources.write_text(json.dumps({"schemaVersion": 1, "account": "sushiro.hk", "posts": []}), encoding="utf-8")
+            with mock.patch.object(detector, "MAX_DISCOVERED_POSTS", 2):
+                report, _ = detector.detect(
+                    output_path=output,
+                    state_path=state,
+                    sources_path=sources,
+                    fetcher=fake_fetch,
+                    today=date(2026, 11, 17),
+                    now=datetime(2026, 11, 17, 6, tzinfo=timezone(timedelta(hours=8))),
+                )
+            saved_state = json.loads(state.read_text(encoding="utf-8"))
+
+        self.assertEqual([post["postId"] for post in report["posts"]], ["POST01", "POST02"])
+        self.assertEqual(report["sourceStatus"], "partial")
+        self.assertEqual(report["postDiscoveryStatus"], "partial")
+        self.assertIsNone(saved_state["lastSuccessfulScanAt"])
+        self.assertTrue(any("3 post links" in limitation and "stable canonical URL order" in limitation for limitation in report["limitations"]))
+
+    def test_machine_report_is_compact_and_contains_review_fields(self):
+        candidate = detector.make_candidate(
+            "https://www.instagram.com/p/REPORT123/",
+            {"og:description": "報告菜式 HK$22"},
+            today=date(2026, 11, 17),
+        )
+        report = {
+            "schemaVersion": 1,
+            "account": "sushiro.hk",
+            "profileUrl": detector.PROFILE_URL,
+            "sourceMethod": "public-html-best-effort",
+            "profileFetchStatus": "success",
+            "postDiscoveryStatus": "found",
+            "sourceStatus": "posts_found",
+            "limitations": [],
+            "posts": [candidate],
+        }
+        compact = detector.machine_readable_report(report, "2026-11-17T06:00:00+08:00")
+        item = compact["posts"][0]["items"][0]
+        self.assertEqual(compact["postCount"], 1)
+        self.assertEqual(compact["posts"][0]["postId"], "REPORT123")
+        self.assertEqual(compact["posts"][0]["reviewStatus"], "review-only")
+        self.assertEqual(item["priceConfidence"], "explicit-hkd")
+        self.assertNotIn("caption", compact["posts"][0])
+
+    def test_no_new_posts_advances_success_checkpoint_without_candidate_churn(self):
+        profile = '<a href="/sushiro.hk/p/STABLE123/">one</a>'
+        post = '<meta property="og:description" content="穩定菜式 HK$22" />'
+
+        def fake_fetch(url):
+            return profile if url == detector.PROFILE_URL else post
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "instagram_candidates.json"
+            state = root / "instagram_scan_state.json"
+            sources = root / "instagram_sources.json"
+            sources.write_text(json.dumps({"schemaVersion": 1, "account": "sushiro.hk", "posts": []}), encoding="utf-8")
+            first, _ = detector.detect(
+                output_path=output, state_path=state, sources_path=sources, fetcher=fake_fetch,
+                today=date(2026, 11, 17), now=datetime(2026, 11, 17, 6, tzinfo=timezone(timedelta(hours=8))),
+            )
+            second, changed = detector.detect(
+                output_path=output, state_path=state, sources_path=sources, fetcher=fake_fetch,
+                today=date(2026, 11, 18), now=datetime(2026, 11, 18, 6, tzinfo=timezone(timedelta(hours=8))),
+            )
+            saved_state = json.loads(state.read_text(encoding="utf-8"))
+
+        self.assertFalse(changed)
+        self.assertEqual(first["posts"], second["posts"])
+        self.assertEqual(saved_state["lastSuccessfulScanAt"], "2026-11-18T06:00:00+08:00")
+
+    def test_edited_caption_changes_fingerprint_and_reprocesses_items(self):
+        profile = '<a href="/sushiro.hk/p/EDIT123/">one</a>'
+        current = {"caption": "舊菜式 HK$18"}
+
+        def fake_fetch(url):
+            return profile if url == detector.PROFILE_URL else f'<meta property="og:description" content="{current["caption"]}" />'
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "instagram_candidates.json"
+            state = root / "instagram_scan_state.json"
+            sources = root / "instagram_sources.json"
+            sources.write_text(json.dumps({"schemaVersion": 1, "account": "sushiro.hk", "posts": []}), encoding="utf-8")
+            detector.detect(output_path=output, state_path=state, sources_path=sources, fetcher=fake_fetch, today=date(2026, 11, 17), now=datetime(2026, 11, 17, 6, tzinfo=timezone(timedelta(hours=8))))
+            first = json.loads(output.read_text(encoding="utf-8"))
+            current["caption"] = "新菜式 HK$22"
+            second, changed = detector.detect(output_path=output, state_path=state, sources_path=sources, fetcher=fake_fetch, today=date(2026, 11, 18), now=datetime(2026, 11, 18, 6, tzinfo=timezone(timedelta(hours=8))))
+
+        self.assertTrue(changed)
+        self.assertNotEqual(first["posts"][0]["contentFingerprint"], second["posts"][0]["contentFingerprint"])
+        self.assertEqual(second["posts"][0]["items"][0]["price"], 22)
+
+    def test_seven_day_overlap_and_changed_fingerprint(self):
+        self.assertTrue(detector.should_process_post(date(2026, 11, 12), "2026-11-17T06:00:00+08:00", "same", "same", today=date(2026, 11, 18)))
+        self.assertFalse(detector.should_process_post(date(2026, 11, 1), "2026-11-17T06:00:00+08:00", "same", "same", today=date(2026, 11, 18)))
+        self.assertTrue(detector.should_process_post(date(2026, 11, 1), "2026-11-17T06:00:00+08:00", "old", "new", today=date(2026, 11, 18)))
+
+    def test_empty_or_failed_discovery_does_not_advance_success_checkpoint(self):
+        profile = '<a href="/sushiro.hk/p/KEEP123/">one</a>'
+        post = '<meta property="og:description" content="保留菜式 HK$18" />'
+
+        def good_fetch(url):
+            return profile if url == detector.PROFILE_URL else post
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "instagram_candidates.json"
+            state = root / "instagram_scan_state.json"
+            sources = root / "instagram_sources.json"
+            sources.write_text(json.dumps({"schemaVersion": 1, "account": "sushiro.hk", "posts": []}), encoding="utf-8")
+            detector.detect(output_path=output, state_path=state, sources_path=sources, fetcher=good_fetch, today=date(2026, 11, 17), now=datetime(2026, 11, 17, 6, tzinfo=timezone(timedelta(hours=8))))
+            successful = json.loads(state.read_text(encoding="utf-8"))["lastSuccessfulScanAt"]
+
+            def empty_fetch(url):
+                return "<html><body>profile loaded</body></html>"
+
+            empty, _ = detector.detect(output_path=output, state_path=state, sources_path=sources, fetcher=empty_fetch, today=date(2026, 11, 18), now=datetime(2026, 11, 18, 6, tzinfo=timezone(timedelta(hours=8))))
+            after_empty = json.loads(state.read_text(encoding="utf-8"))
+
+            def failed_post_fetch(url):
+                if url == detector.PROFILE_URL:
+                    return profile
+                raise RuntimeError("post blocked")
+
+            failed, _ = detector.detect(output_path=output, state_path=state, sources_path=sources, fetcher=failed_post_fetch, today=date(2026, 11, 19), now=datetime(2026, 11, 19, 6, tzinfo=timezone(timedelta(hours=8))))
+
+        self.assertEqual(empty["postDiscoveryStatus"], "none")
+        self.assertEqual(after_empty["lastSuccessfulScanAt"], successful)
+        self.assertEqual(failed["postDiscoveryStatus"], "partial")
+        self.assertEqual(failed["posts"][0]["items"][0]["price"], 18)
 
     def test_manual_post_url_is_fetched_when_no_transcription_is_supplied(self):
         post = '<meta property="og:description" content="手動指定貼文 HK$18" />'

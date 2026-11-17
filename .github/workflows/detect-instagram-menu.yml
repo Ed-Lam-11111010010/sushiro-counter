@@ -28,8 +28,23 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Restore incremental Instagram scan checkpoint
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/instagram_scan_state.json
+          key: instagram-scan-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: instagram-scan-state-
+
       - name: Detect public Instagram menu candidates
-        run: python scripts/detect_instagram_menu.py
+        run: >-
+          python scripts/detect_instagram_menu.py
+          --state .cache/instagram_scan_state.json
+          --report .cache/instagram_scan_report.json
+
+      - name: Validate incremental Instagram checkpoint
+        run: >-
+          python scripts/detect_instagram_menu.py
+          --check --state .cache/instagram_scan_state.json
 
       - name: Test Instagram candidate safety
         run: python -m unittest discover -s scripts -p 'test_instagram_menu.py'
@@ -57,6 +72,21 @@ jobs:
             fi
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Persist incremental Instagram scan checkpoint
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/instagram_scan_state.json
+          key: instagram-scan-state-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Upload machine-readable Instagram scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: instagram-scan-report-${{ github.run_id }}
+          path: .cache/instagram_scan_report.json
+          if-no-files-found: ignore
 
       - name: Open review-only candidate PR
         if: steps.candidate-changes.outputs.changed == 'true'

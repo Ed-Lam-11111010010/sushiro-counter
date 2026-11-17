@@ -94,6 +94,9 @@
 - `menu.json` 是餐單資料來源；頁面會優先讀取它，離線時使用瀏覽器快取及內置備份。
 - 官方餐單同步工作流每日香港時間 06:00 讀取香港壽司郎官方餐單頁面。只有資料通過基本驗證且有差異時，才會建立 `chore: update Sushiro HK menu` PR；官方餐單 PR 可按現有流程自動合併，再觸發 GitHub Pages 部署。每日執行亦確保已核實的 future promotion 在開始日期及時加入，而不是等待下一個星期一或四。
 - Instagram 候選偵測工作流每日香港時間 06:00 執行。它只使用公開頁面 HTML 及 `data/instagram_sources.json` 的人工補充資料，不使用登入、私有 API 或繞過限制的方法。
+- Instagram detector 會將 runner 的 `.cache/instagram_scan_state.json` 存入 GitHub Actions cache，記錄 `lastAttemptAt`、`lastSuccessfulScanAt`、已發現的 post ID、內容 fingerprint 及最近看到的時間。每次成功 profile/post discovery 會以最近一次成功掃描為基準，加上 7 日 overlap；caption 或可見 media metadata 改變時會重新處理。profile 沒有 post links、被封鎖或有任何 post fetch 失敗時，只記錄 attempt，不推進 successful checkpoint。
+- 每次 Instagram scan 亦會產生 compact `instagram_scan_report.json`，包括 post ID、publication date、item-level promotion dates、item type、price confidence 及 review status；GitHub Actions 會把它作為 artifact 保存。profile 暴露超過安全上限時，會按 canonical URL 穩定排序，只處理前 `MAX_DISCOVERED_POSTS` 篇並標記 `partial`，不會推進成功 checkpoint。
+- 貼文有多個商品時，只會把明確的 `販售期間` 區段日期配到附近商品；日期段落無法可靠歸屬時保留空值，並設 item-level 日期審核標記。`data/instagram_scan_report.json` 保留前一版 12-post scan；`data/instagram_scan_report_review2.json` 保存本輪結果，方便比較。
 - Instagram 候選只會寫入 `data/instagram_candidates.json` 並開 review-only PR，**不會自動合併、不會直接修改 `menu.json`，亦不會觸發部署**。人工核對貼文、價格、日期及分店供應後，先將確認項目加入 `data/promotions.json`，並為 promotion 及每個 item 都設為 `verified`，再由官方同步工作流更新頁面。
 - 如果 Instagram 暫時無法存取，偵測器會記錄限制並保留既有候選；官方餐單同步及現有有效資料不受影響。
 - 官方餐單可能因分店、供應及活動變更而不同，App 顯示的價格只供結帳前參考。
@@ -128,7 +131,7 @@
 }
 ```
 
-目前公開 profile HTML 在執行環境只回傳帳戶頁資料，未暴露可用的貼文連結；因此現有已核實 promotion 的來源仍保留官方帳戶／網站 URL，並沒有假裝已成功自動讀取某一篇 Instagram 貼文。若要把新貼文納入審核，請先把該篇公開 URL 放入上述 source file。
+公開 profile HTML 有時會暴露 owner-prefixed 的公開 post anchors（例如 `/sushiro.hk/p/.../`）；detector 會在不使用 API、登入或私有 endpoint 的前提下將它們 canonicalize，再直接讀取公開 post HTML。本次 live feasibility test 成功由 `https://www.instagram.com/sushiro.hk/` 自動發現及讀取 `https://www.instagram.com/p/Dfn7uyiCgAt/`；這與把 URL 放入 `data/instagram_sources.json` 後才讀取是兩條不同路徑。多個項目有不同活動日期時，日期會保留在各 item，candidate 的 global `startDate/endDate` 會留空。HTTP 200 但沒有 usable public metadata 的貼文也會被視為 incomplete。因為 Instagram 可能只回傳部分 client-rendered content，空 profile result 不會被當成成功掃描；若 profile 受限或改變格式，仍可用 source file 作 review-only 手動補充。
 
 ## 自我測試
 
@@ -142,7 +145,7 @@ python scripts/update_menu.py --check
 python scripts/detect_instagram_menu.py --check
 ```
 
-測試會確認同步存檔、刷新後的新菜色及跨分類計算、離線／下架價格保留、未知價格提示、重設、多項加成折扣，以及 service worker 不會以無效回應覆蓋有效餐單快取；更新器測試會確認自動 ID 穩定、雙重審核、跨月份設定檔失效保留及 future promotion 日期；Instagram 測試會確認公開 HTML caption、可見圖片 URL、carousel 多項價格、跨年活動日期、模糊價格、去重及來源失效時保留資料。carousel 圖片內文字不會 OCR，未支援內容要人工補充。一般驗證及自動餐單更新工作流亦會執行。
+測試會確認同步存檔、刷新後的新菜色及跨分類計算、離線／下架價格保留、未知價格提示、重設、多項加成折扣，以及 service worker 不會以無效回應覆蓋有效餐單快取；更新器測試會確認自動 ID 穩定、雙重審核、跨月份設定檔失效保留及 future promotion 日期；Instagram 測試會確認 owner-prefixed public anchors、profile 自動發現與手動 URL 讀取的區別、post ID/fingerprint、無新貼文、去重、caption 編輯、7 日 overlap、Jujutsu Kaisen 及 DfPQcXcCZCx 分段日期、飲品無日期、標點/宣傳段落名稱拒絕、HTTP 200 登入描述、超上限穩定排序、machine report、明確／模糊價格、商品分類及來源失效時保留資料。carousel 圖片內文字不會 OCR，未支援內容要人工補充。一般驗證及自動餐單更新工作流亦會執行。
 
 喺瀏覽器 console 跑：
 
@@ -160,7 +163,7 @@ window.__selftest()
 - Vanilla JavaScript，無框架、無 build step、無前端依賴
 - `menu.json`：可快取、可版本化的餐單資料
 - 無 backend、無 runtime analytics；官方餐單同步及 Instagram 候選偵測只在 GitHub Actions 排程中執行
-- Instagram 偵測係 best-effort public HTML reader；report 會分開記錄 profile HTTP 狀態及 post discovery 狀態。Instagram 可能提供登入頁、限制存取或改變頁面格式，因此不能保證每次發文都會被自動發現；carousel 圖片內容亦不會自動 OCR。
+- Instagram 偵測係 best-effort public HTML reader；report 會分開記錄 profile HTTP 狀態及 post discovery 狀態，checkpoint 則只在非空且完整、每篇 post 都有 usable metadata 的 public discovery 成功時前進。Instagram 可能提供登入頁、限制存取或改變頁面格式，因此不能保證每次發文都會被自動發現；carousel 圖片內容亦不會自動 OCR。Meta Business Discovery 等正式 API 需要授權 access token，本專案沒有把無 credentials 的 API 整合假裝成已啟用。
 - 手機優先 CSS，無 CSS framework
 - localStorage 持久化
 

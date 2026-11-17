@@ -1,0 +1,668 @@
+{
+  "account": "sushiro.hk",
+  "generatedAt": "2026-11-17T17:30:33+08:00",
+  "limitations": [],
+  "postCount": 12,
+  "postDiscoveryStatus": "found",
+  "posts": [
+    {
+      "contentFingerprint": "d4554a572a67ad214cb146601aaef7a011bbe9d2e59278eda87f0ea702ed101a",
+      "dateScope": "none",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [],
+      "postId": "Df0zxkdyvbw",
+      "publishedAt": "2026-11-16",
+      "reviewReasons": [
+        "Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item with an explicit HK$ or HKD price was found in the public caption.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/reel/Df0zxkdyvbw/"
+    },
+    {
+      "contentFingerprint": "81a3eb42481234b8eddbcbf539aecf41c72b2a23c26238ba3f3443e5d1a8bda3",
+      "dateScope": "none",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [],
+      "postId": "Df1BatZnQ9k",
+      "publishedAt": "2026-11-16",
+      "reviewReasons": [
+        "Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item with an explicit HK$ or HKD price was found in the public caption.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/p/Df1BatZnQ9k/"
+    },
+    {
+      "contentFingerprint": "7344aa8743f30ea44fe0f4aff0a64946df60335deb3af05d84d380c1a524b93a",
+      "dateScope": "none",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [
+        {
+          "dateConfidence": "ambiguous",
+          "dateReviewReason": "A nearby sale period could not be confidently associated with this item.",
+          "dateReviewRequired": true,
+          "id": "instagram_8ae35b005d9c",
+          "itemType": "merchandise",
+          "name": "亞加力場景立牌",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$129",
+          "purchaseCondition": "conditional-add-on"
+        }
+      ],
+      "postId": "Df1WGjohB-3",
+      "publishedAt": "2026-11-16",
+      "reviewReasons": [
+        "A caption price was associated with a spend threshold or add-on quantity; it was not treated as a menu item.",
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item-specific sale dates were confidently available; verify dates manually.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/reel/Df1WGjohB-3/"
+    },
+    {
+      "contentFingerprint": "e9dba3122664e78a8d9fc2d8dd4368fc2af48cd625d83db2f8f37716b509f242",
+      "dateScope": "item-specific",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "kyoto_ine_bluefin_two",
+          "id": "instagram_dd67d4a46f00",
+          "itemType": "dish",
+          "name": "京都伊根生黑鮪吞拿魚二貫盛",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$32",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "kyoto_ine_bluefin_otoro",
+          "id": "instagram_a9eaa6ab2cf0",
+          "itemType": "dish",
+          "name": "京都伊根生黑鮪大吞拿魚腩",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$25",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "id": "instagram_41f58c07b1d9",
+          "itemType": "dish",
+          "name": "加上山葵莖Wasabi",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$6",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "crab_duo_mountain",
+          "id": "instagram_1aa9b7e24002",
+          "itemType": "dish",
+          "name": "蟹肉雙味山",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$27",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "tottori_kohada",
+          "id": "instagram_e488a4ef99a5",
+          "itemType": "dish",
+          "name": "鳥取產醋漬小肌",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$12",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "passionfruit_mousse_cake",
+          "id": "instagram_d15c56d7057d",
+          "itemType": "dish",
+          "name": "百香果慕絲蛋糕",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$22",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "mushroom_chawanmushi",
+          "id": "instagram_e8fa23c9a1b0",
+          "itemType": "dish",
+          "name": "菇菇羹茶碗蒸",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$22",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "sweet_potato_honey_butter",
+          "id": "instagram_c3caa9ed1e28",
+          "itemType": "dish",
+          "name": "炸蕃薯條配蜂蜜&牛油",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$22",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "abalone_liver_tempura_platter",
+          "id": "instagram_1314af501bf3",
+          "itemType": "dish",
+          "name": "汁煮鮑魚與鮑魚肝天婦羅盛(大)",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$88",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "id": "instagram_e8babd6bec8c",
+          "itemType": "dish",
+          "name": "鹽燒黑毛和牛肩胛小排",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$27",
+          "purchaseCondition": "standard",
+          "startDate": "2026-11-24",
+          "supplyCondition": "until-sold-out"
+        },
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "id": "instagram_864b24dd5eae",
+          "itemType": "dish",
+          "name": "喜之次雙味（炙燒・醬烤）",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$27",
+          "purchaseCondition": "standard",
+          "startDate": "2026-11-24",
+          "supplyCondition": "until-sold-out"
+        },
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "endDate": "2026-12-01",
+          "id": "instagram_d7c7db8c8241",
+          "itemType": "dish",
+          "name": "生三文魚配蟹柳沙律",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$22",
+          "purchaseCondition": "standard",
+          "startDate": "2026-11-24"
+        }
+      ],
+      "postId": "DfPQcXcCZCx",
+      "publishedAt": "2026-11-02",
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "Multiple or partial item-specific promotion windows were kept on items; no global date window was inferred.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/p/DfPQcXcCZCx/"
+    },
+    {
+      "contentFingerprint": "060504fedcd1f3c32da5edec2c174bbf4800185e3b1738a8f08c87bff7f949b6",
+      "dateScope": "none",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [
+        {
+          "dateConfidence": "ambiguous",
+          "dateReviewReason": "A nearby sale period could not be confidently associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "kyoto_ine_bluefin_two",
+          "id": "instagram_7fc92a3ab8bf",
+          "itemType": "dish",
+          "name": "京都伊根生黑鮪吞拿魚二貫盛",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$32",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "ambiguous",
+          "dateReviewReason": "A nearby sale period could not be confidently associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "kyoto_ine_bluefin_otoro",
+          "id": "instagram_75e600f97533",
+          "itemType": "dish",
+          "name": "京都伊根生黑鮪大吞拿魚腩",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$25",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "ambiguous",
+          "dateReviewReason": "A nearby sale period could not be confidently associated with this item.",
+          "dateReviewRequired": true,
+          "id": "instagram_99e9d16a5f30",
+          "itemType": "dish",
+          "name": "加上山葵莖Wasabi",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$6",
+          "purchaseCondition": "standard"
+        }
+      ],
+      "postId": "DfWXZ4ekgP1",
+      "publishedAt": "2026-11-04",
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item-specific sale dates were confidently available; verify dates manually.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/p/DfWXZ4ekgP1/"
+    },
+    {
+      "contentFingerprint": "4d6d4463370a4a721685dacc99acd94b2f42b1de75a0ec4f0e9c4d088a8889ba",
+      "dateScope": "item-specific",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "id": "instagram_8b4f11cd38f2",
+          "itemType": "dish",
+          "name": "大切鹽味醬漬長鰭吞拿魚",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$17",
+          "purchaseCondition": "standard",
+          "startDate": "2026-11-17",
+          "supplyCondition": "until-sold-out"
+        },
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "id": "instagram_af60b7067bcf",
+          "itemType": "dish",
+          "name": "特盛海灣貝海苔包配飛魚子",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$17",
+          "purchaseCondition": "standard",
+          "startDate": "2026-12-01",
+          "supplyCondition": "until-sold-out"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "id": "instagram_3a4e67c6f8c4",
+          "itemType": "dish",
+          "name": "黑芝麻千層蛋糕",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$38",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "id": "instagram_060806caae7f",
+          "itemType": "drink",
+          "name": "聯乘飲品套裝",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$59",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "id": "instagram_e003ac4f6179",
+          "itemType": "merchandise",
+          "name": "亞加力場景立牌",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$129",
+          "purchaseCondition": "conditional-add-on"
+        },
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "id": "instagram_ccffb584c0c5",
+          "itemType": "merchandise",
+          "name": "襟章・第一彈",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$39",
+          "purchaseCondition": "conditional-add-on",
+          "startDate": "2026-11-17",
+          "supplyCondition": "until-sold-out"
+        },
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "id": "instagram_96a0359b5cea",
+          "itemType": "merchandise",
+          "name": "襟章・第二彈",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$39",
+          "purchaseCondition": "conditional-add-on",
+          "startDate": "2026-12-01",
+          "supplyCondition": "until-sold-out"
+        },
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "id": "instagram_ef58f53e5f37",
+          "itemType": "merchandise",
+          "name": "襟章・第三彈",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$39",
+          "purchaseCondition": "conditional-add-on",
+          "startDate": "2026-12-07",
+          "supplyCondition": "until-sold-out"
+        }
+      ],
+      "postId": "Dfn7uyiCgAt",
+      "publishedAt": "2026-11-11",
+      "reviewReasons": [
+        "A caption price was associated with a spend threshold or add-on quantity; it was not treated as a menu item.",
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "Multiple or partial item-specific promotion windows were kept on items; no global date window was inferred.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/p/Dfn7uyiCgAt/"
+    },
+    {
+      "contentFingerprint": "27e154cec7c7a6d8c66c3733b89444e76ea408285fcd816e23340523671fb0a8",
+      "dateScope": "none",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "passionfruit_mousse_cake",
+          "id": "instagram_af6156b873b8",
+          "itemType": "dish",
+          "name": "百香果慕絲蛋糕",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$22",
+          "purchaseCondition": "standard"
+        }
+      ],
+      "postId": "DfrC3UvIeJm",
+      "publishedAt": "2026-11-12",
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item-specific sale dates were confidently available; verify dates manually.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/p/DfrC3UvIeJm/"
+    },
+    {
+      "contentFingerprint": "9891db7500f46f1f30f5fe0fc995f81741519390586d0f6b9d351addcbd72257",
+      "dateScope": "none",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [
+        {
+          "dateConfidence": "ambiguous",
+          "dateReviewReason": "A nearby sale period could not be confidently associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "kyoto_ine_bluefin_two",
+          "id": "instagram_bb6e6ba07401",
+          "itemType": "dish",
+          "name": "京都伊根生黑鮪吞拿魚二貫盛",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$32",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "ambiguous",
+          "dateReviewReason": "A nearby sale period could not be confidently associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "kyoto_ine_bluefin_otoro",
+          "id": "instagram_1c4001e45245",
+          "itemType": "dish",
+          "name": "京都伊根生黑鮪大吞拿魚腩",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$25",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "ambiguous",
+          "dateReviewReason": "A nearby sale period could not be confidently associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "bluefin_toro_nori_wrap",
+          "id": "instagram_507a54f97bac",
+          "itemType": "dish",
+          "name": "京都伊根生黑鮪吞拿魚蓉海苔包",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$17",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "ambiguous",
+          "dateReviewReason": "A nearby sale period could not be confidently associated with this item.",
+          "dateReviewRequired": true,
+          "id": "instagram_bdd586282a04",
+          "itemType": "dish",
+          "name": "加上山葵莖Wasabi",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$6",
+          "purchaseCondition": "standard"
+        }
+      ],
+      "postId": "Dfry63DFEQN",
+      "publishedAt": "2026-11-13",
+      "reviewReasons": [
+        "A caption price was found without a reliable item name.",
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item-specific sale dates were confidently available; verify dates manually.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/p/Dfry63DFEQN/"
+    },
+    {
+      "contentFingerprint": "8f517aac4cf1522ce6d1a746d6587d73e8beffdf99d5a64ad580bec80c92c077",
+      "dateScope": "none",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "existingMenuId": "tottori_kohada",
+          "id": "instagram_bf4bdb162504",
+          "itemType": "dish",
+          "name": "鳥取產醋漬小肌",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$12",
+          "purchaseCondition": "standard"
+        }
+      ],
+      "postId": "DftFTbtFKMs",
+      "publishedAt": "2026-11-13",
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item-specific sale dates were confidently available; verify dates manually.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/p/DftFTbtFKMs/"
+    },
+    {
+      "contentFingerprint": "4063887528ec97e848850de5aeda75222450a432a7ab6ac1109898eb547b97ab",
+      "dateScope": "none",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [],
+      "postId": "DfvqGYxEyKz",
+      "publishedAt": "2026-11-14",
+      "reviewReasons": [
+        "Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item with an explicit HK$ or HKD price was found in the public caption.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/p/DfvqGYxEyKz/"
+    },
+    {
+      "contentFingerprint": "22079e74b2ade9180ce977fae55ca14def0231b5062a868a01503ec301ed221d",
+      "dateScope": "none",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [],
+      "postId": "DfwhCeOjT8V",
+      "publishedAt": "2026-11-15",
+      "reviewReasons": [
+        "A caption price was found without a reliable item name.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item with an explicit HK$ or HKD price was found in the public caption.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/p/DfwhCeOjT8V/"
+    },
+    {
+      "contentFingerprint": "6a0cd630b058cb6df4f91ad4ff80520bf27706710ca7264e449f534626cb2708",
+      "dateScope": "item-specific",
+      "endDate": null,
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "items": [
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "id": "instagram_33e8194cdaee",
+          "itemType": "dish",
+          "name": "大切鹽味醬漬長鰭吞拿魚",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$17",
+          "purchaseCondition": "standard",
+          "startDate": "2026-11-17",
+          "supplyCondition": "until-sold-out"
+        },
+        {
+          "dateConfidence": "explicit-section",
+          "dateReviewRequired": true,
+          "id": "instagram_b1903e40e4f4",
+          "itemType": "dish",
+          "name": "特盛海灣貝海苔包配飛魚子",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$17",
+          "purchaseCondition": "standard",
+          "startDate": "2026-12-01",
+          "supplyCondition": "until-sold-out"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "id": "instagram_3d47d58f422f",
+          "itemType": "dish",
+          "name": "黑芝麻千層蛋糕",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$38",
+          "purchaseCondition": "standard"
+        },
+        {
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "dateReviewRequired": true,
+          "id": "instagram_d2c3cf85d7d0",
+          "itemType": "drink",
+          "name": "聯乘飲品套裝",
+          "priceConfidence": "ambiguous-currency",
+          "priceText": "$59",
+          "purchaseCondition": "standard"
+        }
+      ],
+      "postId": "DfyO-r3M1kR",
+      "publishedAt": "2026-11-15",
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "Multiple or partial item-specific promotion windows were kept on items; no global date window was inferred.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "reviewStatus": "review-only",
+      "startDate": null,
+      "status": "needs_review",
+      "supplyCondition": "until-sold-out",
+      "url": "https://www.instagram.com/reel/DfyO-r3M1kR/"
+    }
+  ],
+  "profileFetchStatus": "success",
+  "profileUrl": "https://www.instagram.com/sushiro.hk/",
+  "reviewOnly": true,
+  "schemaVersion": 1,
+  "sourceMethod": "public-html-best-effort",
+  "sourceStatus": "posts_found"
+}
