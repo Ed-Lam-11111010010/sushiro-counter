@@ -9,7 +9,8 @@
   "requiresReview": true,
   "limitations": [
     "No public post candidate was available in this run.",
-    "Profile HTTP access succeeded, but the returned HTML exposed no public post links; client-rendered Instagram content may require a supported API or manual source entry."
+    "Profile HTTP access succeeded, but the returned HTML exposed no public post anchors; an empty result is not treated as a successful scan.",
+    "The automatic Instagram scan checkpoint was not advanced because discovery was empty or incomplete."
   ],
   "posts": []
 }
