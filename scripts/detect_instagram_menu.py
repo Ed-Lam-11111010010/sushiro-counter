@@ -1151,7 +1151,6 @@ def detect(
     profile_fetch_status = "success"
     automatic_post_urls: list[str] = []
     fallback_post_sources: dict[str, set[str]] = {}
-    fallback_errors = False
     post_fetch_failed = False
     manual_fetch_failed = False
     discovery_incomplete = False
@@ -1192,7 +1191,6 @@ def detect(
             for discovered_url in source_posts:
                 fallback_post_sources.setdefault(discovered_url, set()).add(source_name)
         except Exception as exc:
-            fallback_errors = True
             limitations.append(f"{source_name} was unavailable; fallback coverage is incomplete.")
             print(f"Instagram fallback unavailable ({source_name}): {exc}", file=sys.stderr)
 
@@ -1204,62 +1202,62 @@ def detect(
             f"only the first {MAX_DISCOVERED_POSTS} canonical URLs were processed."
         )
     for post_url in all_discovered_post_urls[:MAX_DISCOVERED_POSTS]:
-            try:
-                post_page = fetcher(post_url)
-            except Exception as exc:
-                post_fetch_failed = True
-                print(f"Instagram post unavailable ({post_url}): {exc}", file=sys.stderr)
-                current_posts[post_url] = unavailable_candidate(post_url)
-                continue
-            post_data = parse_public_page(post_page, post_url)
-            if not has_usable_post_metadata(post_url, post_data):
-                post_fetch_failed = True
-                limitations.append(
-                    f"Public post {canonical_post_id(post_url)} returned HTTP content without usable public metadata; the checkpoint was not advanced."
-                )
-                current_posts[post_url] = unavailable_candidate(
-                    post_url,
-                    "The public post returned HTTP content but no usable public caption metadata; no menu data was inferred.",
-                )
-                continue
-            metadata = post_data["metadata"]
-            sources = fallback_post_sources.get(post_url, set())
-            # Official website links come from a first-party page. Search-index
-            # URLs must independently prove account ownership on the post page.
-            if (
-                post_url not in automatic_post_urls
-                and "official-website-link" not in sources
-                and not indexed_post_owner_confirmed(metadata)
-            ):
-                limitations.append(
-                    f"Search-index post {canonical_post_id(post_url)} had no verified @sushiro.hk "
-                    "owner evidence; ignored."
-                )
-                continue
-            candidate = make_candidate(
+        try:
+            post_page = fetcher(post_url)
+        except Exception as exc:
+            post_fetch_failed = True
+            print(f"Instagram post unavailable ({post_url}): {exc}", file=sys.stderr)
+            current_posts[post_url] = unavailable_candidate(post_url)
+            continue
+        post_data = parse_public_page(post_page, post_url)
+        if not has_usable_post_metadata(post_url, post_data):
+            post_fetch_failed = True
+            limitations.append(
+                f"Public post {canonical_post_id(post_url)} returned HTTP content without usable public metadata; the checkpoint was not advanced."
+            )
+            current_posts[post_url] = unavailable_candidate(
                 post_url,
-                metadata if isinstance(metadata, dict) else {},
-                post_data["imageUrls"] if isinstance(post_data["imageUrls"], list) else [],
-                today=today,
+                "The public post returned HTTP content but no usable public caption metadata; no menu data was inferred.",
             )
-            post_id = canonical_post_id(post_url)
-            fingerprint = candidate.get("contentFingerprint")
-            previous_entry = discovered_posts.get(post_id) if isinstance(discovered_posts.get(post_id), dict) else None
-            should_process = should_process_post(
-                parse_published_date(candidate.get("publishedAt")),
-                previous_successful_scan if isinstance(previous_successful_scan, str) else None,
-                previous_entry.get("contentFingerprint") if previous_entry else None,
-                str(fingerprint),
-                today=today,
+            continue
+        metadata = post_data["metadata"]
+        sources = fallback_post_sources.get(post_url, set())
+        # Official website links come from a first-party page. Search-index
+        # URLs must independently prove account ownership on the post page.
+        if (
+            post_url not in automatic_post_urls
+            and "official-website-link" not in sources
+            and not indexed_post_owner_confirmed(metadata)
+        ):
+            limitations.append(
+                f"Search-index post {canonical_post_id(post_url)} had no verified @sushiro.hk "
+                "owner evidence; ignored."
             )
-            discovered_posts[post_id] = {
-                "url": post_url,
-                "publishedAt": candidate.get("publishedAt"),
-                "contentFingerprint": fingerprint,
-                "lastSeenAt": attempt_at,
-            }
-            if should_process or post_url not in existing_urls:
-                current_posts[post_url] = candidate
+            continue
+        candidate = make_candidate(
+            post_url,
+            metadata if isinstance(metadata, dict) else {},
+            post_data["imageUrls"] if isinstance(post_data["imageUrls"], list) else [],
+            today=today,
+        )
+        post_id = canonical_post_id(post_url)
+        fingerprint = candidate.get("contentFingerprint")
+        previous_entry = discovered_posts.get(post_id) if isinstance(discovered_posts.get(post_id), dict) else None
+        should_process = should_process_post(
+            parse_published_date(candidate.get("publishedAt")),
+            previous_successful_scan if isinstance(previous_successful_scan, str) else None,
+            previous_entry.get("contentFingerprint") if previous_entry else None,
+            str(fingerprint),
+            today=today,
+        )
+        discovered_posts[post_id] = {
+            "url": post_url,
+            "publishedAt": candidate.get("publishedAt"),
+            "contentFingerprint": fingerprint,
+            "lastSeenAt": attempt_at,
+        }
+        if should_process or post_url not in existing_urls:
+            current_posts[post_url] = candidate
 
     for raw_manual_post in source_data.get("posts", []):
         if not isinstance(raw_manual_post, dict):
@@ -1302,7 +1300,10 @@ def detect(
     for candidate in current_posts.values():
         annotate_existing_menu_matches(candidate, existing_menu_ids)
     posts = merge_posts(existing.get("posts"), list(current_posts.values()))
-    if profile_fetch_status == "unavailable":
+    if profile_fetch_status == "unavailable" and all_discovered_post_urls:
+        source_status = "partial"
+        post_discovery_status = "partial"
+    elif profile_fetch_status == "unavailable":
         source_status = "unavailable"
         post_discovery_status = "unavailable"
     elif post_fetch_failed or manual_fetch_failed:
@@ -1332,7 +1333,6 @@ def detect(
         and bool(automatic_post_urls)
         and not discovery_incomplete
         and not post_fetch_failed
-        and not fallback_errors
     )
     if automatic_scan_successful:
         scan_state["lastSuccessfulScanAt"] = attempt_at
