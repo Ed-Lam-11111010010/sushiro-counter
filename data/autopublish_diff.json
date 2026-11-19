@@ -1,0 +1,14 @@
+{
+  "addedPromotionIds": [],
+  "beforeSha256": "4ab9493967aadf455afdb38675e360720a85ca109bf6951d0c8d4291e8ae005a",
+  "existingPromotionCount": 2,
+  "mode": "dry-run",
+  "policyVersion": "sushiro-instagram-autopublish-v1",
+  "promotionsPath": "data/promotions.json",
+  "proposedPromotionCount": 2,
+  "proposedSha256": "4ab9493967aadf455afdb38675e360720a85ca109bf6951d0c8d4291e8ae005a",
+  "removedPromotionIds": [],
+  "schemaVersion": 1,
+  "updatedVerifiedPromotionIds": [],
+  "wouldChangePromotions": false
+}
