@@ -88,6 +88,14 @@ jobs:
           path: .cache/instagram_scan_report.json
           if-no-files-found: ignore
 
+      - name: Upload candidate input for evidence-gated promotion review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: instagram-candidates-${{ github.run_id }}
+          path: data/instagram_candidates.json
+          if-no-files-found: error
+
       - name: Summarize Instagram discovery health
         if: always()
         run: |
@@ -108,6 +116,7 @@ jobs:
               lines.extend([
                   f"- Profile HTTP: **{report.get('profileFetchStatus', 'unknown')}**",
                   f"- Discovery: **{report.get('postDiscoveryStatus', 'unknown')}**",
+                  f"- Coverage scope: **{report.get('discoveryCoverage', 'unknown')}** (not an account-wide completeness guarantee)",
                   f"- Posts found: **{len(posts)}**; candidates: **{items}**",
                   f"- Source links (profile / official site / public search index): **{report.get('discoverySourceCounts', {}).get('instagramProfileAnchors', 0)} / {report.get('discoverySourceCounts', {}).get('officialWebsiteLinks', 0)} / {report.get('discoverySourceCounts', {}).get('publicSearchRssLinks', 0)}**",
                   "- Successful workflow execution does not guarantee complete Instagram discovery.",

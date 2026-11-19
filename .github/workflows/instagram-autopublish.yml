@@ -1,0 +1,231 @@
+name: Review Instagram promotion candidates
+
+on:
+  workflow_run:
+    workflows: ["Detect Sushiro Instagram menu candidates"]
+    types: [completed]
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      scan_run_id:
+        description: Optional successful detector run ID to read its candidate artifact
+        required: false
+        type: string
+        default: ""
+      allow_auto_publish:
+        description: Request the separately gated production job
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: instagram-autopublish
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      source_run_id: ${{ steps.source.outputs.run_id }}
+    steps:
+      - name: Check out the reviewed default branch
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Select scan artifact
+        id: source
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          WORKFLOW_RUN_ID: ${{ github.event.workflow_run.id }}
+          INPUT_RUN_ID: ${{ inputs.scan_run_id }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_run" ]; then
+            echo "run_id=$WORKFLOW_RUN_ID" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_id=$INPUT_RUN_ID" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download candidate input from detector run
+        if: steps.source.outputs.run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: instagram-candidates-${{ steps.source.outputs.run_id }}
+          path: .cache/candidate-input
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.source.outputs.run_id }}
+
+      - name: Select candidate document
+        id: candidate
+        shell: bash
+        run: |
+          if [ -f .cache/candidate-input/instagram_candidates.json ]; then
+            path=.cache/candidate-input/instagram_candidates.json
+          else
+            path=data/instagram_candidates.json
+          fi
+          echo "path=$path" >> "$GITHUB_OUTPUT"
+          echo "Using candidate input: $path"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate review-only preview
+        run: >-
+          python scripts/instagram_autopublish.py
+          --candidates "${{ steps.candidate.outputs.path }}"
+          --preview .cache/autopublish_preview.json
+          --diff .cache/autopublish_diff.json
+          --dry-run
+
+      - name: Validate app and evidence outputs
+        run: |
+          python -m py_compile scripts/update_menu.py scripts/detect_instagram_menu.py scripts/instagram_autopublish.py
+          python -m unittest discover -s scripts -p 'test_update_menu.py'
+          python -m unittest discover -s scripts -p 'test_instagram_menu.py'
+          python -m unittest discover -s scripts -p 'test_instagram_autopublish.py'
+          python scripts/update_menu.py --check
+          python scripts/detect_instagram_menu.py --check
+          python scripts/instagram_autopublish.py --check --candidates "${{ steps.candidate.outputs.path }}" --preview .cache/autopublish_preview.json
+          node --test scripts/test-menu-load.cjs
+          node --check service-worker.js
+          node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const start=html.indexOf('<script>')+8; const end=html.lastIndexOf('</script>'); new Function(html.slice(start,end)); console.log('index JavaScript OK')"
+          git diff --check
+
+      - name: Upload dry-run preview and diff
+        uses: actions/upload-artifact@v4
+        with:
+          name: instagram-autopublish-preview-${{ github.run_id }}
+          path: |
+            .cache/autopublish_preview.json
+            .cache/autopublish_diff.json
+          if-no-files-found: error
+
+      - name: Summarize review-only result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          preview = json.loads(Path('.cache/autopublish_preview.json').read_text(encoding='utf-8'))
+          summary = preview['summary']
+          print(
+              f"Dry-run only: {summary['candidateItems']} candidates, "
+              f"{summary['eligibleItems']} eligible, {summary['quarantinedItems']} quarantined."
+          )
+          print('Production auto-publishing remains disabled by the checked-in policy.')
+          PY
+
+  publish-qualified:
+    needs: preview
+    if: >-
+      vars.SUSHIRO_INSTAGRAM_AUTOPUBLISH_ENABLED == 'true' &&
+      vars.SUSHIRO_INSTAGRAM_AUTOPUBLISH_KILL_SWITCH == 'false' &&
+      vars.SUSHIRO_INSTAGRAM_AUTOPUBLISH_APPROVED_POLICY_VERSION != '' &&
+      (github.event_name == 'workflow_run' || inputs.allow_auto_publish == true)
+    runs-on: ubuntu-latest
+    environment:
+      name: instagram-autopublish
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check out the reviewed default branch
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Download candidate input from detector run
+        if: needs.preview.outputs.source_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: instagram-candidates-${{ needs.preview.outputs.source_run_id }}
+          path: .cache/candidate-input
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ needs.preview.outputs.source_run_id }}
+
+      - name: Select candidate document
+        id: candidate
+        shell: bash
+        run: |
+          if [ -f .cache/candidate-input/instagram_candidates.json ]; then
+            path=.cache/candidate-input/instagram_candidates.json
+          else
+            path=data/instagram_candidates.json
+          fi
+          echo "path=$path" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate gated promotion changes
+        env:
+          SUSHIRO_INSTAGRAM_AUTOPUBLISH_ENABLED: ${{ vars.SUSHIRO_INSTAGRAM_AUTOPUBLISH_ENABLED }}
+          SUSHIRO_INSTAGRAM_AUTOPUBLISH_KILL_SWITCH: ${{ vars.SUSHIRO_INSTAGRAM_AUTOPUBLISH_KILL_SWITCH }}
+          SUSHIRO_INSTAGRAM_AUTOPUBLISH_APPROVED_POLICY_VERSION: ${{ vars.SUSHIRO_INSTAGRAM_AUTOPUBLISH_APPROVED_POLICY_VERSION }}
+        run: >-
+          python scripts/instagram_autopublish.py
+          --candidates "${{ steps.candidate.outputs.path }}"
+          --preview .cache/autopublish_preview.json
+          --diff .cache/autopublish_diff.json
+          --auto-publish
+
+      - name: Validate generated promotion changes
+        id: validate
+        run: |
+          python -m py_compile scripts/update_menu.py scripts/detect_instagram_menu.py scripts/instagram_autopublish.py
+          python scripts/update_menu.py --check
+          python scripts/detect_instagram_menu.py --check
+          python -m unittest discover -s scripts -p 'test_update_menu.py'
+          python -m unittest discover -s scripts -p 'test_instagram_menu.py'
+          python -m unittest discover -s scripts -p 'test_instagram_autopublish.py'
+          node --test scripts/test-menu-load.cjs
+          node --check service-worker.js
+          node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const start=html.indexOf('<script>')+8; const end=html.lastIndexOf('</script>'); new Function(html.slice(start,end)); console.log('index JavaScript OK')"
+          python -c "import json; from pathlib import Path; import sys; sys.path.insert(0, 'scripts'); import update_menu; update_menu.validate_promotion_data(json.loads(Path('data/promotions.json').read_text(encoding='utf-8'))); print('Promotions JSON OK')"
+          git diff --check
+          python -c "import json; from pathlib import Path; d=json.loads(Path('.cache/autopublish_diff.json').read_text(encoding='utf-8')); print('promotions_written=' + str(d.get('promotionsWritten', False)).lower())"
+          if ! git diff --quiet -- data/promotions.json; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open a promotion-only pull request
+        if: steps.validate.outputs.changed == 'true'
+        id: create-pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: add verified Instagram menu promotions"
+          branch: automation/instagram-menu-promotions
+          delete-branch: true
+          add-paths: data/promotions.json
+          title: "chore: add verified Instagram menu promotions"
+          body: |
+            Generated by the evidence-gated Instagram policy engine after protected-environment approval.
+
+            Only verified, dated food or drink promotions are included. This PR does not change `menu.json` or calculator code. Repository branch protection and required reviews/checks remain responsible for merge authorization.
+          base: master
+
+      - name: Request protected auto-merge
+        if: steps.create-pr.outputs.pull-request-number != '' && vars.SUSHIRO_INSTAGRAM_AUTOPUBLISH_AUTO_MERGE == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.create-pr.outputs.pull-request-number }}
+        run: gh pr merge --auto --squash "$PR_NUMBER"

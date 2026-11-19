@@ -287,7 +287,13 @@ class InstagramSafetyTests(unittest.TestCase):
         post = '<meta property="og:description" content="新菜式 HK$22" />'
 
         def fake_fetch(url):
-            return profile if url == detector.PROFILE_URL else post
+            if url == detector.PROFILE_URL:
+                return profile
+            if url == detector.OFFICIAL_DISCOVERY_URL:
+                return "<html><body>No links</body></html>"
+            if url == detector.PUBLIC_INDEX_FEED_URL:
+                return "<rss><channel /></rss>"
+            return post
 
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "instagram_candidates.json"
@@ -311,7 +317,13 @@ class InstagramSafetyTests(unittest.TestCase):
         post = '<meta property="og:description" content="自動發現 HK$22" />'
 
         def fake_fetch(url):
-            return profile if url == detector.PROFILE_URL else post
+            if url == detector.PROFILE_URL:
+                return profile
+            if url == detector.OFFICIAL_DISCOVERY_URL:
+                return "<html><body>No links</body></html>"
+            if url == detector.PUBLIC_INDEX_FEED_URL:
+                return "<rss><channel /></rss>"
+            return post
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -374,7 +386,13 @@ class InstagramSafetyTests(unittest.TestCase):
         links = ''.join(f'<a href="/sushiro.hk/p/POST{index:02d}/">post</a>' for index in (3, 1, 2))
 
         def fake_fetch(url):
-            return links if url == detector.PROFILE_URL else '<meta property="og:description" content="菜式 HK$22" />'
+            if url == detector.PROFILE_URL:
+                return links
+            if url == detector.OFFICIAL_DISCOVERY_URL:
+                return "<html><body>No links</body></html>"
+            if url == detector.PUBLIC_INDEX_FEED_URL:
+                return "<rss><channel /></rss>"
+            return '<meta property="og:description" content="菜式 HK$22" />'
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -547,12 +565,47 @@ class InstagramSafetyTests(unittest.TestCase):
         self.assertEqual(report["posts"], [])
         self.assertEqual(report["postDiscoveryStatus"], "none")
 
+    def test_fallback_source_failure_is_distinct_from_successful_empty_scan(self):
+        profile = '<a href="/sushiro.hk/p/PARTIAL123/">post</a>'
+
+        def fetch(url):
+            if url == detector.PROFILE_URL:
+                return profile
+            if url == detector.OFFICIAL_DISCOVERY_URL:
+                return "<html><body>No links</body></html>"
+            if url == detector.PUBLIC_INDEX_FEED_URL:
+                raise RuntimeError("public index unavailable")
+            return '<meta property="og:description" content="候選 HK$22" />'
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            report, _ = detector.detect(
+                output_path=root / "candidates.json",
+                state_path=root / "state.json",
+                sources_path=root / "missing-sources.json",
+                fetcher=fetch,
+                today=date(2026, 11, 17),
+                now=datetime(2026, 11, 17, 6, tzinfo=timezone(timedelta(hours=8))),
+            )
+            state = json.loads((root / "state.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(report["postDiscoveryStatus"], "partial")
+        self.assertEqual(report["sourceFailures"], ["public-search-rss"])
+        self.assertFalse(report["discoveryComplete"])
+        self.assertIsNone(state["lastSuccessfulScanAt"])
+
     def test_no_new_posts_advances_success_checkpoint_without_candidate_churn(self):
         profile = '<a href="/sushiro.hk/p/STABLE123/">one</a>'
         post = '<meta property="og:description" content="穩定菜式 HK$22" />'
 
         def fake_fetch(url):
-            return profile if url == detector.PROFILE_URL else post
+            if url == detector.PROFILE_URL:
+                return profile
+            if url == detector.OFFICIAL_DISCOVERY_URL:
+                return "<html><body>No links</body></html>"
+            if url == detector.PUBLIC_INDEX_FEED_URL:
+                return "<rss><channel /></rss>"
+            return post
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -579,7 +632,13 @@ class InstagramSafetyTests(unittest.TestCase):
         current = {"caption": "舊菜式 HK$18"}
 
         def fake_fetch(url):
-            return profile if url == detector.PROFILE_URL else f'<meta property="og:description" content="{current["caption"]}" />'
+            if url == detector.PROFILE_URL:
+                return profile
+            if url == detector.OFFICIAL_DISCOVERY_URL:
+                return "<html><body>No links</body></html>"
+            if url == detector.PUBLIC_INDEX_FEED_URL:
+                return "<rss><channel /></rss>"
+            return f'<meta property="og:description" content="{current["caption"]}" />'
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -606,7 +665,13 @@ class InstagramSafetyTests(unittest.TestCase):
         post = '<meta property="og:description" content="保留菜式 HK$18" />'
 
         def good_fetch(url):
-            return profile if url == detector.PROFILE_URL else post
+                if url == detector.PROFILE_URL:
+                    return profile
+                if url == detector.OFFICIAL_DISCOVERY_URL:
+                    return "<html><body>No links</body></html>"
+                if url == detector.PUBLIC_INDEX_FEED_URL:
+                    return "<rss><channel /></rss>"
+                return post
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -618,7 +683,13 @@ class InstagramSafetyTests(unittest.TestCase):
             successful = json.loads(state.read_text(encoding="utf-8"))["lastSuccessfulScanAt"]
 
             def empty_fetch(url):
-                return "<html><body>profile loaded</body></html>"
+                if url == detector.PROFILE_URL:
+                    return "<html><body>profile loaded</body></html>"
+                if url == detector.OFFICIAL_DISCOVERY_URL:
+                    return "<html><body>No links</body></html>"
+                if url == detector.PUBLIC_INDEX_FEED_URL:
+                    return "<rss><channel /></rss>"
+                raise AssertionError(url)
 
             empty, _ = detector.detect(output_path=output, state_path=state, sources_path=sources, fetcher=empty_fetch, today=date(2026, 11, 18), now=datetime(2026, 11, 18, 6, tzinfo=timezone(timedelta(hours=8))))
             after_empty = json.loads(state.read_text(encoding="utf-8"))
@@ -626,6 +697,10 @@ class InstagramSafetyTests(unittest.TestCase):
             def failed_post_fetch(url):
                 if url == detector.PROFILE_URL:
                     return profile
+                if url == detector.OFFICIAL_DISCOVERY_URL:
+                    return "<html><body>No links</body></html>"
+                if url == detector.PUBLIC_INDEX_FEED_URL:
+                    return "<rss><channel /></rss>"
                 raise RuntimeError("post blocked")
 
             failed, _ = detector.detect(output_path=output, state_path=state, sources_path=sources, fetcher=failed_post_fetch, today=date(2026, 11, 19), now=datetime(2026, 11, 19, 6, tzinfo=timezone(timedelta(hours=8))))
@@ -639,7 +714,13 @@ class InstagramSafetyTests(unittest.TestCase):
         post = '<meta property="og:description" content="手動指定貼文 HK$18" />'
 
         def fake_fetch(url):
-            return "<html></html>" if url == detector.PROFILE_URL else post
+            if url == detector.PROFILE_URL:
+                return "<html></html>"
+            if url == detector.OFFICIAL_DISCOVERY_URL:
+                return "<html><body>No links</body></html>"
+            if url == detector.PUBLIC_INDEX_FEED_URL:
+                return "<rss><channel /></rss>"
+            return post
 
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "instagram_candidates.json"

@@ -103,6 +103,19 @@
 - 如果 Instagram 暫時無法存取，偵測器會記錄限制並保留既有候選；官方餐單同步及現有有效資料不受影響。
 - 官方餐單可能因分店、供應及活動變更而不同，App 顯示的價格只供結帳前參考。
 
+### Instagram 候選的自動核證預覽
+
+`scripts/instagram_autopublish.py` 是獨立於 review-only detector 的政策引擎。預設只產生 `data/autopublish_preview.json` 及 `data/autopublish_diff.json`；它不會改寫 `data/promotions.json`。只有公開作者 metadata、未變更的貼文 fingerprint、近 24 小時觀察紀錄、明確 HK$／HKD 價格、可對應的商品日期、售賣條件、全港分店證據及非重複食品／飲品全部通過時，候選才會出現在乾跑的 promotion preview。缺少或互相矛盾的證據會隔離並列出原因。
+
+本地 2026-11-19 公開 HTML 掃描、候選核證結果及 promotion diff 分別保存在 [`data/instagram_autopublish_live_scan_2026-11-19.json`](data/instagram_autopublish_live_scan_2026-11-19.json)、[`data/autopublish_preview.json`](data/autopublish_preview.json) 及 [`data/autopublish_diff.json`](data/autopublish_diff.json)，供審查比較。
+
+- `data/instagram_autopublish_policy.json` 是政策設定，包含 HKD 價格範圍、證據時效、每次變更上限、重複名稱相似度門檻及 PR #10 保護清單。`productionEnabled` 預設為 `false`，`killSwitch` 預設為 `true`，核准 policy version 預設為空；這些值目前不允許正式寫入。
+- Policy 欄位、候選 evidence 及 OCR sidecar 的完整 schema 和範例見 [`docs/instagram-autopublish-evidence-schema.md`](docs/instagram-autopublish-evidence-schema.md)。
+- 本機手動預覽：`python scripts/instagram_autopublish.py --candidates "C:\\path\\to\\instagram_candidates.json" --dry-run --as-of 2026-11-19`。Windows 工作排程器可先以 `scripts/detect_instagram_menu.py --output "C:\\path\\to\\instagram_candidates.json" --state "C:\\path\\to\\instagram_scan_state.json" --report "C:\\path\\to\\instagram_scan_report.json"` 產生輸入，再執行預覽命令。不同來源路徑不會改變正式餐單。
+- 可選 `--ocr-evidence` JSON sidecar 必須列出每篇貼文的 fingerprint、OCR provider、所有公開圖片 URL、完整覆蓋狀態、圖片 SHA-256、項目文字／價格證據及信心值。引擎會只從 Instagram 公開頁暴露的 HTTPS Instagram／CDN 圖片來源下載圖片，重算 SHA-256 並比對 sidecar；來源錯誤、漏圖、低信心或價格衝突均會隔離。Sidecar 是外部 OCR 程序提供的證據；本 repository 沒有內建 OCR 模型，且 `trustedOcrProviders` 預設為空，因此本地或 GitHub 工作流不會自行讀取圖片文字，或自動接受未經核准的 OCR provider。
+- GitHub Actions 在每日公開貼文掃描後產生乾跑 artifact。若以後啟用正式路徑，還需要明確核准同一 policy version、關閉 kill switch、設定 repository variables、配置 `instagram-autopublish` 環境的人工核准者，以及啟用 repository branch protection／必要檢查。正式工作流只會建立包含 `data/promotions.json` 的 PR；可選的 `gh pr merge --auto` 會服從 repository 的審核與檢查規則。這些 GitHub 設定不由此 repository 自動變更。
+- 公開頁面不保證完整列出所有新貼文。`discoveryComplete` 只代表本次可存取的公開 HTML／後備來源已成功讀完；`discoveryCoverage` 明確標示它並非帳戶全部貼文的保證。來源不完整、HTTP 失敗、未驗證空結果或來源 fingerprint 改變時，候選不具正式上架資格。舊的 12-post／34-item report 中全部是 `$`，不是明確 HKD；它們會保持 review-only，不會自動補猜價格。
+
 ### 結構化期間限定資料
 
 `data/promotions.json` 以 promotion 為單位保存：

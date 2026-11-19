@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "sushiro-instagram-autopublish-v1",
+  "productionEnabled": false,
+  "killSwitch": true,
+  "approvedPolicyVersion": null,
+  "sourceAccount": "sushiro.hk",
+  "priceBoundsHKD": {
+    "minimum": 1,
+    "maximum": 500
+  },
+  "minimumOcrConfidence": 0.99,
+  "trustedOcrProviders": [],
+  "maximumEvidenceAgeHours": 24,
+  "maximumItemsPerRun": 5,
+  "maximumPromotionsPerRun": 5,
+  "fuzzyNameMatchThreshold": 0.92,
+  "requireCompleteCarouselOcr": true,
+  "protectedPostIds": [
+    "Dfn7uyiCgAt"
+  ],
+  "protectedPromotionIds": [
+    "jujutsu-kolei-food-2026-11-17",
+    "jujutsu-kolei-scallop-2026-12-01"
+  ],
+  "protectedItemIds": [
+    "jujutsu_salt_marinated_albacore_202611",
+    "jujutsu_black_sesame_mille_crepe_202611",
+    "jujutsu_drink_set_202611",
+    "jujutsu_surf_clam_nori_flying_fish_roe_202612"
+  ],
+  "protectedItemNames": [
+    "大切鹽味醬漬長鰭吞拿魚",
+    "黑芝麻千層蛋糕",
+    "聯乘飲品套裝",
+    "特盛海灣貝海苔包配飛魚子"
+  ]
+}
