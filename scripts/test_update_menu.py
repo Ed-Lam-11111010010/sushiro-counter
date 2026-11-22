@@ -66,6 +66,27 @@ class PromotionDataTests(unittest.TestCase):
         self.assertIn("期間限定・赤醋飯祭同場加映（2026年11月24日至2026年12月1日）", categories)
         self.assertEqual(categories["期間限定・赤醋飯祭同場加映（2026年11月24日至2026年12月1日）"][0]["id"], "salt_grilled_wagyu_short_rib")
 
+    def test_approved_jujutsu_offsite_promotions_follow_item_start_dates(self):
+        data = json.loads(update_menu.PROMOTIONS_PATH.read_text(encoding="utf-8"))
+        approved = [p for p in data["promotions"] if p["id"].startswith("jujutsu-")]
+        self.assertEqual(len(approved), 2)
+        self.assertTrue(all(p["verificationStatus"] == "verified" for p in approved))
+        self.assertTrue(all(item["verificationStatus"] == "verified" for p in approved for item in p["items"]))
+        self.assertTrue(all("instagram.com/p/" in p["sourceUrls"][0] for p in approved))
+        today = update_menu.active_promotion_categories(data, update_menu.date(2026, 11, 22))
+        future = update_menu.active_promotion_categories(data, update_menu.date(2026, 12, 1))
+        first_category = "期間限定・咒術迴戰聯乘（2026年11月17日起）"
+        second_category = "期間限定・咒術迴戰聯乘（2026年12月1日起）"
+        self.assertEqual([(i["id"], i["price"]) for i in today[first_category]], [
+            ("jujutsu_salt_marinated_albacore_202611", 17),
+            ("jujutsu_black_sesame_mille_crepe_202611", 38),
+            ("jujutsu_drink_set_202611", 59),
+        ])
+        self.assertNotIn(second_category, today)
+        self.assertEqual(len(future[second_category]), 1)
+        self.assertEqual(future[second_category][0]["price"], 17)
+        self.assertFalse(any("襟章" in i["name"] or "立牌" in i["name"] for items in future.values() for i in items))
+
     def test_until_sold_out_promotion_does_not_expire_at_month_end(self):
         promotion = {
             "id": "until-sold-out",
