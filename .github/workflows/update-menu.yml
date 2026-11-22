@@ -1,6 +1,13 @@
 name: Check for Sushiro menu updates
 
 on:
+  # Reviewed promotions may originate from official Instagram posts or other
+  # off-site announcements. Once their verified data lands on master, refresh
+  # the calculator immediately rather than waiting for the daily schedule.
+  push:
+    branches: [master]
+    paths:
+      - "data/promotions.json"
   schedule:
     # 22:00 UTC = 06:00 Hong Kong time. Run daily so verified promotions
     # become visible on their start date instead of waiting for a weekly run.
@@ -29,6 +36,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
+
+      - name: Validate approved on- and off-site promotions
+        run: python -c "import json, sys; from pathlib import Path; sys.path.insert(0, 'scripts'); import update_menu; update_menu.validate_promotion_data(json.loads(Path('data/promotions.json').read_text(encoding='utf-8'))); print('Approved promotion data valid')"
 
       - name: Fetch and validate official menu
         run: python scripts/update_menu.py
