@@ -204,6 +204,14 @@ def execute(state_dir: Path, *, submit: bool) -> dict:
             branch = review_branch(signature)
             prior_pr = existing_pr(branch)
             remote_doc = remote_branch_document(repo_dir, branch)
+            if prior_pr is not None:
+                if prior_pr.get("state") != "OPEN":
+                    # An explicit review rejection must not be reopened or
+                    # misreported as a newly created PR by the next scan.
+                    result.update(status="prior-review-closed", prUrl=prior_pr.get("url"))
+                    return result
+                if prior_pr.get("isDraft") is not True:
+                    raise RuntimeError("Existing candidate PR is no longer draft")
             if remote_doc is not None and candidate_signature(remote_doc) != signature:
                 raise RuntimeError("Remote review branch has unexpected content; refusing to overwrite")
             if remote_doc is None:
