@@ -224,12 +224,22 @@ function assertReportedBill(app) {
   }
 }
 
+test('bundled offline fallback matches the deployed menu for every item', () => {
+  const file = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'menu.json'), 'utf8'));
+  const app = startApp(savedOrder({}));
+  assert.equal(JSON.stringify(app.run('FALLBACK_OTHER_ITEMS')), JSON.stringify(file.categories));
+});
+
 test('restored order recalculates the displayed bill after the menu arrives', async () => {
-  const app = startApp();
-  // Until the menu supplies 炸三寶's price, do not show an understated total.
+  // Always use a synthetic ID that cannot be added to the shipped fallback.
+  // A complete offline fallback now correctly includes existing menu dishes.
+  const id = 'test_future_menu_only_item';
+  const app = startApp(savedOrder({ [id]: 1, calpico: 1, unagi_chawanmushi: 1 }));
   assert.equal(app.nodes.get('bill-total').textContent, '待確認價格');
-  await app.loadMenu();
-  assert(app.nodes.get('other-selected-list').children.some(row => row.innerHTML.includes('炸三寶')));
+  const withNewItem = JSON.parse(JSON.stringify(menu));
+  withNewItem.categories['副餐類'].push({ id, name: '模擬新上架菜式', price: 18 });
+  await app.loadMenu(withNewItem);
+  assert(app.nodes.get('other-selected-list').children.some(row => row.innerHTML.includes('模擬新上架菜式')));
   assertReportedBill(app);
   assert.equal(app.nodes.get('unpriced-warning').style.display, 'none');
 });
@@ -306,13 +316,14 @@ test('new selections save item details for the next offline reload', async () =>
 });
 
 test('an unknown legacy item warns and withholds a misleading complete total', async () => {
-  const app = startApp();
+  const id = 'test_unknown_legacy_order_item';
+  const app = startApp(savedOrder({ [id]: 1, calpico: 1, unagi_chawanmushi: 1 }));
   await app.failMenu();
   assert.equal(app.nodes.get('unpriced-warning').style.display, 'block');
   assert.equal(app.nodes.get('bill-total').textContent, '待確認價格');
   app.run("changePlate('red', 1)");
   assert.equal(app.nodes.get('bill-total').textContent, '待確認價格');
-  app.run("changePlate('red', -1); removeOtherItem('item_7bfb164de8')");
+  app.run("changePlate('red', -1); removeOtherItem('test_unknown_legacy_order_item')");
   assert.equal(app.nodes.get('unpriced-warning').style.display, 'none');
   assert.equal(app.nodes.get('bill-total').textContent, '$137.50');
 });
