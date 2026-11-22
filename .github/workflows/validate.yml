@@ -29,7 +29,7 @@ jobs:
           python-version: "3.x"
 
       - name: Validate updater syntax
-        run: python -m py_compile scripts/update_menu.py scripts/detect_instagram_menu.py scripts/instagram_autopublish.py
+        run: python -m py_compile scripts/update_menu.py scripts/detect_instagram_menu.py scripts/instagram_autopublish.py scripts/local_instagram_bridge.py
 
       - name: Validate menu data
         run: python scripts/update_menu.py --check
@@ -51,6 +51,9 @@ jobs:
 
       - name: Test Instagram evidence-gated promotion policy
         run: python -m unittest discover -s scripts -p 'test_instagram_autopublish.py'
+
+      - name: Test local Instagram Windows-to-GitHub review bridge (offline mocks)
+        run: python -m unittest discover -s scripts -p 'test_local_instagram_bridge.py'
 
       - name: Validate JSON metadata
         run: node -e "for (const file of ['menu.json','manifest.webmanifest','data/promotions.json','data/instagram_sources.json','data/instagram_scan_report.json','data/instagram_scan_report_review2.json','data/instagram_autopublish_policy.json','data/instagram_autopublish_live_scan_2026-11-19.json','data/autopublish_preview.json','data/autopublish_diff.json']) JSON.parse(require('fs').readFileSync(file,'utf8')); console.log('JSON metadata OK')"
