@@ -91,6 +91,71 @@ class InstagramAutoPublishTests(unittest.TestCase):
         }
         self.assertEqual(autopublish.production_gate_reasons(opened, environment), [])
 
+    def test_official_hk_dollar_marker_can_be_previewed_with_real_post_evidence(self):
+        caption = CAPTION.replace("HK$22", "$22")
+        document, page = make_fixture(caption, post_id="PILOTHK01")
+        self.assertNotIn("price", document["posts"][0]["items"][0])
+        preview = evaluate(document, page=page)
+        self.assertEqual(preview["preview"]["summary"]["eligibleItems"], 1)
+        decision = preview["preview"]["decisions"][0]
+        self.assertEqual(decision["priceEvidenceSource"], "official-hk-context")
+        self.assertEqual(decision["price"], 22)
+        self.assertEqual(decision["currency"], "HKD")
+        item = preview["preview"]["eligiblePromotions"][0]["items"][0]
+        self.assertEqual(item["verificationEvidence"]["text"], "$22")
+        self.assertIn("not-explicit-HKD", item["verificationEvidence"]["currencyInference"])
+        self.assertFalse(preview["preview"]["productionAutoPublishEnabled"])
+
+        disabled = copy.deepcopy(read_base_inputs()[0])
+        disabled["allowOfficialHkDollarContext"] = False
+        rejected = evaluate(document, page=page, policy=disabled)
+        self.assertEqual(rejected["preview"]["summary"]["eligibleItems"], 0)
+        self.assertIn("ambiguous_price_currency", rejected["preview"]["decisions"][0]["reasons"])
+
+    def test_context_accepts_exact_instagram_author_attribution_but_not_mentions(self):
+        # Real public Instagram OG metadata sometimes exposes the author as
+        # "sushiro.hk 建立於" rather than in a separate og:title.
+        caption = "sushiro.hk 建立於 📅販售期間：2026-11-20至2026-11-30 🍣限定壽司 $22 全港各分店有售"
+        document, page = make_fixture(caption, post_id="PILOTMETA01")
+        page = page.replace("Sushiro HK (@sushiro.hk) on Instagram", "Unrelated Brand on Instagram")
+        result = evaluate(document, page=page)
+        self.assertEqual(result["preview"]["summary"]["eligibleItems"], 1)
+        self.assertEqual(result["preview"]["decisions"][0]["priceEvidenceSource"], "official-hk-context")
+
+        mentioned_caption = "提及 @sushiro.hk 📅販售期間：2026-11-20至2026-11-30 🍣限定壽司 $22 全港各分店有售"
+        mentioned_doc, mentioned_page = make_fixture(mentioned_caption, post_id="PILOTMETA02")
+        mentioned_page = mentioned_page.replace("Sushiro HK (@sushiro.hk) on Instagram", "Unrelated Brand on Instagram")
+        blocked = evaluate(mentioned_doc, page=mentioned_page)
+        self.assertEqual(blocked["preview"]["summary"]["eligibleItems"], 0)
+        self.assertIn("public_post_author_not_verified", blocked["preview"]["decisions"][0]["reasons"])
+
+    def test_contextual_hkd_requires_real_author_and_matching_price(self):
+        document, page = make_fixture(CAPTION.replace("HK$22", "$22"), post_id="PILOTHK02")
+        fake_author_page = page.replace("Sushiro HK (@sushiro.hk) on Instagram", "Unrelated Brand on Instagram")
+        foreign = evaluate(document, page=fake_author_page)
+        self.assertEqual(foreign["preview"]["summary"]["eligibleItems"], 0)
+        self.assertIn("public_post_author_not_verified", foreign["preview"]["decisions"][0]["reasons"])
+
+        tampered = copy.deepcopy(document)
+        tampered["posts"][0]["items"][0]["priceText"] = "$23"
+        mismatched = evaluate(tampered, page=page)
+        self.assertEqual(mismatched["preview"]["summary"]["eligibleItems"], 0)
+        self.assertIn("ambiguous_price_currency", mismatched["preview"]["decisions"][0]["reasons"])
+
+    def test_contextual_hkd_never_ignores_real_branch_exclusions(self):
+        caption = (
+            "📅販售期間：2026-11-20至2026-11-30 🍣限定壽司 $22 "
+            "壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外）"
+        )
+        document, page = make_fixture(caption, post_id="PILOTBR01")
+        item = document["posts"][0]["items"][0]
+        self.assertEqual(item["branchScope"], "restricted")
+        self.assertTrue(item["branchExclusions"])
+        blocked = evaluate(document, page=page)
+        self.assertEqual(blocked["preview"]["summary"]["eligibleItems"], 0)
+        self.assertIn("branch_scope_unknown_or_restricted", blocked["preview"]["decisions"][0]["reasons"])
+        self.assertIn("branch_exclusions_present", blocked["preview"]["decisions"][0]["reasons"])
+
     def test_input_candidates_cannot_bypass_the_review_only_contract(self):
         document, _ = make_fixture()
         tampered = copy.deepcopy(document)

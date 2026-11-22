@@ -34,5 +34,6 @@
     "黑芝麻千層蛋糕",
     "聯乘飲品套裝",
     "特盛海灣貝海苔包配飛魚子"
-  ]
+  ],
+  "allowOfficialHkDollarContext": true
 }
