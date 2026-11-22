@@ -154,6 +154,21 @@ class BridgeUnitTests(unittest.TestCase):
             self.assertFalse(result["submitted"])
             self.assertFalse(any(cmd[:2] == ("git", "push") for cmd in self.events))
 
+    def test_closed_review_pr_is_never_reopened_or_reported_as_new(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(bridge, "require_executables"), patch.object(
+                bridge, "command", side_effect=self.simulated_command
+            ), patch.object(bridge, "existing_pr", return_value={
+                "state": "CLOSED", "isDraft": True,
+                "url": "https://github.com/example/pull/77",
+            }), patch.object(bridge, "remote_branch_document", return_value=self.candidate):
+                result = bridge.execute(Path(folder), submit=True)
+            self.assertEqual(result["status"], "prior-review-closed")
+            self.assertFalse(result["submitted"])
+            self.assertFalse(any(cmd[:2] == ("git", "push") for cmd in self.events))
+            self.assertFalse(any(cmd[:3] == ("gh", "pr", "create") for cmd in self.events))
+            self.assertFalse((Path(folder) / "last_submitted.json").exists())
+
     def test_existing_remote_review_branch_must_match_same_snapshot(self):
         with tempfile.TemporaryDirectory() as folder:
             with patch.object(bridge, "require_executables"), patch.object(
