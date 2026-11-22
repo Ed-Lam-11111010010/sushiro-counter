@@ -20,6 +20,18 @@ JUJUTSU_CAPTION = (
 
 
 class InstagramParserTests(unittest.TestCase):
+    def test_all_branches_except_two_is_not_unrestricted(self):
+        caption = "壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外）"
+        evidence = detector.caption_branch_evidence(caption)
+        self.assertEqual(evidence["branchScope"], "restricted")
+        self.assertIn("除外", evidence["branchEvidenceText"])
+        self.assertTrue(evidence["branchExclusions"])
+
+    def test_all_branches_without_exceptions_remains_all_hk(self):
+        evidence = detector.caption_branch_evidence("限定商品於全港各分店有售。")
+        self.assertEqual(evidence["branchScope"], "all-hk")
+        self.assertNotIn("branchExclusions", evidence)
+
     def test_owner_prefixed_public_profile_anchor_is_canonicalized(self):
         page = '<a href="/sushiro.hk/p/Dfn7uyiCgAt/">public post</a>'
         parsed = detector.parse_public_page(page, detector.PROFILE_URL)
