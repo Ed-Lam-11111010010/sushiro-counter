@@ -4,12 +4,1268 @@
   "profileUrl": "https://www.instagram.com/sushiro.hk/",
   "sourceMethod": "public-html-best-effort",
   "profileFetchStatus": "success",
-  "postDiscoveryStatus": "none",
-  "sourceStatus": "profile_only",
+  "postDiscoveryStatus": "found",
+  "sourceStatus": "posts_found",
+  "discoveryComplete": true,
+  "discoveryCoverage": "public-html-best-effort-not-exhaustive",
+  "sourceFailures": [],
+  "discoverySourceCounts": {
+    "instagramProfileAnchors": 12,
+    "officialWebsiteLinks": 0,
+    "publicSearchRssLinks": 0
+  },
   "requiresReview": true,
   "limitations": [
-    "No public post candidate was available in this run.",
-    "Profile HTTP access succeeded, but the returned HTML exposed no public post links; client-rendered Instagram content may require a supported API or manual source entry."
+    "Public HTML discovery covers only the links exposed by the accessible pages and does not prove account-wide post completeness."
   ],
-  "posts": []
+  "posts": [
+    {
+      "url": "https://www.instagram.com/p/Df1BatZnQ9k/",
+      "postId": "Df1BatZnQ9k",
+      "contentFingerprint": "c5327f5934f6bd2e4f7c1d9b2479cc799a67708aeb0a1d197bc56a637c8f0b46",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-16",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "none",
+      "supplyCondition": "until-sold-out",
+      "caption": "1,632 likes, 3 comments - sushiro.hk 建立於 November 16, 2026 : \"＼✨由維港開始打卡！咒術迴戰 x 香港壽司郎聯乘開始啦🗺️🧳！／ 5位角色等身大立牌已經喺維港啦！快啲嚟同佢哋影相啦📸 地點📍電影女神像旁 虎杖 悠仁、伏黑 惠、釘崎 野薔薇、五條 悟、七海 健人 等身大立牌現身維港！👫🏻 去完維港一定要去埋壽司郎尖沙咀主題店，帶晒全部聯乘限定周邊返屋企～ 聯乘商品全線活動分店*都有販售！🍣✨🥳 📌尖沙咀加連威老道店 九龍尖沙咀加連威老道2-6號愛賓商業大廈地下G2, G3 & 103號舖 一齊感受咒術師旅遊氣氛🧳🏙！ ✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場情況為準 ✨詳情請向店員查詢 ------------------------------------------------------ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ------------------------------------------------------ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #咒術迴戰 #咒術迴戰壽司郎聯乘\".",
+      "imageUrls": [
+        "https://instagram.fhkg1-1.fna.fbcdn.net/v/t39.30808-6/911709255_1155938633665989_1282027800070506667_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjEzNTI3NDg4MTE1OTAxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VeU3HP2wycQQ7kNvwGQ2mJt&_nc_oc=Adpy19fpzacUvhRS9U-Wo8-FA9MNcmzSzcYqOnrttciUKBVc3UZ290hOszdnzu3VcN4&_nc_zt=23&_nc_ht=instagram.fhkg1-1.fna&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQtIVOwzuAOwR6vwamSCDyA773JDgFLfTXvg1rPP9jeGQ&oe=6B08FE92",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/864951560_1137577438835442_2896511052728215650_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Iq4bPsN-iIAQ7kNvwF6Ofme&_nc_oc=Ado7EgJDsFOSu7I_SxcuDV9oMec0imFuIZvPkvnl2S1BBilQeXXguOrcqzgbgOa7uEs&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQRR-GFSy3ZmEqS4HRHgXqi0BLpq06PF-TTCv8t_-2w5qw&oe=6B08E734",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/886551835_1144445711481948_6055195239624636495_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=RIX-y1cC0ZMQ7kNvwHXQ2sr&_nc_oc=Adrt1LvOBD7wgm8GQg7RDlbMKPNkh7mBsWoPKA-az7FXzYc6bCazZwHfAGDfMc2i7sM&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQRm44JPx8_vdgURN4E6O959twS1m3bjlRaZIGcXzWV9dg&oe=6B08DE2A",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/891981736_1144445131482006_5818289026517864615_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=mzL6HnLQ3J8Q7kNvwGZP5xk&_nc_oc=Adp9XU7RgyOyCbccWxpCqZDZa-5gkuMSj-OHc2669MLEmAOPTXEFSxzzN4lmM1LO2f8&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQSH8cmYubMZO-4egsS069j50NSk2VOXihCNScGGXWM21A&oe=6B08E038",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/911709255_1155938633665989_1282027800070506667_n.jpg?stp=c327.0.984.983a_dst-jpg_e35_s640x640_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=VeU3HP2wycQQ7kNvwGQ2mJt&_nc_oc=Adpy19fpzacUvhRS9U-Wo8-FA9MNcmzSzcYqOnrttciUKBVc3UZ290hOszdnzu3VcN4&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=reRkEihnmtofFwAioVpc-w&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQQz5z2ob5-zUsqVoXbPKEmohDpv-ShCfikkNJATE1d4kg&oe=6B08FE92",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/913224868_1158884230038096_4047210375432382204_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=WsxjnZIBseQQ7kNvwFJiIwN&_nc_oc=Adp_YWTS2cqhyxnBu55gGrlsuMyKOUr4AI81hlzg-sjr1Zoz7h647pNkU-Onr3m4DaA&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQRkIICOa0_toI-fwX2vgSoLVqlgm6m_w_RTjm4sGCtZlg&oe=6B0912C6",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015503_18183543211441725_6148460696832598574_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=TAtFFc9ipD8Q7kNvwHBOZyu&_nc_oc=AdrhQ-ex8lFIMJJVQRLwX7fgnYqYUb5v-pyvSaLKHyF7zIK9Yiqz8f67FgWKfyajiPk&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQStrNJfrIAjNbsdFHcBCePSGbGW9gEJUL7leGC4I0Qcjg&oe=6B08F426",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/910626596_18183721039441725_7142596056010989740_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=AFfFyVO4fogQ7kNvwEd15iJ&_nc_oc=Adpl_62GEXmqCsxAC0Niiy5ANAuxK3pk4eqMlaBJBCksg1hcaep_EKQjWSIDyVjZ75o&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQTKCyA9u4jNRFhars5dZDqAypXXrVjG-tu7D9YqRNCtQQ&oe=6B08FF0B",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/912124719_18183477919441725_7911212351939556592_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Y--e7HhojP8Q7kNvwFHvOTB&_nc_oc=AdoqD4LdbvoodrIXMHAiLfIk4e-I9DTGIS__dWv3K0rE1z5aYVcSl0py25iEyE_a6z4&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQR-w0DuV_FONGUnB6r8z8ZbPjX1BGNAGGmYL1cD-etjwg&oe=6B090A73",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/916820926_18183728092441725_3942004390716920810_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=paKkbW9__tIQ7kNvwGe1GQV&_nc_oc=AdpNFh2Qc6VGzDul8kBcE2WLY6vHRtOArCGJMXU7aH-Yt6IP9xEztpeUWQu9HAk_VaY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQR5TbPFykFTaBfGRbEP5uhFS4cJ4wrqcMfqwrQ9KWa6cw&oe=6B090AB6",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/920352399_18183898192441725_5351658790025149392_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=deLNdrEg0b8Q7kNvwHcmbt6&_nc_oc=AdpdSFv92jW2fQDAiVotzKRy4YT9KXK9s2IuUMJWOoV1-5X3XYu2_aaFz-HH0Hjsv90&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQRppbohBROQ5P5jFscC-7q5x8OsPpl5BG10nQYqUqnI7Q&oe=6B08F3B5",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/590410910_18291267277277275_7213486494646846617_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=100&ig_cache_key=GJ70MCNbyI2Iz-tAAJnEgIm-cxtkbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4zMDUuQzMifQ%3D%3D&_nc_ohc=u4UXutwbUqAQ7kNvwEfsjn7&_nc_oc=AdqS8-25bA94eRo0m3fh2xxocHPIngoAq2kplH2W0yswYpfERiaC8KB9brzm5dNe-XY&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQxL2RXUP6zdOmcMYPbO5pGs3-4N94o8vFTVBWUdJN1EA&oe=6B08EAB5",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/656164591_18158630926441725_8837074373419433829_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=110&ig_cache_key=GO9GHCf9XPq5LYNAAGV-X2FSmKN6bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=oRGMagTYnQUQ7kNvwHSWojF&_nc_oc=AdqCqhCM7gZVegYTqTHDNVyk1_sVFjGUfZzmsXEGT8N-F3bQTl5NAysIrA5shugCt1o&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQSHiuh3uIvFsnkTD6aykelctIwI81G6hslznvy2mSxLQ&oe=6B08F49F",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/683780873_17886206574490454_6888752822147734577_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=100&ig_cache_key=GAmrwShWc0D9aIs-ADHclY0xxJlfbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=QZnf66_ZONwQ7kNvwE44SKG&_nc_oc=Adom3yOcWoc72kxFPFoLIYLNXt0kqTSgXLVT7CA3JoNdsaOESwxMFdXa3g1z3limqY8&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRg_z4uyj6v1lf_rYFruJ--dR62geU42U3W7ADzuJtOCg&oe=6B08E995",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/795981775_17959940475203268_4927735820339836193_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=111&ig_cache_key=GM_3cS-ELjaAeM4-ACH1Us6e1WJEbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=Md9XRwMpJkAQ7kNvwEn6F0F&_nc_oc=AdqwJ0Oiw3ceMa_3Z_HQfsB9DsHNHCqQ6Bg4o4FMljUuMuXj7nq_ebGjrGVdzUPw2Pc&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=bWwfN5jEwBPaPX-Uc7bwtg&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQT7YMnOJ7mslQvKyw0BgfU0fDjW88Ix7zT4EJDB98zzdA&oe=6B08E2E1"
+      ],
+      "items": [],
+      "reviewReasons": [
+        "Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item with an explicit HK$ or HKD price was found in the public caption.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/Df1xex8hcpC/",
+      "postId": "Df1xex8hcpC",
+      "contentFingerprint": "1f7224976377ec1fc666125e984ad503111b6b172387b2d7cb0c867554f30a9c",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-17",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "item-specific",
+      "supplyCondition": "until-sold-out",
+      "caption": "1,105 likes, 28 comments - sushiro.hk 建立於 November 17, 2026 : \"＼✨咒術之旅・香港！咒法施展、領域展開！／ ⏳將今次聯乘限定精品，全部收入囊中！ 凡於堂食消費滿$200*，即可以加購價購買以下聯乘限定精品⚡ 🖼️亞加力場景立牌｜$129（共5款） 融入香港街道元素！5個主要角色搭配香港景點情境，角色魅力完美融合香港風景🚏！ 集齊5款仲可以將背景同角色交換搭配！ 💎襟章・第一彈｜$39（共5款，款式隨機） 📅販售期間：11月17日～售完即止 5位角色嘅襟章融合悠閒旅行風格🍃⛅️🏞️ 搭配香港景點，無論扣喺袋定收藏都咁啱！ 💎襟章・第二彈｜$39（共8款，款式隨機） 📅販售期間：12月1日～售完即止 Q版角色超得意！每個角色都攞住香港特色食物或者物件🍍🧋～ 背景除咗香港風景、仲有香港霓虹燈元素🌆！一定要儲齊一套！ 💎襟章・第三彈｜$39（共2款，款式隨機） 📅販售期間：12月7日～售完即止 Q版懷玉・玉折篇嘅五條 悟與夏油 傑走入香港街道，攞住相機同地圖紀錄旅行點滴🗺️！ *單一消費淨額，即扣除每張收據折扣後，或信用卡折扣後，並包含加一服務費之實際付款金額 ✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場情況為準 ✨[亞加力場景立牌]：堂食消費滿200即可加購2件；消費滿$400即可加購4件，最多可加購4件 ✨[襟章]：堂食消費滿200即可加購2件；消費滿$400即可加購4件，消費滿$600即可加購6件，最多可加購6件 ✨自助付款機不設加購精品 ✨詳情請向店員查詢 ------------------------------------------------------ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ------------------------------------------------------ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #咒術迴戰 #咒術迴戰壽司郎聯乘\".",
+      "imageUrls": [
+        "https://scontent.cdninstagram.com/v/t39.30808-6/886551835_1144445711481948_6055195239624636495_n.jpg?stp=c327.0.984.983a_dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=RIX-y1cC0ZMQ7kNvwHXQ2sr&_nc_oc=Adrt1LvOBD7wgm8GQg7RDlbMKPNkh7mBsWoPKA-az7FXzYc6bCazZwHfAGDfMc2i7sM&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=fqPX2UQUHhX5k1GZfglARg&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQR5RQGLbgs3KOZdjMUd2eWOO1fzLPYpjAdLqoDmiYnYOg&oe=6B08DE2A"
+      ],
+      "items": [
+        {
+          "id": "instagram_e99cffc59cf9",
+          "name": "亞加力場景立牌",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$129",
+          "priceEvidenceText": "下聯乘限定精品⚡ 🖼️亞加力場景立牌｜$129",
+          "branchScope": "restricted",
+          "branchEvidenceText": "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$129",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_a40bebb415a1",
+          "name": "襟章・第一彈",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$39",
+          "priceEvidenceText": "景同角色交換搭配！ 💎襟章・第一彈｜$39",
+          "branchScope": "restricted",
+          "branchEvidenceText": "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-11-17",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "11月17日 ～售完即止 5位角色嘅襟章融合悠閒旅行風格",
+          "dateEvidenceText": "11月17日 ～售完即止 5位角色嘅襟章融合悠閒旅行風格",
+          "dateConfidence": "explicit-section",
+          "priceText": "$39",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_26687f256d3f",
+          "name": "襟章・第二彈",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$39",
+          "priceEvidenceText": "喺袋定收藏都咁啱！ 💎襟章・第二彈｜$39",
+          "branchScope": "restricted",
+          "branchEvidenceText": "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-12-01",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "12月1日 ～售完即止 Q版角色超得意！每個角色都攞住香港特色食物或者物件",
+          "dateEvidenceText": "12月1日 ～售完即止 Q版角色超得意！每個角色都攞住香港特色食物或者物件",
+          "dateConfidence": "explicit-section",
+          "priceText": "$39",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_e019003b0e06",
+          "name": "襟章・第三彈",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$39",
+          "priceEvidenceText": "！一定要儲齊一套！ 💎襟章・第三彈｜$39",
+          "branchScope": "restricted",
+          "branchEvidenceText": "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-12-07",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "12月7日 ～售完即止 Q版懷玉・玉折篇嘅五條 悟與夏油 傑走入香港街道，攞住相機同地圖紀錄旅行點滴",
+          "dateEvidenceText": "12月7日 ～售完即止 Q版懷玉・玉折篇嘅五條 悟與夏油 傑走入香港街道，攞住相機同地圖紀錄旅行點滴",
+          "dateConfidence": "explicit-section",
+          "priceText": "$39",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        }
+      ],
+      "reviewReasons": [
+        "A caption price was associated with a spend threshold or add-on quantity; it was not treated as a menu item.",
+        "A caption price was found without a reliable item name.",
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "Multiple or partial item-specific promotion windows were kept on items; no global date window was inferred.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/Df6Zt1GnyxE/",
+      "postId": "Df6Zt1GnyxE",
+      "contentFingerprint": "fa899319b5d3ef5945c8206b5baddb506d1839df68aa1b76dd8fdf415f472a1e",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-18",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "none",
+      "supplyCondition": null,
+      "caption": "3,740 likes, 39 comments - sushiro.hk 建立於 November 18, 2026 : \"感謝各位對香港壽司郎x咒術迴戰聯乘活動的支持。 是次聯乘活動之加購品均會進行預售。 【場景立牌】與【襟章第一彈】之預售形式現正準備中， 詳情會在準備完成後盡快公佈。 客人如欲預購加購品， 請客人保留聯乘活動期間用餐之收據，以作日後預購之用。 再次感謝各位的支持。\".",
+      "imageUrls": [
+        "https://instagram.fhkg1-1.fna.fbcdn.net/v/t39.30808-6/913224868_1158884230038096_4047210375432382204_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMzY0OTUxNjgyMjM0MjcyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=WsxjnZIBseQQ7kNvwFJiIwN&_nc_oc=Adp_YWTS2cqhyxnBu55gGrlsuMyKOUr4AI81hlzg-sjr1Zoz7h647pNkU-Onr3m4DaA&_nc_zt=23&_nc_ht=instagram.fhkg1-1.fna&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQRUnri0EkA0X4nrlNr0gC2szIMH2k1TzfR0X54FcyeX5Q&oe=6B0912C6",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/864951560_1137577438835442_2896511052728215650_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Iq4bPsN-iIAQ7kNvwF6Ofme&_nc_oc=Ado7EgJDsFOSu7I_SxcuDV9oMec0imFuIZvPkvnl2S1BBilQeXXguOrcqzgbgOa7uEs&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQT6O-O2JgJXjXmU77RcqB_XhX5gd_PWxCaH0LKP4c2Hfw&oe=6B08E734",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/886551835_1144445711481948_6055195239624636495_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=RIX-y1cC0ZMQ7kNvwHXQ2sr&_nc_oc=Adrt1LvOBD7wgm8GQg7RDlbMKPNkh7mBsWoPKA-az7FXzYc6bCazZwHfAGDfMc2i7sM&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQSjRDs68D2JHxfcnEN-HGU6gvy4iDCSWW1wiCzR5oA3FQ&oe=6B08DE2A",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/891981736_1144445131482006_5818289026517864615_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=mzL6HnLQ3J8Q7kNvwGZP5xk&_nc_oc=Adp9XU7RgyOyCbccWxpCqZDZa-5gkuMSj-OHc2669MLEmAOPTXEFSxzzN4lmM1LO2f8&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQQQnTKXt-mf0FkWEWpmmp4e56FODcDzWuE-JzrUVqbA8g&oe=6B08E038",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/913224868_1158884230038096_4047210375432382204_n.jpg?stp=c327.0.984.983a_dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=WsxjnZIBseQQ7kNvwFJiIwN&_nc_oc=Adp_YWTS2cqhyxnBu55gGrlsuMyKOUr4AI81hlzg-sjr1Zoz7h647pNkU-Onr3m4DaA&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=551WjKkNttDl1YgYQDzKlQ&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQRXcls0aFv7mY77L4pZebgv-G39rloLWHHgBzTOVRqNJw&oe=6B0912C6",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/11917993_1628354007433636_442323208_a.jpg?_nc_cat=107&ig_cache_key=GKnatQCkgS62_sgFAAhRXRoAAAAAYUULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xNTAuQzMifQ%3D%3D&_nc_ohc=oP10FKSfSEcQ7kNvwHpUDXA&_nc_oc=Adq_wTMFDUqaF8PVqDthfIXPmvOIpt2-nErOr_oUkNjnJSAwn8SxtiL8ZxnjSE5kSlk&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRwwatnOvM51PgxR89LUsYuz2vO99d6eSbTWy5yd6HQEw&oe=6B09073A",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/274319159_256839969967319_5337842537495103105_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=100&ig_cache_key=GDfHWRDXjCw3mOkAAIGGXbqB0xNKbkULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NDAuQzMifQ%3D%3D&_nc_ohc=qKPKv6MAQJ0Q7kNvwE9MAAL&_nc_oc=AdrPL5CLr2aGUVjfQBLYvqK5HRlCkMI7MSOXzJmTigQI58EPkIuDsOW91r0N53rKG5Y&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQS0jLz80-OF23xYu9KCGnS1iQhfNFMYSBErlkNV_2Uq3w&oe=6B08DE2E",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/436266090_1791345758011458_878109272542961650_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=110&ig_cache_key=GGrkABpCgJMvOF0GAPJf5h_7qy8MbkULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=eF79q89nzD4Q7kNvwGUQqN3&_nc_oc=Adq-893L_PkUIL6pVu4DpltDTrXMeFQgA-RjXqPzAzEN5XwDU3vloPNTnERzagKnTFY&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQqidzsF9fkQ8fPAgWICars_0YOkLaHiZ4VB3DCysUIow&oe=6B08E89D",
+        "https://scontent.cdninstagram.com/v/t51.75761-19/500281598_18507644320039810_2861304546887314783_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=102&ig_cache_key=GP6w0R2CQ1O9msBBAF_tbVdTZbUnbvEnAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy44MjMuQzMifQ%3D%3D&_nc_ohc=rtj6b1EufPcQ7kNvwGcwOaL&_nc_oc=AdoZqfivcwKw8yWKm97rBcs2p5Eo1aqUgLHkFCovI4TSOC9UgAVGlSbb3499VLvcvFc&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQwtrG36lf4P1M4Y6MSHgqt4iGz__GZ_fj4v1tlDqo3ig&oe=6B090824",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015503_18183543211441725_6148460696832598574_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=TAtFFc9ipD8Q7kNvwHBOZyu&_nc_oc=AdrhQ-ex8lFIMJJVQRLwX7fgnYqYUb5v-pyvSaLKHyF7zIK9Yiqz8f67FgWKfyajiPk&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQTe8SvP3rwJ7YerjRhmU_OrjtP40Zv8rIQgJ7L0oNMI8w&oe=6B08F426",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015538_18183465034441725_9216952174225237577_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Yfd2qG6jNs8Q7kNvwE4AYOh&_nc_oc=Adq8j_NSZsWWgXQMee4iL4q9apdCV8WR4mfFJd8-LHEobg0Ruqksig1mFxUdv13RwrQ&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQSTJm4LGDr-N_sktZ0xTev-CSBsFxrB8GQbDtEmHEC82w&oe=6B08E4EC",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/910626596_18183721039441725_7142596056010989740_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=AFfFyVO4fogQ7kNvwEd15iJ&_nc_oc=Adpl_62GEXmqCsxAC0Niiy5ANAuxK3pk4eqMlaBJBCksg1hcaep_EKQjWSIDyVjZ75o&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQT_d8-WyzPsat1YndfvpEzxw18aeJsRP6GPSSNqzSNxQw&oe=6B08FF0B",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/912124719_18183477919441725_7911212351939556592_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Y--e7HhojP8Q7kNvwFHvOTB&_nc_oc=AdoqD4LdbvoodrIXMHAiLfIk4e-I9DTGIS__dWv3K0rE1z5aYVcSl0py25iEyE_a6z4&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQTlXMdtBb5-j1DsC-mVeDZASQA-pTooSQ0_C1JKxjaWMg&oe=6B090A73",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/916820926_18183728092441725_3942004390716920810_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=paKkbW9__tIQ7kNvwGe1GQV&_nc_oc=AdpNFh2Qc6VGzDul8kBcE2WLY6vHRtOArCGJMXU7aH-Yt6IP9xEztpeUWQu9HAk_VaY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQQe-FV7DmP7WspBeMmrwegPwfPbg4_ZMCnn9JpVOHy_NQ&oe=6B090AB6",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/920352399_18183898192441725_5351658790025149392_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=deLNdrEg0b8Q7kNvwHcmbt6&_nc_oc=AdpdSFv92jW2fQDAiVotzKRy4YT9KXK9s2IuUMJWOoV1-5X3XYu2_aaFz-HH0Hjsv90&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQTAkse4ZMfabxu0mBrNj3tHKisXZGDYFXjGkDftjGMA2A&oe=6B08F3B5",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/656164591_18158630926441725_8837074373419433829_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=110&ig_cache_key=GO9GHCf9XPq5LYNAAGV-X2FSmKN6bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=oRGMagTYnQUQ7kNvwHSWojF&_nc_oc=AdqCqhCM7gZVegYTqTHDNVyk1_sVFjGUfZzmsXEGT8N-F3bQTl5NAysIrA5shugCt1o&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQTty8E7ra1vpXmAKJNphEl8OICwy_pGeSRvBEiq6iCXIA&oe=6B08F49F",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/684218813_17933882961247946_8295472488658731626_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=108&ig_cache_key=GL1ZyCjKPlmDxbY-AGqCh-JGcB9zbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy44NjcuQzMifQ%3D%3D&_nc_ohc=k6eTV8_IlVoQ7kNvwGNeENx&_nc_oc=AdqWuXdlHhmL2IoW8i1DuDsc1GX4fWd0WlyZKp-Uhi1aJvpyp1Z9vQxVgYn9q6QSx2U&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQTml2lvnPvb1ifrFlAMdGeWtH-XZNKkSwoDqyXTeaYkSA&oe=6B08DB70",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/755878643_17893920480592024_4876871666146924919_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=108&ig_cache_key=GPPKDS2YgOIFbZI-AHfZ2gvxIK5DbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=3m_F3Zm75f0Q7kNvwHAOV9P&_nc_oc=AdpFzOA4sUgqb0SPHLSRGEeIuyG4fJDhDUDxTvdxolDldpb5d_FOKDYi6CO-mBA119I&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQ-Wm8q3ld24qKm7hQ2t70OYWkQfelu8jhMa8FJ1vAFow&oe=6B08EA4E",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/776498120_18631827901062532_4475620603735846620_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=109&ig_cache_key=GMhrSC6EHY97jDFCANwuGOs5mRw_bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4zMjAuQzMifQ%3D%3D&_nc_ohc=qDIVvKMY-koQ7kNvwHUm5NL&_nc_oc=AdriMECvrUJj0oN0hBmUtIbkivifnYCIr1IwJhMbunAFAyUHpTCCMYMJpsbrU9VlpAw&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQxZKD3kG4m6XZ2XAKR54nJrK8BlvOf6R_U-jPPQyg15A&oe=6B08FA3F",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/795981775_17959940475203268_4927735820339836193_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=111&ig_cache_key=GM_3cS-ELjaAeM4-ACH1Us6e1WJEbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=Md9XRwMpJkAQ7kNvwEn6F0F&_nc_oc=AdqwJ0Oiw3ceMa_3Z_HQfsB9DsHNHCqQ6Bg4o4FMljUuMuXj7nq_ebGjrGVdzUPw2Pc&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQR_5Dy7OcAOfbZREe_gFKMePGLH7R-jwUYsvdiWpP2dyw&oe=6B08E2E1",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/825324372_18617794189058503_3955427367178522638_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=105&ig_cache_key=GFRzMTHH4SMBySRCAA7QiNM7gOQ2bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=w-0V6A7ovC4Q7kNvwGN7hiz&_nc_oc=AdqMM-F96vtK1I5ayYHtaCgJGT-HzKLm6ndkHapee-z_NgYJk_TDUNTwMXAGGIPYXiE&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQV5QfwG7LnNggYAjcnoLlv6KBrdMweyOIZuLe84xiwWg&oe=6B08EA37",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/829762228_18336919966258664_1391772092364240858_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=105&ig_cache_key=GLQqdTHoFd3gVCVBANo3rBVYkVATbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=9NSr-hJMvmEQ7kNvwEIk9I_&_nc_oc=AdoNI1AbMkzYW0NGU1eokcNNAwYUfd62KMkXxvXIt9dsWoSteBhRZcmDILdIkkp8pAM&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQWHFWh8hQ7mhf5FFtADe-8WK_d1UzZt_kiHyP0XIWD3Q&oe=6B0910DD",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/904008859_18122141510073353_102482294542995570_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=102&ig_cache_key=GJsU4jUJ-Ebf-WFAAHKQAJoaF2wBbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=AU_5UTLmTA4Q7kNvwEel_bS&_nc_oc=AdpZ6Dk0ej3XrqPHehbLrKDHAvXuSUGuY2oRZTsGQ_z9YcgOcpUHJ13FPhkGx7eNVUc&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQ3o10DjzHx9aqBDGFLFKf6xdxVRn8n_fi4iMno_VHr8A&oe=6B08F6F5",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/913224555_18225522757343705_7663940030423458815_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=110&ig_cache_key=GGuzbjbZGcwxBMBAAP9jSTXayFtqbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4zMjAuQzMifQ%3D%3D&_nc_ohc=DZOTzb9vP20Q7kNvwGizOUM&_nc_oc=Adq8_uC0WzgV_G_7mYFmxCMuWE70JORP5nDOsg21Z2Fg2l6fVaTr7nLvFi_P36UMlfI&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=UuZQf2JhWC3kzz-D4pHAqw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQ23po3mULX9HgPHZ1rLK2uIAOjUZrqFwxDRJCnDaYcnw&oe=6B08E7AE"
+      ],
+      "items": [],
+      "reviewReasons": [
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item with an explicit HK$ or HKD price was found in the public caption.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DfPQcXcCZCx/",
+      "postId": "DfPQcXcCZCx",
+      "contentFingerprint": "c18a1bde9909099a6465e5a99ecbe7aaefc73eb5c04ac464c6df699b2f351b38",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-02",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "item-specific",
+      "supplyCondition": "until-sold-out",
+      "caption": "5,266 likes, 17 comments - sushiro.hk 建立於 November 2, 2026 : \"＼🇯🇵完美黑鮪魚香！日本空運直送✈️📢📢 ✚🔴赤醋飯祭！微酸令食材原始鮮味更突出‼️／ ⛩️來自京都伊根、一嚐原始魚鮮！ 🏮京都伊根生黑鮪吞拿魚二貫盛｜$32 ❄️清爽赤身，中吞魚身油脂勻稱 溫潤魚肉，舌尖嚐盡豐厚魚鮮✨！ 顛覆想像嘅口感，魚脂融化極致美味😭！ 🏮京都伊根生黑鮪大吞拿魚腩｜$25 大吞拿魚腩魚脂油滑，入口鮮香濃郁🤩 一食驚艷嘅柔糯肉質🤩！ 升級！ 🌱🌱加上山葵莖Wasabi｜$6 粒粒口感🌱🌱一抹清辛，讓滋味一秒升級！🌟 🫵🏻鍾情吞拿魚嘅你，萬勿錯過❤️！ ※原塊空運魚身經分切後，可使用之部位不一，因此部分分店或無法提供「生黑鮪大吞拿魚腩」，敬請見諒。 𓆞 .⋆𓆝 𓆟 𓆞⋆. 𓆝𓆞 .⋆𓆝 𓆟 𓆞⋆. 𓆝𓆞 .⋆𓆝 𓆟 𓆞⋆. 𓆝 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售； 「深水埗西九龍中心店」之壽司商品均一律使用常規白醋飯 𓆞 .⋆𓆝 𓆟 𓆞⋆. 𓆝𓆞 .⋆𓆝 𓆟 𓆞⋆. 𓆝𓆞 .⋆𓆝 𓆟 𓆞⋆. 𓆝 ＼😳呷醋？🔴赤醋飯祭！微酸令食材原始鮮味更突出‼️／ 赤醋飯祭返嚟啦！原始鮮味再昇華～ ₊˚⊹♡圓潤甜酸口感，啖啖美味！🤤 🦀蟹肉雙味山｜$27 水煮松葉蟹爪下棒肉 + 絲絲紅楚蟹肉🤤 🤩搭配香濃三文魚子同蟹膏！清爽蟹鮮更誘人～ 🐟鳥取產醋漬小肌｜$12 📜自江戶前壽司誕生，已經被選用作為壽司食材🍣！ 小肌魚香細膩，口感鬆軟輕盈🪶 🍰百香果慕絲蛋糕｜$22 一口品嚐濃郁果香🍹選用高原百香果 💛天然酸甜，清爽不膩 🪞百香果籽鏡面果凍，搭配中層百香果慕絲～ 加上綿密海綿蛋糕基底，入口輕柔清新！ 🍄菇菇羹茶碗蒸｜$22 菇🍄～菇🍄～菇🍄𓍊𓋼𓍊𓋼𓍊 本菇、雞脾菇、冬菇3種菇類製成鮮味茶碗蒸♨️ 🍂秋日溫和菇香 融和暖笠笠蒸蛋😋 🍠炸蕃薯條配蜂蜜&牛油｜$22 條條外層香脆！內裡熱騰鬆軟🍠 😌甜甜蕃薯香加上牛油🧈同蜜糖🍯，醇厚濃香夠晒滿足！ 🥢汁煮鮑魚與鮑魚肝天婦羅盛(大)｜$88 🐟彈牙「鮑」！汁煮炮製海中純鮮四頭鮑🤩 🤌🏻搭配淺炸鮑魚肝～豪華鮮味全部擺入口！💗 🎬同場加映！美味壽司月中繼續有～ 📅販售期間：11月24日〜售完即止 🐂鹽燒黑毛和牛肩胛小排｜$27 🐟喜之次雙味（炙燒・醬烤）｜$27 📅販售期間：11月24日〜12月1日 🐟生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸 期間限定商品數量有限，售完即止 🔸 詳情請向店員查詢 ════════════════════════════════ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ════════════════════════════════ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #赤醋飯祭\".",
+      "imageUrls": [
+        "https://scontent.cdninstagram.com/v/t39.30808-6/864951560_1137577438835442_2896511052728215650_n.jpg?stp=c327.0.984.983a_dst-jpg_e35_s640x640_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Iq4bPsN-iIAQ7kNvwF6Ofme&_nc_oc=Ado7EgJDsFOSu7I_SxcuDV9oMec0imFuIZvPkvnl2S1BBilQeXXguOrcqzgbgOa7uEs&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bpZaa7SSbnqPtCTqTnlY1Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQSUnyT1U59XDUeFjhPgZqgCeer8rHu1B_ciBYSnD3RLwA&oe=6B08E734"
+      ],
+      "items": [
+        {
+          "id": "instagram_dd67d4a46f00",
+          "name": "京都伊根生黑鮪吞拿魚二貫盛",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$32",
+          "priceEvidenceText": "根、一嚐原始魚鮮！ 🏮京都伊根生黑鮪吞拿魚二貫盛｜$32",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$32",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "kyoto_ine_bluefin_two"
+        },
+        {
+          "id": "instagram_a9eaa6ab2cf0",
+          "name": "京都伊根生黑鮪大吞拿魚腩",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$25",
+          "priceEvidenceText": "脂融化極致美味😭！ 🏮京都伊根生黑鮪大吞拿魚腩｜$25",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$25",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "kyoto_ine_bluefin_otoro"
+        },
+        {
+          "id": "instagram_41f58c07b1d9",
+          "name": "加上山葵莖Wasabi",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$6",
+          "priceEvidenceText": "肉質🤩！ 升級！ 🌱🌱加上山葵莖Wasabi｜$6",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$6",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_1aa9b7e24002",
+          "name": "蟹肉雙味山",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$27",
+          "priceEvidenceText": "口感，啖啖美味！🤤 🦀蟹肉雙味山｜$27",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$27",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "crab_duo_mountain"
+        },
+        {
+          "id": "instagram_e488a4ef99a5",
+          "name": "鳥取產醋漬小肌",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$12",
+          "priceEvidenceText": "！清爽蟹鮮更誘人～ 🐟鳥取產醋漬小肌｜$12",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$12",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "tottori_kohada"
+        },
+        {
+          "id": "instagram_d15c56d7057d",
+          "name": "百香果慕絲蛋糕",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$22",
+          "priceEvidenceText": "膩，口感鬆軟輕盈🪶 🍰百香果慕絲蛋糕｜$22",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$22",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "passionfruit_mousse_cake"
+        },
+        {
+          "id": "instagram_e8fa23c9a1b0",
+          "name": "菇菇羹茶碗蒸",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$22",
+          "priceEvidenceText": "底，入口輕柔清新！ 🍄菇菇羹茶碗蒸｜$22",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$22",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "mushroom_chawanmushi"
+        },
+        {
+          "id": "instagram_c3caa9ed1e28",
+          "name": "炸蕃薯條配蜂蜜&牛油",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$22",
+          "priceEvidenceText": "融和暖笠笠蒸蛋😋 🍠炸蕃薯條配蜂蜜&牛油｜$22",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$22",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "sweet_potato_honey_butter"
+        },
+        {
+          "id": "instagram_1314af501bf3",
+          "name": "汁煮鮑魚與鮑魚肝天婦羅盛(大)",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$88",
+          "priceEvidenceText": "醇厚濃香夠晒滿足！ 🥢汁煮鮑魚與鮑魚肝天婦羅盛(大)｜$88",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$88",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "abalone_liver_tempura_platter"
+        },
+        {
+          "id": "instagram_e8babd6bec8c",
+          "name": "鹽燒黑毛和牛肩胛小排",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$27",
+          "priceEvidenceText": "月24日〜售完即止 🐂鹽燒黑毛和牛肩胛小排｜$27",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "startDate": "2026-11-24",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "11月24日 〜售完即止",
+          "dateEvidenceText": "11月24日 〜售完即止",
+          "dateConfidence": "explicit-section",
+          "priceText": "$27",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_864b24dd5eae",
+          "name": "喜之次雙味（炙燒・醬烤）",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$27",
+          "priceEvidenceText": "牛肩胛小排｜$27 🐟喜之次雙味（炙燒・醬烤）｜$27",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "startDate": "2026-11-24",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "11月24日 〜售完即止",
+          "dateEvidenceText": "11月24日 〜售完即止",
+          "dateConfidence": "explicit-section",
+          "priceText": "$27",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_d7c7db8c8241",
+          "name": "生三文魚配蟹柳沙律",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$22",
+          "priceEvidenceText": "24日〜12月1日 🐟生三文魚配蟹柳沙律｜$22",
+          "branchScope": "restricted",
+          "branchEvidenceText": "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二）起，於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸【同場加映】限定商品11 月 24 日（二）起，於全線分店有售；深",
+          "branchExclusions": [
+            "生三文魚配蟹柳沙律｜$22 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】限定商品 11 月 3 日（二"
+          ],
+          "startDate": "2026-11-24",
+          "endDate": "2026-12-01",
+          "availabilityEvidenceText": "11月24日〜12月1日",
+          "dateEvidenceText": "11月24日〜12月1日",
+          "dateConfidence": "explicit-section",
+          "priceText": "$22",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        }
+      ],
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "Multiple or partial item-specific promotion windows were kept on items; no global date window was inferred.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/Dfn7uyiCgAt/",
+      "postId": "Dfn7uyiCgAt",
+      "contentFingerprint": "2b21c36030f7b3ecd6c85b90ba11dbe258fa17b24f5df4026ad2c03595f255c6",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-11",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "item-specific",
+      "supplyCondition": "until-sold-out",
+      "caption": "10K likes, 51 comments - sushiro.hk 建立於 November 11, 2026 : \"＼✨咒術之旅・香港！一齊展開享受美食、靚景嘅旅程啦🗺️🧳！／ 咒術迴戰 x 香港壽司郎 11月17日（二）開始聯乘喇🎉！ ☀️咒術之旅・香港正式開始！一齊起程去壽司郎啦🏃！ 聯乘商品全線活動分店*都有販售！🍣 🐟大切鹽味醬漬長鰭吞拿魚｜$17 附送聯乘限定插牌（前半共5款，款式隨機） 📅販售期間：11月17日起～售完即止 軟嫩長鰭吞拿魚配上特製鹽味醬汁調味，鹹香誘人！ 👉🏻5款插牌可以好似puzzle🧩咁拼埋一齊！有齊咒術迴戰5位主要角色，攞住香港嘅特色嘢食🍍🍞， 即刻儲齊5張拼埋5位角色啦！ 🐚特盛海灣貝海苔包配飛魚子｜$17 附送聯乘限定插牌（後半共5款，款式隨機） 📅販售期間：12月1日起～售完即止 💦肉質軟嫩特盛海灣貝，清甜鮮爽🍃 👉🏻5款插牌集合2年級生3位同懷玉・玉折篇嘅五條 悟與夏油 傑！📷 搭配霓虹燈牌同香港街道風景🌃！ 🌟集滿6張插牌，仲可以換【聯乘限定鐳射海報】，數量有限，換完即止！🤩🌟 🍰黑芝麻千層蛋糕｜$38 附送聯乘限定透明收藏卡（共5款，款式隨機） 採用日式加工研磨法，面層鋪上滑順芝麻醬，濃郁黑芝麻香氣層層疊加！ 👉🏻📷攞住5款透明收藏卡周圍打卡，將角色配上靚景🌃、美食🍣，全部紀錄珍藏！ 🥤聯乘飲品套裝｜$59 附送聯乘限定卡套（共5款，款式隨機） 👉🏻5款以角色代表顏色為設計嘅卡套可以裝入唔同小卡！ 裝到今次聯乘限定的透明收藏卡之餘✨唔同類型嘅卡都擺得入，又實用又靚🥳！ ⏳今次咒術迴戰聯乘活動，仲準備咗聯乘限定精品‼️ 凡於堂食消費滿$200*，即可以加購價購買以下聯乘限定精品⚡ 🖼️亞加力場景立牌｜$129（共5款） 融入香港街道元素！5個主要角色搭配香港景點情境，角色魅力完美融合香港風景🚏！ 集齊5款仲可以將背景同角色交換搭配！ 💎襟章・第一彈｜$39（共5款，款式隨機） 📅販售期間：11月17日～售完即止 5位角色嘅襟章融合悠閒旅行風格🍃⛅️🏞️ 搭配香港景點，無論扣喺袋定收藏都咁啱！ 💎襟章・第二彈｜$39（共8款，款式隨機） 📅販售期間：12月1日～售完即止 Q版角色超得意！每個角色都攞住香港特色食物或者物件🍍🧋～ 背景除咗香港風景、仲有香港霓虹燈元素🌆！一定要儲齊一套！ 💎襟章・第三彈｜$39（共2款，款式隨機） 📅販售期間：12月7日～售完即止 Q版懷玉・玉折篇嘅五條 悟與夏油 傑走入香港街道，攞住相機同地圖紀錄旅行點滴🗺️！ *單一消費淨額，即扣除每張收據折扣後，或信用卡折扣後，並包含加一服務費之實際付款金額 ✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✈️咒術之旅・香港點少得三間特別裝飾主題店，同你一齊出發去旅行～～🏙️！ 🤩記得Tag埋你個friend，話佢知一定要去咒術迴戰 x 香港壽司郎主題店📸！ 📍尖沙咀加連威老道店 九龍尖沙咀加連威老道2-6號愛賓商業大廈地下G2, G3 & 103號舖 📍銅鑼灣廣場2期店 香港銅鑼灣駱克道463-483號銅鑼灣廣場2期3樓3A號舖 📍啟德零售館2店 九龍啟德承啟道38-39號啟德體育園啟德零售館2, 3樓M2-302號舖 一齊感受咒術師旅遊氣氛🧳🏙！ ✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場情況為準 ✨[亞加力場景立牌]：堂食消費滿200即可加購2件；消費滿$400即可加購4件，最多可加購4件 ✨[襟章]：堂食消費滿200即可加購2件；消費滿$400即可加購4件，消費滿$600即可加購6件，最多可加購6件 ✨自助付款機不設加購精品 ✨詳情請向店員查詢 ------------------------------------------------------ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ------------------------------------------------------ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #咒術迴戰 #咒術迴戰壽司郎聯乘\".",
+      "imageUrls": [
+        "https://scontent.cdninstagram.com/v/t39.30808-6/891981736_1144445131482006_5818289026517864615_n.jpg?stp=c327.0.983.982a_dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=mzL6HnLQ3J8Q7kNvwGZP5xk&_nc_oc=Adp9XU7RgyOyCbccWxpCqZDZa-5gkuMSj-OHc2669MLEmAOPTXEFSxzzN4lmM1LO2f8&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=Huyj6vEHdqTNmMrAsR1saw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQQqTRZrIO5KEPvEbDZ3NyN7Anr1vjsfq6UuJk1r_aGCuQ&oe=6B08E038"
+      ],
+      "items": [
+        {
+          "id": "instagram_8b4f11cd38f2",
+          "name": "大切鹽味醬漬長鰭吞拿魚",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$17",
+          "priceEvidenceText": "分店*都有販售！🍣 🐟大切鹽味醬漬長鰭吞拿魚｜$17",
+          "branchScope": "restricted",
+          "branchEvidenceText": "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-11-17",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "11月17日 起～售完即止 軟嫩長鰭吞拿魚配上特製鹽味醬汁調味，鹹香誘人！",
+          "dateEvidenceText": "11月17日 起～售完即止 軟嫩長鰭吞拿魚配上特製鹽味醬汁調味，鹹香誘人！",
+          "dateConfidence": "explicit-section",
+          "priceText": "$17",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_af60b7067bcf",
+          "name": "特盛海灣貝海苔包配飛魚子",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$17",
+          "priceEvidenceText": "張拼埋5位角色啦！ 🐚特盛海灣貝海苔包配飛魚子｜$17",
+          "branchScope": "restricted",
+          "branchEvidenceText": "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-12-01",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "12月1日 起～售完即止",
+          "dateEvidenceText": "12月1日 起～售完即止",
+          "dateConfidence": "explicit-section",
+          "priceText": "$17",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_3a4e67c6f8c4",
+          "name": "黑芝麻千層蛋糕",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$38",
+          "priceEvidenceText": "限，換完即止！🤩🌟 🍰黑芝麻千層蛋糕｜$38",
+          "branchScope": "restricted",
+          "branchEvidenceText": "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$38",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_060806caae7f",
+          "name": "聯乘飲品套裝",
+          "itemType": "drink",
+          "foodCategory": "drink",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$59",
+          "priceEvidenceText": "🍣，全部紀錄珍藏！ 🥤聯乘飲品套裝｜$59",
+          "branchScope": "restricted",
+          "branchEvidenceText": "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$59",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_e003ac4f6179",
+          "name": "亞加力場景立牌",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$129",
+          "priceEvidenceText": "下聯乘限定精品⚡ 🖼️亞加力場景立牌｜$129",
+          "branchScope": "restricted",
+          "branchEvidenceText": "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$129",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_ccffb584c0c5",
+          "name": "襟章・第一彈",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$39",
+          "priceEvidenceText": "景同角色交換搭配！ 💎襟章・第一彈｜$39",
+          "branchScope": "restricted",
+          "branchEvidenceText": "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-11-17",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "11月17日 ～售完即止 5位角色嘅襟章融合悠閒旅行風格",
+          "dateEvidenceText": "11月17日 ～售完即止 5位角色嘅襟章融合悠閒旅行風格",
+          "dateConfidence": "explicit-section",
+          "priceText": "$39",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_96a0359b5cea",
+          "name": "襟章・第二彈",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$39",
+          "priceEvidenceText": "喺袋定收藏都咁啱！ 💎襟章・第二彈｜$39",
+          "branchScope": "restricted",
+          "branchEvidenceText": "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-12-01",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "12月1日 ～售完即止 Q版角色超得意！每個角色都攞住香港特色食物或者物件",
+          "dateEvidenceText": "12月1日 ～售完即止 Q版角色超得意！每個角色都攞住香港特色食物或者物件",
+          "dateConfidence": "explicit-section",
+          "priceText": "$39",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        },
+        {
+          "id": "instagram_ef58f53e5f37",
+          "name": "襟章・第三彈",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$39",
+          "priceEvidenceText": "！一定要儲齊一套！ 💎襟章・第三彈｜$39",
+          "branchScope": "restricted",
+          "branchEvidenceText": "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-12-07",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "12月7日 ～售完即止 Q版懷玉・玉折篇嘅五條 悟與夏油 傑走入香港街道，攞住相機同地圖紀錄旅行點滴",
+          "dateEvidenceText": "12月7日 ～售完即止 Q版懷玉・玉折篇嘅五條 悟與夏油 傑走入香港街道，攞住相機同地圖紀錄旅行點滴",
+          "dateConfidence": "explicit-section",
+          "priceText": "$39",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        }
+      ],
+      "reviewReasons": [
+        "A caption price was associated with a spend threshold or add-on quantity; it was not treated as a menu item.",
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "Multiple or partial item-specific promotion windows were kept on items; no global date window was inferred.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DgB_0CXRi24/",
+      "postId": "DgB_0CXRi24",
+      "contentFingerprint": "dc82cbdb3f483748d9756e4f7e7af700b58a2d57b44fe46dbac9de7bbb1bddea",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-21",
+      "startDate": "2026-11-17",
+      "endDate": null,
+      "dateScope": "global",
+      "supplyCondition": "until-sold-out",
+      "caption": "485 likes, 2 comments - sushiro.hk 建立於 November 21, 2026 : \"＼🧩Puzzle形狀插牌！集滿仲可以拼埋一齊✈️🧳／ 聯乘限定插牌（前半共5款，款式隨機） 隨【🐟大切鹽味醬漬長鰭吞拿魚｜$17】附送 📅販售期間：11月17日起～售完即止 軟嫩長鰭吞拿魚配上特製鹽味醬汁調味，鹹香誘人！ 👉🏻5款插牌可以好似puzzle🧩咁拼埋一齊！有齊咒術迴戰5位主要角色，攞住香港嘅特色嘢食🍍🍞， 即刻儲齊5張拼埋5位角色！ ✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）現正販售中 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場情況為準 ✨詳情請向店員查詢 ------------------------------------------------------ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ------------------------------------------------------ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #咒術迴戰 咒術迴戰壽司郎聯乘\".",
+      "imageUrls": [
+        "https://scontent.cdninstagram.com/v/t51.82787-15/920352399_18183898192441725_5351658790025149392_n.jpg?stp=c656.0.1968.1968a_dst-jpg_e35_s640x640_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=deLNdrEg0b8Q7kNvwHcmbt6&_nc_oc=AdpdSFv92jW2fQDAiVotzKRy4YT9KXK9s2IuUMJWOoV1-5X3XYu2_aaFz-HH0Hjsv90&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cPKkkspW4g_rP-I01IG2uA&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQRI4eE1X5TAqURuUcymJO4KFTrjMPqccGtexgcX24fNdw&oe=6B08F3B5"
+      ],
+      "items": [
+        {
+          "id": "instagram_b6071e374c00",
+          "name": "大切鹽味醬漬長鰭吞拿魚",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$17",
+          "priceEvidenceText": "款，款式隨機） 隨【🐟大切鹽味醬漬長鰭吞拿魚｜$17",
+          "branchScope": "restricted",
+          "branchEvidenceText": "販售中 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "販售中 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-11-17",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "11月17日 起～售完即止 軟嫩長鰭吞拿魚配上特製鹽味醬汁調味，鹹香誘人！",
+          "dateEvidenceText": "11月17日 起～售完即止 軟嫩長鰭吞拿魚配上特製鹽味醬汁調味，鹹香誘人！",
+          "dateConfidence": "explicit-section",
+          "priceText": "$17",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        }
+      ],
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/reel/Df0zxkdyvbw/",
+      "postId": "Df0zxkdyvbw",
+      "contentFingerprint": "e910087c37eae941d202c21c16de4a5d45b3fb6ef67e29f04f43a4a729cf4369",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-16",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "none",
+      "supplyCondition": "until-sold-out",
+      "caption": "1,066 likes, 3 comments - sushiro.hk 建立於 November 16, 2026 : \"＼咒術迴戰 +維多利亞港🌊！集滿插牌即換限定鐳射海報🗺️／ ☀️陽光照射住維港～咒術之旅・香港開始啦！ 咁靚嘅鐳射海報一定要收藏！ 🖼️【聯乘限定鐳射海報】換領活動 換領日期：11月17日～換完即止 換領地點：香港壽司郎全線分店（灣仔英皇集團中心店、深水埗西九龍中心店除外） 📌換領方法： 1. 堂食下單🍣 於聯乘限定商品販售分店，堂食下單 「大切鹽味醬漬長鰭吞拿魚」或 「特盛海灣貝海苔包配飛魚子」，以獲得隨餐贈品之插牌🧩 2. 集滿六張插牌🧩 於活動期間，集滿6張插牌。 3. 換領禮品🖼️ 前往任何一間香港壽司郎分店*，憑6張插牌（可相同款式），即可換領「聯乘限定鐳射海報」乙張（全1款）。 ✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨活動禮品可於壽司郎全線分店換領（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨活動禮品數量有限，先到先得，換完即止。 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場情況為準 ✨所有用於換領之插牌必須保持完整且可清晰辨認方能換領 ✨換領時，店員會於插牌背面方格內畫上記號，以示換領完成，客人可保留已畫上記號之插牌；若拒絕於插牌背面畫上記號，請恕無法換領，敬請諒解 ✨活動禮品一經換領，請恕無法退換 ✨詳情請向店員查詢 ------------------------------------------------------ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ------------------------------------------------------ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #咒術迴戰 #咒術迴戰壽司郎聯乘\"\".",
+      "imageUrls": [
+        "https://scontent.cdninstagram.com/v/t51.82787-15/904440090_18183441193441725_6375956945236313843_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=A-buSZx_6ZIQ7kNvwEdecnT&_nc_oc=AdoQdf9flYVvlZACPDgtL-auDyOBJd02UzUa8QSGXQev2YV_bHODpWb_AnTG0J8fwv4&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=SaMyD-fHVnNz-F2xZTkBaA&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQT72pHqdiBr4Q9T7tPG5wc9iZcxUE9NVqGoJee5avQ2og&oe=6B09035C"
+      ],
+      "items": [],
+      "reviewReasons": [
+        "Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item with an explicit HK$ or HKD price was found in the public caption.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/reel/Df1WGjohB-3/",
+      "postId": "Df1WGjohB-3",
+      "contentFingerprint": "5984140e3627732d03f0265376b373df1e75b1645830f8218158786ec11eccab",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-16",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "none",
+      "supplyCondition": "until-sold-out",
+      "caption": "1,821 likes, 26 comments - sushiro.hk 建立於 November 16, 2026 : \"＼✨咒術之旅・香港！到訪各個景點、領域展開！／ ⏳將今次聯乘限定場景立牌，全部收入囊中！ 🖼️亞加力場景立牌｜$129（共5款） 融入香港街道元素🏙️！5個主要角色搭配香港景點情境，角色魅力完美融合香港風景🚏！ 立牌帶出去打卡、擺喺度裝飾都得🎀 集齊5款仲可以將背景同角色交換搭配📸！ 🌊維多利亞港 & 虎杖 悠仁 🚠山頂纜車站 & 伏黑 惠 🚥銅鑼灣 & 釘崎 野薔薇 🌟旺角 & 五條 悟 🏞️西九文化區 & 七海 建人 凡於堂食消費滿$200*，即可以加購價購買聯乘限定精品⚡ 🏃🏻‍♂️‍➡️快啲嚟壽司郎帶晒佢哋返屋企啦！ ✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）現正販售中 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（深水埗西九龍中心店、灣仔英皇集團中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（深水埗西九龍中心店、灣仔英皇集團中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場情況為準 ✨[亞加力場景立牌]：堂食消費滿200即可加購2件；消費滿$400即可加購4件，最多可加購4件 ✨自助付款機不設加購精品 ✨詳情請向店員查詢 ------------------------------------------------------ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ------------------------------------------------------ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #咒術迴戰 #咒術迴戰壽司郎聯乘\".",
+      "imageUrls": [
+        "https://instagram.fhkg1-1.fna.fbcdn.net/v/t51.71878-15/906334304_1084163634659218_3936868156121571650_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjY0MC5zZHIudmlkZW9fZmlyc3RfZnJhbWVfdGh1bWJuYWlsLkMzIn0%3D&_nc_ohc=zC8ZNscBZI8Q7kNvwF0t6Mo&_nc_oc=AdpwK5t-YnpeuwWuI_l_LUGrb2LBw8vpQ3sBJFaoR1etdHxHp-CW5RPiC11U8eTVg-8&_nc_zt=23&_nc_ht=instagram.fhkg1-1.fna&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQSJNAOmF2iHGoxBRgX4-1-ta18vh50BgBUDQaQF4KWqmw&oe=6B090FEE",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/864951560_1137577438835442_2896511052728215650_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Iq4bPsN-iIAQ7kNvwF6Ofme&_nc_oc=Ado7EgJDsFOSu7I_SxcuDV9oMec0imFuIZvPkvnl2S1BBilQeXXguOrcqzgbgOa7uEs&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQQgMrIyk-On9hovwzsTE3042-Cvl-exDUrE2snhwoY-1w&oe=6B08E734",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/886551835_1144445711481948_6055195239624636495_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=RIX-y1cC0ZMQ7kNvwHXQ2sr&_nc_oc=Adrt1LvOBD7wgm8GQg7RDlbMKPNkh7mBsWoPKA-az7FXzYc6bCazZwHfAGDfMc2i7sM&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQSXXrKdto6Azr2Kbax-lV-kbfwWkfb7FDbPOqXGyt0pKQ&oe=6B08DE2A",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/891981736_1144445131482006_5818289026517864615_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=mzL6HnLQ3J8Q7kNvwGZP5xk&_nc_oc=Adp9XU7RgyOyCbccWxpCqZDZa-5gkuMSj-OHc2669MLEmAOPTXEFSxzzN4lmM1LO2f8&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQRsQzuN4m7v8oeXTk70iuFoOwYSUZlQA3gtACUrxVTiDA&oe=6B08E038",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/913224868_1158884230038096_4047210375432382204_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=WsxjnZIBseQQ7kNvwFJiIwN&_nc_oc=Adp_YWTS2cqhyxnBu55gGrlsuMyKOUr4AI81hlzg-sjr1Zoz7h647pNkU-Onr3m4DaA&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQSNZSiJAEM0RSqgwEvsn4zGOC-2qMWOLX8-zbFQcLQrjQ&oe=6B0912C6",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/12677299_983555558380163_1917214342_a.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=111&ig_cache_key=GLNwwQCDkqzfiX4DAIZeRnIAAAAAYUULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy45NjAuQzMifQ%3D%3D&_nc_ohc=jvB9lXtC3d0Q7kNvwFNX8cc&_nc_oc=AdrotplqMO6F_bv5p58ElHAZJQITiR43b2qw7y8EWLIEjnIlD1DIIKOS58Qa9S7JoBo&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQTfWUArXac0rK30jif1y2uw_OnDlQsvSvlKUkAiYPqXrw&oe=6B08F1C2",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/352831383_1656983124819261_5669367389050150459_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=108&ig_cache_key=GJfHBxU9vY1yBOMFADuehE2ao61ObkULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=K2uxEKm8eesQ7kNvwEIkJoy&_nc_oc=Adp2xdQEy2EOy4ZjMhuMy58T_Bm0g-wri6gsbUzhwiM78dT5Ik8SXC5sFxZc702PCK8&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRMAa46zqkvj84UX19Sckm-NloUe5Kdy3wmvXCuZiG3EQ&oe=6B08E47E",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/434291739_2436036003272238_1944703160387768800_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=106&ig_cache_key=GBvE4hkulqLUj6cIAOARfow4_fwabkULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4zMjAuQzMifQ%3D%3D&_nc_ohc=8bJC86VsDbUQ7kNvwEIHkf5&_nc_oc=AdqOhQDkz6qqWySOM2ne1X37ETerTXYLB9hQNPXkGTHhVNLjWLPuoVs1Qens92pIG84&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQSMSvnycPGhkukYgQuU9mAGR2G9NgwCjcZAB6irzgxT0g&oe=6B08F962",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/488503135_899981185535043_557901215195652364_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=102&ig_cache_key=GF-3HR1DTN4yhzIDAAzhfgczEL4HbkULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy44MDguQzMifQ%3D%3D&_nc_ohc=fxE_P4BVyg8Q7kNvwEjeXDr&_nc_oc=AdqCICuYpQErGV3ClhYi5wbXX9UZn2BgQIHY_cO-5EjpxZZkaCgLgfPQah66vCO-NkE&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQMQn3Pb-F-o_PoiFaZ9rcy1cPL7K_1u154qBUZd5lERg&oe=6B08E5A4",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015503_18183543211441725_6148460696832598574_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=TAtFFc9ipD8Q7kNvwHBOZyu&_nc_oc=AdrhQ-ex8lFIMJJVQRLwX7fgnYqYUb5v-pyvSaLKHyF7zIK9Yiqz8f67FgWKfyajiPk&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQRFcpzjYwuTow0YQIN3qmnMzlPeAYvAHbsCbmMVA67dyQ&oe=6B08F426",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015538_18183465034441725_9216952174225237577_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Yfd2qG6jNs8Q7kNvwE4AYOh&_nc_oc=Adq8j_NSZsWWgXQMee4iL4q9apdCV8WR4mfFJd8-LHEobg0Ruqksig1mFxUdv13RwrQ&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=obFW40iLPb7Y8HlFeb-W_A&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQQIk2XqY95KUOmkNFdJfu8lmmfo_iE_mJDp5pNlu7XpiA&oe=6B08E4EC",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/910626596_18183721039441725_7142596056010989740_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=AFfFyVO4fogQ7kNvwEd15iJ&_nc_oc=Adpl_62GEXmqCsxAC0Niiy5ANAuxK3pk4eqMlaBJBCksg1hcaep_EKQjWSIDyVjZ75o&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQTnQuB7sKLNjvvnGlYrbe2gfVaNAvUr8l7Fnju6GCzg8Q&oe=6B08FF0B",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/912124719_18183477919441725_7911212351939556592_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Y--e7HhojP8Q7kNvwFHvOTB&_nc_oc=AdoqD4LdbvoodrIXMHAiLfIk4e-I9DTGIS__dWv3K0rE1z5aYVcSl0py25iEyE_a6z4&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQRoirDBjHtnTiT2lYnvP7179YAUGtB3wtRkLVLJ15RsoQ&oe=6B090A73",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/916820926_18183728092441725_3942004390716920810_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=paKkbW9__tIQ7kNvwGe1GQV&_nc_oc=AdpNFh2Qc6VGzDul8kBcE2WLY6vHRtOArCGJMXU7aH-Yt6IP9xEztpeUWQu9HAk_VaY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQTpTgoQM-WolLQJvr8GYu46eDv6mg9Cg-ezsK7cKiFvdw&oe=6B090AB6",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/920352399_18183898192441725_5351658790025149392_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=deLNdrEg0b8Q7kNvwHcmbt6&_nc_oc=AdpdSFv92jW2fQDAiVotzKRy4YT9KXK9s2IuUMJWOoV1-5X3XYu2_aaFz-HH0Hjsv90&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQTjM9wD7pUfy0c-H4RImIeQbxXViBX1cGifSPk8IMlwpg&oe=6B08F3B5",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/656164591_18158630926441725_8837074373419433829_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=110&ig_cache_key=GO9GHCf9XPq5LYNAAGV-X2FSmKN6bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=oRGMagTYnQUQ7kNvwHSWojF&_nc_oc=AdqCqhCM7gZVegYTqTHDNVyk1_sVFjGUfZzmsXEGT8N-F3bQTl5NAysIrA5shugCt1o&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQgszjNybSxu9GCFn4ZtyOcdm1kDuBeHgxmGI4WMPbVOw&oe=6B08F49F",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/702179748_18073615244671112_7429481760237467619_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=108&ig_cache_key=GKRp2imIOHd42zVAAOO3MkBM0hpnbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=zqc79JowtyoQ7kNvwEcY47P&_nc_oc=AdoRM1cnR0rFGk_zyXMJqmtNXRmCvKkZ1MABRzcaYqtQC7fhQRRtnzCmh8v3WyG1jrE&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQR-w5s5qw1vfK0QjGvSp5BgMRaTEnaaeR304pdvD8nPow&oe=6B08EA3B",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/731650954_18364524796237286_830974590782734797_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=102&ig_cache_key=GIobnCvm1fIgcD5BAM0B_9T8NogLbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=IMUz3BJoXQcQ7kNvwEuysHP&_nc_oc=AdqXE3THaWkbO7YvKxH0qVEH6_dE0wO4t-xgOXMmrmnt5GV2Om3PgU3S9CRwbMe5IcI&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQSm1tfXZRh1Rvun8DLGO6MCkvb2rAJPaJ0auGSM7Zta-w&oe=6B08F740",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/776498120_18631827901062532_4475620603735846620_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=109&ig_cache_key=GMhrSC6EHY97jDFCANwuGOs5mRw_bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4zMjAuQzMifQ%3D%3D&_nc_ohc=qDIVvKMY-koQ7kNvwHUm5NL&_nc_oc=AdriMECvrUJj0oN0hBmUtIbkivifnYCIr1IwJhMbunAFAyUHpTCCMYMJpsbrU9VlpAw&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQT0dN8t7t8kpBA6DGt48b1tmS08f_uMRaGIVtYJY1OiWQ&oe=6B08FA3F",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/795981775_17959940475203268_4927735820339836193_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=111&ig_cache_key=GM_3cS-ELjaAeM4-ACH1Us6e1WJEbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=Md9XRwMpJkAQ7kNvwEn6F0F&_nc_oc=AdqwJ0Oiw3ceMa_3Z_HQfsB9DsHNHCqQ6Bg4o4FMljUuMuXj7nq_ebGjrGVdzUPw2Pc&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQSADhZQ53YxiOQmmUOjesZCd1i02lBvAh-JSaMTWe6hkw&oe=6B08E2E1",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/829762228_18336919966258664_1391772092364240858_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=105&ig_cache_key=GLQqdTHoFd3gVCVBANo3rBVYkVATbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=9NSr-hJMvmEQ7kNvwEIk9I_&_nc_oc=AdoNI1AbMkzYW0NGU1eokcNNAwYUfd62KMkXxvXIt9dsWoSteBhRZcmDILdIkkp8pAM&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRYOm7Q1FM-Pzad5YMR2azacLLWsCwqiMCM_aUOBav57A&oe=6B0910DD",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/876438211_18653930806017873_3265438367349320811_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=106&ig_cache_key=GMNiPTRRf1u3pkVCAGusyeHkKlEtbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=sMIw3beAvIYQ7kNvwGlWDVU&_nc_oc=AdpY_TSo1kGekGMl_mW5Vto8n46fYELhRqr-SqlrvJ0zAeotTrnaQuya8d-SKmWrz1E&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQS48Z6vFA2FNMZ1OKH1JB0e43wCh2Jo99-3TOC2veNU0Q&oe=6B08F4CB",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/901093667_18478997275140965_8793243330030692373_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=104&ig_cache_key=GCOZtTVl42PUjKZBABVoDVY44Ad6bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy44MDAuQzMifQ%3D%3D&_nc_ohc=5JmlaSPCk3MQ7kNvwFQwywe&_nc_oc=AdpgYGXbBJQUQsD0Zf2vBbzYBVRVs5qpLyz9MzYZnG9CntzCWi0vHEcVMEWh9B3_gFQ&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=u8-M0bi7MG44QFRDUpmSMw&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRl9QfHABbzCSrxtp8iQQA59o3oxzwYIMJHqn_shWW2sQ&oe=6B08E69F"
+      ],
+      "items": [
+        {
+          "id": "instagram_8ae35b005d9c",
+          "name": "亞加力場景立牌",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$129",
+          "priceEvidenceText": "，全部收入囊中！ 🖼️亞加力場景立牌｜$129",
+          "branchScope": "restricted",
+          "branchEvidenceText": "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）現正販售中 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（深水埗西九龍中心店、灣仔英皇集團中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（深水埗西九龍中心店、灣仔英皇集團中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）現正販售中 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（深水埗西九龍中心店、灣仔英皇集團中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（深水埗西九龍"
+          ],
+          "dateConfidence": "ambiguous",
+          "dateReviewReason": "A nearby sale period could not be confidently associated with this item.",
+          "priceText": "$129",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        }
+      ],
+      "reviewReasons": [
+        "A caption price was associated with a spend threshold or add-on quantity; it was not treated as a menu item.",
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item-specific sale dates were confidently available; verify dates manually.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/reel/Df1scYez0oD/",
+      "postId": "Df1scYez0oD",
+      "contentFingerprint": "d80bc49e0598b28f5e3ac95e81c75aa7d54936f23434f08767268c8182c0237b",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-17",
+      "startDate": "2026-11-17",
+      "endDate": null,
+      "dateScope": "global",
+      "supplyCondition": "until-sold-out",
+      "caption": "606 likes, 9 comments - sushiro.hk 建立於 November 17, 2026 : \"＼✨咒術之旅・香港！5位角色陪你周遊🗺️／ 💎襟章・第一彈｜$39（共5款，款式隨機） 📅販售期間：11月17日～售完即止 5位角色嘅襟章融合悠閒旅行風格🍃⛅️🏞️ 搭配香港景點，無論扣喺袋定收藏都咁啱！ 🌊維多利亞港 & 虎杖 悠仁 🚠山頂纜車站 & 伏黑 惠 🚥銅鑼灣 & 釘崎 野薔薇 🌟旺角 & 五條 悟 🏞️西九文化區 & 七海 建人 儲齊一套，將角色同景色全部收藏！✨ *單一消費淨額，即扣除每張收據折扣後，或信用卡折扣後，並包含加一服務費之實際付款金額 ✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）現正販售中 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場情況為準 ✨[襟章]：堂食消費滿200即可加購2件；消費滿$400即可加購4件，消費滿$600即可加購6件，最多可加購6件 ✨自助付款機不設加購精品 ✨詳情請向店員查詢 ------------------------------------------------------ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ------------------------------------------------------ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #咒術迴戰 #咒術迴戰壽司郎聯乘\".",
+      "imageUrls": [
+        "https://instagram.fhkg10-2.fna.fbcdn.net/v/t51.71878-15/904555767_3665941613563641_2826724470314763470_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjY0MC5zZHIudmlkZW9fZmlyc3RfZnJhbWVfdGh1bWJuYWlsLkMzIn0%3D&_nc_ohc=xTw6etYSjDIQ7kNvwFTZC71&_nc_oc=AdrvAjdbFkEiB5djvdofkDjTbjI-SjEZkxwDuCG-Kzo-k4cLptAmAKhgauIGlsAemnA&_nc_zt=23&_nc_ht=instagram.fhkg10-2.fna&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQRsH4Q0HZ2UgnUgYTB7Z7eBKlYrJpbbFTI4inQGM4CWwg&oe=6B08E9E5",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/864951560_1137577438835442_2896511052728215650_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Iq4bPsN-iIAQ7kNvwF6Ofme&_nc_oc=Ado7EgJDsFOSu7I_SxcuDV9oMec0imFuIZvPkvnl2S1BBilQeXXguOrcqzgbgOa7uEs&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQTVWUvLNLec5SBqeObOXsKIPoKz0o8J5rD4m2npEXh92w&oe=6B08E734",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/886551835_1144445711481948_6055195239624636495_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=RIX-y1cC0ZMQ7kNvwHXQ2sr&_nc_oc=Adrt1LvOBD7wgm8GQg7RDlbMKPNkh7mBsWoPKA-az7FXzYc6bCazZwHfAGDfMc2i7sM&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQRmG3LXaPL2g4pFhP6wtkXVWiU3UkdoGJYtMd_eNQYxjg&oe=6B08DE2A",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/891981736_1144445131482006_5818289026517864615_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=mzL6HnLQ3J8Q7kNvwGZP5xk&_nc_oc=Adp9XU7RgyOyCbccWxpCqZDZa-5gkuMSj-OHc2669MLEmAOPTXEFSxzzN4lmM1LO2f8&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQT5Y01zMVQ5tkUbBLtMWHWs0em3ZX5dtUo_UbXMJ3VEYw&oe=6B08E038",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/913224868_1158884230038096_4047210375432382204_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=WsxjnZIBseQQ7kNvwFJiIwN&_nc_oc=Adp_YWTS2cqhyxnBu55gGrlsuMyKOUr4AI81hlzg-sjr1Zoz7h647pNkU-Onr3m4DaA&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQTsOrpWSqVvoBB1EUwZK52k1h_rNzk4M2nNXDfQKtANzA&oe=6B0912C6",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/101014112_923388994774945_4288549777341153280_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=104&ig_cache_key=GGBaBQah5wVB0UcDAAAAAABN-YM7bkULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy40NjIuQzMifQ%3D%3D&_nc_ohc=k3O_oUWArH0Q7kNvwHg-EAw&_nc_oc=AdpG9RXWmHysjT_S_Qlmswfr0ftKvP0GXvjY1SoCmiW9HHu0AfB_QXF54gUErcokbAc&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQl9QWfmgjXSnXNa2A34n3hbRDt5hZsv6KSGg8MmTsE7g&oe=6B08F75A",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/351273305_652937296850420_8911066429740952117_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=100&ig_cache_key=GFkB8BT0raPP11ECADUqnnq0d6p7bkULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NDAuQzMifQ%3D%3D&_nc_ohc=0CR6gxLhRe4Q7kNvwEut4HA&_nc_oc=AdqPMU8isb5Z3isudBAozgeBtrY5B6HMrlhcVUaNoLeOvrJmMD0EpvyX46SEdc_y4J4&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQSPUSuIq7z02WZ3LeHlprK9MF4pPJsF1p-RmD9cWmPQ2g&oe=6B090379",
+        "https://scontent.cdninstagram.com/v/t51.2885-19/456691010_2184665605241821_3847736073178485543_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=100&ig_cache_key=GEKNOBvde1oZ8cIHACeTQoeS52U1bkULAAAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy43MjAuQzMifQ%3D%3D&_nc_ohc=m5y-z0VnWDMQ7kNvwFl1Xx4&_nc_oc=AdqXdqaH2OSNCJsV916XC7rwktvFAIBRitkrCfMvjAwkU3XCPv_CM9YEl1Ixuxkr350&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRA0mm_28RipLTeR-GxItiYNgfkwbPdduj8Nb_AgAAfhA&oe=6B090695",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015503_18183543211441725_6148460696832598574_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=TAtFFc9ipD8Q7kNvwHBOZyu&_nc_oc=AdrhQ-ex8lFIMJJVQRLwX7fgnYqYUb5v-pyvSaLKHyF7zIK9Yiqz8f67FgWKfyajiPk&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQQKgFWbFOVkFzooMaU5Kk40bgshQHeYCB8egkL75XCLUQ&oe=6B08F426",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015538_18183465034441725_9216952174225237577_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Yfd2qG6jNs8Q7kNvwE4AYOh&_nc_oc=Adq8j_NSZsWWgXQMee4iL4q9apdCV8WR4mfFJd8-LHEobg0Ruqksig1mFxUdv13RwrQ&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQQ3LUig6quP_dqkEGrjRZHQGL-pKT2hm3Il3MyNNfEfOQ&oe=6B08E4EC",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/910626596_18183721039441725_7142596056010989740_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=AFfFyVO4fogQ7kNvwEd15iJ&_nc_oc=Adpl_62GEXmqCsxAC0Niiy5ANAuxK3pk4eqMlaBJBCksg1hcaep_EKQjWSIDyVjZ75o&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQSytvR-3FJsFiOBqvjB0c1Zzd4_jD_T35gItKWYlTtLzg&oe=6B08FF0B",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/912124719_18183477919441725_7911212351939556592_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Y--e7HhojP8Q7kNvwFHvOTB&_nc_oc=AdoqD4LdbvoodrIXMHAiLfIk4e-I9DTGIS__dWv3K0rE1z5aYVcSl0py25iEyE_a6z4&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AD2yj2QtXzwSDH_8IHhbqQ&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQSytwponIx87Jwd0kQ-a_cNUSWK7EFDyvhy-qFgWTd_pg&oe=6B090A73",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/916820926_18183728092441725_3942004390716920810_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=paKkbW9__tIQ7kNvwGe1GQV&_nc_oc=AdpNFh2Qc6VGzDul8kBcE2WLY6vHRtOArCGJMXU7aH-Yt6IP9xEztpeUWQu9HAk_VaY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQSRJzKUBlD0UBOp9JCp0FLkvBurcZe-KhgkFGin9ACrxg&oe=6B090AB6",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/920352399_18183898192441725_5351658790025149392_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=deLNdrEg0b8Q7kNvwHcmbt6&_nc_oc=AdpdSFv92jW2fQDAiVotzKRy4YT9KXK9s2IuUMJWOoV1-5X3XYu2_aaFz-HH0Hjsv90&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQRMOpgcuHIMYILMVDtdh7R__L13iwiwIkTb7FoCB_06aA&oe=6B08F3B5",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/656164591_18158630926441725_8837074373419433829_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=110&ig_cache_key=GO9GHCf9XPq5LYNAAGV-X2FSmKN6bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=oRGMagTYnQUQ7kNvwHSWojF&_nc_oc=AdqCqhCM7gZVegYTqTHDNVyk1_sVFjGUfZzmsXEGT8N-F3bQTl5NAysIrA5shugCt1o&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRBtU1-VfXTK5bW8Bw93E0_qdattky_9OFutY9aT1pebQ&oe=6B08F49F",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/684218813_17933882961247946_8295472488658731626_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=108&ig_cache_key=GL1ZyCjKPlmDxbY-AGqCh-JGcB9zbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy44NjcuQzMifQ%3D%3D&_nc_ohc=k6eTV8_IlVoQ7kNvwGNeENx&_nc_oc=AdqWuXdlHhmL2IoW8i1DuDsc1GX4fWd0WlyZKp-Uhi1aJvpyp1Z9vQxVgYn9q6QSx2U&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRagiYlinsG01HVCrfl795O8iWseIlqmhFu0n01L6VYfQ&oe=6B08DB70",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/773531470_18113595440050312_3821347243671387795_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=106&ig_cache_key=GE4nGy6IMM8VOFpAAJN_c14SJwg1bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=oshMBQ7daqwQ7kNvwFK1B5N&_nc_oc=AdpwGoYWMZpLFIoMAbyCPG2ALuX3DnJDt5jsbJ67OgWOswJdXP816rcPo5hgAi39Udw&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQSj-Sk3aoHa4WyRMtb6Pym9PL6TLc5UbzDAV20sLuM0g&oe=6B08EC54",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/776498120_18631827901062532_4475620603735846620_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=109&ig_cache_key=GMhrSC6EHY97jDFCANwuGOs5mRw_bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4zMjAuQzMifQ%3D%3D&_nc_ohc=qDIVvKMY-koQ7kNvwHUm5NL&_nc_oc=AdriMECvrUJj0oN0hBmUtIbkivifnYCIr1IwJhMbunAFAyUHpTCCMYMJpsbrU9VlpAw&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQtktVnEoZNjCtfbztzLoBYSeYWD35vsRBFaD0I5JtL2g&oe=6B08FA3F",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/795981775_17959940475203268_4927735820339836193_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=111&ig_cache_key=GM_3cS-ELjaAeM4-ACH1Us6e1WJEbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=Md9XRwMpJkAQ7kNvwEn6F0F&_nc_oc=AdqwJ0Oiw3ceMa_3Z_HQfsB9DsHNHCqQ6Bg4o4FMljUuMuXj7nq_ebGjrGVdzUPw2Pc&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRD0sVKW_Ij2WVBXylXJ9zZuR4CGpjboeI-S_LNBx-POw&oe=6B08E2E1",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/876438211_18653930806017873_3265438367349320811_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=106&ig_cache_key=GMNiPTRRf1u3pkVCAGusyeHkKlEtbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=sMIw3beAvIYQ7kNvwGlWDVU&_nc_oc=AdpY_TSo1kGekGMl_mW5Vto8n46fYELhRqr-SqlrvJ0zAeotTrnaQuya8d-SKmWrz1E&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQSspVyh9x6xaFuGdv8G8qVV3OT8aEGmFHC39OWTjG_58A&oe=6B08F4CB",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/921015615_18400272247206294_9161252166254512051_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=105&ig_cache_key=GD_V5TaWsRA7815BALPHYItOTiN-bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=6sk7-6o_TZgQ7kNvwGiMQED&_nc_oc=Adp6YjymxOsEVdqtk0eOIu-qZVQqTG3jiPEmBY4D5pv1u2_OPMhipnNkH7VI8bwD0kQ&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=uNZFeOFaTuVUXa78gL09sA&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQRdE3gRBa6keqiuUvjw6MK6jqjSJ4VlFQuaeujr9IchdA&oe=6B08F2D8"
+      ],
+      "items": [
+        {
+          "id": "instagram_e0d371459024",
+          "name": "襟章・第一彈",
+          "itemType": "merchandise",
+          "foodCategory": "food",
+          "purchaseCondition": "conditional-add-on",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$39",
+          "priceEvidenceText": "角色陪你周遊🗺️／ 💎襟章・第一彈｜$39",
+          "branchScope": "restricted",
+          "branchEvidenceText": "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）現正販售中 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）現正販售中 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "startDate": "2026-11-17",
+          "supplyCondition": "until-sold-out",
+          "availabilityEvidenceText": "11月17日 ～售完即止 5位角色嘅襟章融合悠閒旅行風格",
+          "dateEvidenceText": "11月17日 ～售完即止 5位角色嘅襟章融合悠閒旅行風格",
+          "dateConfidence": "explicit-section",
+          "priceText": "$39",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        }
+      ],
+      "reviewReasons": [
+        "A caption price was associated with a spend threshold or add-on quantity; it was not treated as a menu item.",
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/reel/Df3mRqdB6lU/",
+      "postId": "Df3mRqdB6lU",
+      "contentFingerprint": "df66a71f6917ac59b634aa3b910f02635b8deeae20b4646a57a9e77f42cabcc1",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-17",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "none",
+      "supplyCondition": "until-sold-out",
+      "caption": "357 likes, 4 comments - sushiro.hk 建立於 November 17, 2026 : \"＼🎁限定聯乘卡套！對應角色顏色收入小卡、收藏卡／ ✨卡套（共5款，款式隨機） 隨【🥤聯乘飲品套裝｜$59】附送 👉🏻5款以角色代表顏色為設計嘅卡套可以裝入唔同小卡！ 裝到今次聯乘限定嘅透明收藏卡之餘✨唔同類型嘅卡都擺得入， 設計仲加入咗香港景點同埋角色名～ 掛袋🉐、收藏都🉐；實用得嚟又靚🥳！ ✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩✮ ⋆ ˚｡𖦹 ⋆｡°✩⋆⭒˚.⋆✮ ⋆ ˚｡𖦹 ⋆｡°✩ ✨咒術迴戰聯乘限定商品於11月17日（二）正式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場情況為準 ✨詳情請向店員查詢 ------------------------------------------------------ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ------------------------------------------------------ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #咒術迴戰 #咒術迴戰壽司郎聯乘\".",
+      "imageUrls": [
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015503_18183543211441725_6148460696832598574_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=TAtFFc9ipD8Q7kNvwHBOZyu&_nc_oc=AdrhQ-ex8lFIMJJVQRLwX7fgnYqYUb5v-pyvSaLKHyF7zIK9Yiqz8f67FgWKfyajiPk&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=-WhLNWm5s_9hJc0LfsR4UA&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQTsONGPeIjud3Py_uAwE963FiRMD35VA1JGNvmRysvL1Q&oe=6B08F426"
+      ],
+      "items": [
+        {
+          "id": "instagram_7013284d0f70",
+          "name": "聯乘飲品套裝",
+          "itemType": "drink",
+          "foodCategory": "drink",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$59",
+          "priceEvidenceText": "款，款式隨機） 隨【🥤聯乘飲品套裝｜$59",
+          "branchScope": "restricted",
+          "branchEvidenceText": "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團中心店、深水埗西九龍中心店除外） 庫存數量可參閱：https://shorturl.at/2IEc7，表格內之數量僅供參考，實際庫存請以現場",
+          "branchExclusions": [
+            "式開售 ✨所有聯乘壽司於11月17日至12月1日以赤醋飯提供，12月2日起以白醋飯提供至售完即止 ✨咒術迴戰聯乘限定商品於壽司郎全線分店有售（灣仔英皇集團中心店、深水埗西九龍中心店除外） ✨期間限定商品及加購精品數量有限，售完即止（灣仔英皇集團"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$59",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        }
+      ],
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item-specific sale dates were confidently available; verify dates manually.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/reel/Df9EbriR2Av/",
+      "postId": "Df9EbriR2Av",
+      "contentFingerprint": "7ff550865e2b327e31378ef570a9153e701deb5166ebcf1cc5b29c2ca10a5d73",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-19",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "none",
+      "supplyCondition": "until-sold-out",
+      "caption": "268 likes, 2 comments - sushiro.hk 建立於 November 19, 2026 : \"壽司1秒升級🥢 ＼今期亮點 ／山葵莖🌱🌱!? 細切山葵莖，除咗清辛，仲保留獨特嘅「粒粒口感」～ 小編強烈建議大家將山葵莖，配搭🐟京都伊根產生黑鮪 一齊食！ 當辛香山葵莖🌱，遇上豐厚油脂嘅黑鮪吞拿魚🐟，結合赤醋飯獨有嘅醇厚香味🍚 微辛口感中和魚脂油膩感，將黑鮪嘅甘甜更突出！ 📽️新登場商品📽️ 🌱🌱山葵莖Wasabi｜$6 🏮京都伊根生黑鮪吞拿魚二貫盛｜$32 ════════════════════════════════ 🔸【赤醋飯祭】限定商品於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸期間限定商品數量有限，售完即止 🔸詳情請向店員查詢 ════════════════════════════════ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ════════════════════════════════ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #赤醋飯祭 #山葵莖\".",
+      "imageUrls": [
+        "https://scontent.cdninstagram.com/v/t51.82787-15/910626596_18183721039441725_7142596056010989740_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=AFfFyVO4fogQ7kNvwEd15iJ&_nc_oc=Adpl_62GEXmqCsxAC0Niiy5ANAuxK3pk4eqMlaBJBCksg1hcaep_EKQjWSIDyVjZ75o&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=uzErJQ_ymykTnGA48B6keA&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQSOG180mau3XK5moazD0yP3Qz2kxwwm1qVn58CABWQWZg&oe=6B08FF0B"
+      ],
+      "items": [
+        {
+          "id": "instagram_a3d1a4429239",
+          "name": "山葵莖Wasabi",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$6",
+          "priceEvidenceText": "️新登場商品📽️ 🌱🌱山葵莖Wasabi｜$6",
+          "branchScope": "restricted",
+          "branchEvidenceText": "asabi｜$6 🏮京都伊根生黑鮪吞拿魚二貫盛｜$32 ════════════════════════════════ 🔸【赤醋飯祭】限定商品於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸期間限定商品數量有限，售完即止 🔸詳情請向店員查詢 ═════════════════════════",
+          "branchExclusions": [
+            "asabi｜$6 🏮京都伊根生黑鮪吞拿魚二貫盛｜$32 ════════════════════════════════ 🔸【赤醋飯祭】限定商品於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】於全線分店有售；深水埗西九龍中"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$6",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "wasabi_stem"
+        },
+        {
+          "id": "instagram_31ff468e47f8",
+          "name": "京都伊根生黑鮪吞拿魚二貫盛",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$32",
+          "priceEvidenceText": "Wasabi｜$6 🏮京都伊根生黑鮪吞拿魚二貫盛｜$32",
+          "branchScope": "restricted",
+          "branchEvidenceText": "asabi｜$6 🏮京都伊根生黑鮪吞拿魚二貫盛｜$32 ════════════════════════════════ 🔸【赤醋飯祭】限定商品於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】於全線分店有售；深水埗西九龍中心店之壽司商品均一律使用常規白醋飯 🔸期間限定商品數量有限，售完即止 🔸詳情請向店員查詢 ═════════════════════════",
+          "branchExclusions": [
+            "asabi｜$6 🏮京都伊根生黑鮪吞拿魚二貫盛｜$32 ════════════════════════════════ 🔸【赤醋飯祭】限定商品於全線分店有售（深水埗西九龍中心店 除外） 🔸【京都伊根生黑鮪吞拿魚】於全線分店有售；深水埗西九龍中"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$32",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency",
+          "existingMenuId": "kyoto_ine_bluefin_two"
+        }
+      ],
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item-specific sale dates were confidently available; verify dates manually.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/reel/Df9SMvewCgw/",
+      "postId": "Df9SMvewCgw",
+      "contentFingerprint": "632e5d51926996189632e7a4d3049d96a2181cd46f98898b42e19cc8d86f4093",
+      "extractionMethod": "public-html-meta-caption-and-exposed-media",
+      "extractionVersion": "instagram-caption-v3",
+      "authorEvidence": {
+        "account": "sushiro.hk",
+        "sourceField": "og:description",
+        "evidenceText": "sushiro.hk 建立於",
+        "confidence": "high"
+      },
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": "2026-11-20",
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "none",
+      "supplyCondition": "until-sold-out",
+      "caption": "853 likes, 2 comments - sushiro.hk 建立於 November 20, 2026 : \"天氣轉凍，手腳凍冰冰🥶？ 呢個時候最需要一碗熱辣辣、香噴噴嘅拉麵🍜～！ 🍜大蜆鹽味拉麵｜$36 一打開，濃厚雞湯香氣🐓撲鼻而來！ 再飲啖熱湯，感受大蜆同帆立貝帶嚟嘅清甜鮮味🌊 加上兩種特製醬油嘅醇厚鹹香，層次豐富到令人停唔到口🤤 天氣咁凍，嚟壽司郎叫碗大蜆鹽味拉麵！ 飲啖熱湯暖身♨️，再大啖啜入麵條，讓溫熱暖意由胃至漫延全身🥰 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸 期間限定商品數量有限，售完即止 🔸 詳情請向店員查詢 ════════════════════════════════ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.com.hk/ ════════════════════════════════ #壽司郎 #スシロー #SUSHIRO #香港壽司郎 #赤醋飯祭\".",
+      "imageUrls": [
+        "https://instagram.fhkg10-1.fna.fbcdn.net/v/t51.71878-15/916992418_2529731070847597_4299849841076400570_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjY0MC5zZHIudmlkZW9fZmlyc3RfZnJhbWVfdGh1bWJuYWlsLkMzIn0%3D&_nc_ohc=h93g9lVxDwsQ7kNvwF9oUk1&_nc_oc=AdocgpOPgUs1nnC8yG5yQKSuWNOFCmLwH_fN6fXMvEPbmtpZI7e7oMx_zJbJ8uqaT68&_nc_zt=23&_nc_ht=instagram.fhkg10-1.fna&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQT-V-jzqwWynHW_bdn2w5bmi1vit0PInug6xhrhpD8BCA&oe=6B08EB77",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/864951560_1137577438835442_2896511052728215650_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Iq4bPsN-iIAQ7kNvwF6Ofme&_nc_oc=Ado7EgJDsFOSu7I_SxcuDV9oMec0imFuIZvPkvnl2S1BBilQeXXguOrcqzgbgOa7uEs&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQSGo1J-p6u1MxTAoL5tLqrCzH8md06026lYStvC2WNXFw&oe=6B08E734",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/886551835_1144445711481948_6055195239624636495_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=RIX-y1cC0ZMQ7kNvwHXQ2sr&_nc_oc=Adrt1LvOBD7wgm8GQg7RDlbMKPNkh7mBsWoPKA-az7FXzYc6bCazZwHfAGDfMc2i7sM&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQQY1jMvAVod3s7j22AWbTHgtJnAR5K20DDFP2d51tbwuQ&oe=6B08DE2A",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/891981736_1144445131482006_5818289026517864615_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=mzL6HnLQ3J8Q7kNvwGZP5xk&_nc_oc=Adp9XU7RgyOyCbccWxpCqZDZa-5gkuMSj-OHc2669MLEmAOPTXEFSxzzN4lmM1LO2f8&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQTCZdy5qZDrmyww5iUj23anXlHIVRUF8UrW2FEDSTX_Fw&oe=6B08E038",
+        "https://scontent.cdninstagram.com/v/t39.30808-6/913224868_1158884230038096_4047210375432382204_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=WsxjnZIBseQQ7kNvwFJiIwN&_nc_oc=Adp_YWTS2cqhyxnBu55gGrlsuMyKOUr4AI81hlzg-sjr1Zoz7h647pNkU-Onr3m4DaA&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQQGawDTCS3OkVex10z_Lx21aoRL9a_3SH3L4_3SoXvhlQ&oe=6B0912C6",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015503_18183543211441725_6148460696832598574_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=TAtFFc9ipD8Q7kNvwHBOZyu&_nc_oc=AdrhQ-ex8lFIMJJVQRLwX7fgnYqYUb5v-pyvSaLKHyF7zIK9Yiqz8f67FgWKfyajiPk&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQRVO8CgYbvA4vafrKfnWnEGvKYOyR4rZunhMJ-cskxPEQ&oe=6B08F426",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/903015538_18183465034441725_9216952174225237577_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Yfd2qG6jNs8Q7kNvwE4AYOh&_nc_oc=Adq8j_NSZsWWgXQMee4iL4q9apdCV8WR4mfFJd8-LHEobg0Ruqksig1mFxUdv13RwrQ&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQTfViaCo-13YdotObfwPuNP87E3ea_y2UcaBBWYhtN36A&oe=6B08E4EC",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/910626596_18183721039441725_7142596056010989740_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=AFfFyVO4fogQ7kNvwEd15iJ&_nc_oc=Adpl_62GEXmqCsxAC0Niiy5ANAuxK3pk4eqMlaBJBCksg1hcaep_EKQjWSIDyVjZ75o&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQRRF7DWwhWp4C-KtVtxUIr348TWcxmj4pNxYj5NiTmi2g&oe=6B08FF0B",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/912124719_18183477919441725_7911212351939556592_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Y--e7HhojP8Q7kNvwFHvOTB&_nc_oc=AdoqD4LdbvoodrIXMHAiLfIk4e-I9DTGIS__dWv3K0rE1z5aYVcSl0py25iEyE_a6z4&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQSIn66-m99vB5F-FgGf5J8B7PnOtCBWD4jyTQ6210gUJg&oe=6B090A73",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/916820926_18183728092441725_3942004390716920810_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=paKkbW9__tIQ7kNvwGe1GQV&_nc_oc=AdpNFh2Qc6VGzDul8kBcE2WLY6vHRtOArCGJMXU7aH-Yt6IP9xEztpeUWQu9HAk_VaY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=-NIHWC7iPHzLd9lSISVFkg&_nc_ss=7860f&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQRN__XN-0kHlFhZSFu07FXtsvx7dr8jtnpLeAVjoaCscg&oe=6B090AB6",
+        "https://scontent.cdninstagram.com/v/t51.82787-15/920352399_18183898192441725_5351658790025149392_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=deLNdrEg0b8Q7kNvwHcmbt6&_nc_oc=AdpdSFv92jW2fQDAiVotzKRy4YT9KXK9s2IuUMJWOoV1-5X3XYu2_aaFz-HH0Hjsv90&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQTA0VQ1tGFA62v0TwncxA8eDVMLURl5LEDcZ49wjPt3aA&oe=6B08F3B5",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/656164591_18158630926441725_8837074373419433829_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=110&ig_cache_key=GO9GHCf9XPq5LYNAAGV-X2FSmKN6bmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=oRGMagTYnQUQ7kNvwHSWojF&_nc_oc=AdqCqhCM7gZVegYTqTHDNVyk1_sVFjGUfZzmsXEGT8N-F3bQTl5NAysIrA5shugCt1o&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQSDBsazzAzDMl0TZOHLI55gYX142q6QxfIKuQBEUKdDig&oe=6B08F49F",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/743327820_18088393577383896_6693455286722891884_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=109&ig_cache_key=GExITizYx7xRTENAAGwQFK0e7uNcbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=uSzwy77UHEUQ7kNvwFbROLb&_nc_oc=Adq2ogQTSH9miC9D-9c-ZpgjkoZYEFitdc6OVXPRf0vJxSUGw_MG7WSg3coqAB9pZFU&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQQ-VQCkvHWFmJd2p3pb7btOrKAtuwCYMr-xKJhNOQzuzA&oe=6B0905C3",
+        "https://scontent.cdninstagram.com/v/t51.82787-19/764382577_18612399118048619_2234355495300195687_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=101&ig_cache_key=GHGNjy1rXdnd4B9CAGdlTx98BgIfbmNDAQAB1501500j-ccb7-5&ccb=7-5&_nc_sid=669407&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy4xMDgwLkMzIn0%3D&_nc_ohc=ecg-_FKdvIYQ7kNvwEwoWBe&_nc_oc=AdpeRJ5Y_Rkn6gQBFtIfcC_Yqzjjxf7tX6fx9JKUtoCbLB7pgIdGCDB_Hy4SE1MUJ_Y&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=cojBrsGtYMUqERMJa88P9Q&_nc_ss=7860f&_nc_ct=RQosPBUCFQIAAAA&oh=00_AQSz959uP4RhEEtswUs8P5s-TcSzwBI1baBDTyAmeSmyEw&oe=6B08DCF2"
+      ],
+      "items": [
+        {
+          "id": "instagram_8f2d1b3b3f5f",
+          "name": "大蜆鹽味拉麵",
+          "itemType": "dish",
+          "foodCategory": "food",
+          "purchaseCondition": "standard",
+          "dateReviewRequired": true,
+          "priceEvidenceSource": "caption",
+          "priceEvidenceQuote": "$36",
+          "priceEvidenceText": "香噴噴嘅拉麵🍜～！ 🍜大蜆鹽味拉麵｜$36",
+          "branchScope": "restricted",
+          "branchEvidenceText": "讓溫熱暖意由胃至漫延全身🥰 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸 期間限定商品數量有限，售完即止 🔸 詳情請向店員查詢 ════════════════════════════════ 壽司郎分店地址 及 菜單請參閱：https://sushirohk.co",
+          "branchExclusions": [
+            "讓溫熱暖意由胃至漫延全身🥰 ════════════════════════════════ 🔸【赤醋飯祭】限定商品 11 月 3 日（二）起，於全線分店有售（深水埗西九龍中心店 除外） 🔸 期間限定商品數量有限，售完即止 🔸 詳情請向店員查詢"
+          ],
+          "dateConfidence": "not-stated",
+          "dateReviewReason": "No item-specific sale period was reliably associated with this item.",
+          "priceText": "$36",
+          "priceSource": "ambiguous-caption",
+          "priceConfidence": "ambiguous-currency"
+        }
+      ],
+      "reviewReasons": [
+        "A price was present without an explicit HKD marker; its numeric value was not imported.",
+        "Instagram-derived menu changes require human review before publishing.",
+        "No item-specific sale dates were confidently available; verify dates manually.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ],
+      "observedAt": "2026-11-23T01:19:57+08:00",
+      "discoverySources": [
+        "instagram-profile"
+      ]
+    }
+  ]
 }
