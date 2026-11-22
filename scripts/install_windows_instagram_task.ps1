@@ -42,7 +42,7 @@ $action = New-ScheduledTaskAction -Execute $PythonExe -Argument $arguments -Work
 $trigger = New-ScheduledTaskTrigger -Daily -At ([datetime]::ParseExact($Time, "HH:mm", $null))
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 20)
 # Use only the logged-in user's gh credentials. No stored password/token.
-$user = "$env:USERDOMAIN\$env:USERNAME"
+$user = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 $principal = New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited
 Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description "Public Sushiro Instagram scan to draft review PR (no menu publishing)" -Force | Out-Null
 
@@ -51,4 +51,4 @@ Write-Output "Windows local scan time: $Time (computer must be awake and user lo
 Write-Output "Runner installed at: $installed"
 Write-Output "To dry-run now: python scripts/local_instagram_bridge.py"
 Write-Output "To check task: Get-ScheduledTask -TaskName $TaskName"
-Write-Output "To remove task: Unregister-ScheduledTask -TaskName $TaskName -Confirm:false"
+Write-Output ('To remove task: Unregister-ScheduledTask -TaskName ' + $TaskName + ' -Confirm:$false')
