@@ -558,6 +558,24 @@ def _evaluate_item(
     context_match = re.fullmatch(r"\$\s*(\d+(?:\.\d+)?)", context_text.strip()) if isinstance(context_text, str) else None
     live_item_for_context = _live_item_by_name(fresh_post, name)
     live_author = fresh_post.get("authorEvidence") if isinstance(fresh_post, dict) else None
+    # Public Instagram metadata may encode its author as
+    # "sushiro.hk 建立於" in og:description. Accept ONLY that exact author
+    # attribution shape, not an arbitrary @mention in a caption.
+    verified_author_field = bool(
+        isinstance(live_author, dict)
+        and (
+            live_author.get("sourceField") in {"article:author", "author", "og:title"}
+            or (
+                live_author.get("sourceField") == "og:description"
+                and isinstance(live_author.get("evidenceText"), str)
+                and re.fullmatch(
+                    r"@?sushiro\.hk\s+(?:建立於|created|on\s+instagram)",
+                    str(live_author["evidenceText"]).strip(),
+                    re.IGNORECASE,
+                ) is not None
+            )
+        )
+    )
     official_hk_context = bool(
         policy.get("allowOfficialHkDollarContext") is True
         and price_source == "caption"
@@ -568,7 +586,7 @@ def _evaluate_item(
         and live_item_for_context.get("priceText") == context_text
         and isinstance(live_author, dict)
         and live_author.get("account") == "sushiro.hk"
-        and live_author.get("sourceField") in {"article:author", "author", "og:title"}
+        and verified_author_field
         and fresh_post is not None
         and fresh_post.get("contentFingerprint") == post.get("contentFingerprint")
         and not live_error
