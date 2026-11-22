@@ -37,7 +37,7 @@ DIFF_PATH = REPO_ROOT / "data" / "autopublish_diff.json"
 OCR_SCHEMA_VERSION = 1
 PRICE_EVIDENCE_RE = re.compile(r"(?:HK\s*\$|HKD)\s*(\d+(?:\.\d+)?)", re.IGNORECASE)
 AMBIGUOUS_PRICE_RE = re.compile(r"(?:^|[^A-Za-z])\$\s*(\d+(?:\.\d+)?)")
-RESTRICTION_RE = re.compile(r"只限|僅限|仅限|指定分店|分店限定|限定店舖|限定店铺")
+RESTRICTION_RE = re.compile(r"只限|僅限|仅限|指定分店|分店限定|限定店舖|限定店铺|除外|不適用|不包括|不包含|不含|恕不供應|恕不適用")
 UNSUPPORTED_PACKAGE_RE = re.compile(r"套裝|套组|套餐|加購|加购|贈品|赠品|消費滿|消费满|即可加購|即可加购|set meal|bundle", re.IGNORECASE)
 UNTIL_SOLD_RE = re.compile(r"售完即止|售罄|數量有限|数量有限")
 OPEN_ENDED_RE = re.compile(r"長期供應|长期供应|不限期|不設期限|不设期限")
@@ -125,7 +125,7 @@ def validate_policy(policy: dict[str, object]) -> None:
         raise ValueError("Unsupported auto-publish policy schema")
     if not isinstance(policy.get("policyVersion"), str) or not policy["policyVersion"].strip():
         raise ValueError("Policy version is required")
-    for flag in ("productionEnabled", "killSwitch", "requireCompleteCarouselOcr"):
+    for flag in ("productionEnabled", "killSwitch", "requireCompleteCarouselOcr", "allowOfficialHkDollarContext"):
         if not isinstance(policy.get(flag), bool):
             raise ValueError(f"Policy flag must be boolean: {flag}")
     if policy.get("sourceAccount") != "sushiro.hk":
@@ -550,9 +550,39 @@ def _evaluate_item(
     price = _numeric_price(item)
     price_quote = item.get("priceEvidenceQuote") or item.get("priceEvidenceText") or item.get("priceText")
     price_match = PRICE_EVIDENCE_RE.search(price_quote) if isinstance(price_quote, str) else None
+    # Experimental HK-context pilot. The "$" marker on its own is NOT proof
+    # of HKD; require the actual Instagram post to reproduce the exact
+    # candidate item name + price and prove the author via a structured
+    # metadata field, not just a mention in someone else's caption.
+    context_text = item.get("priceText")
+    context_match = re.fullmatch(r"\$\s*(\d+(?:\.\d+)?)", context_text.strip()) if isinstance(context_text, str) else None
+    live_item_for_context = _live_item_by_name(fresh_post, name)
+    live_author = fresh_post.get("authorEvidence") if isinstance(fresh_post, dict) else None
+    official_hk_context = bool(
+        policy.get("allowOfficialHkDollarContext") is True
+        and price_source == "caption"
+        and price_confidence == "ambiguous-currency"
+        and context_match is not None
+        and live_item_for_context is not None
+        and live_item_for_context.get("priceConfidence") == "ambiguous-currency"
+        and live_item_for_context.get("priceText") == context_text
+        and isinstance(live_author, dict)
+        and live_author.get("account") == "sushiro.hk"
+        and live_author.get("sourceField") in {"article:author", "author", "og:title"}
+        and fresh_post is not None
+        and fresh_post.get("contentFingerprint") == post.get("contentFingerprint")
+        and not live_error
+    )
+    if official_hk_context:
+        price = float(context_match.group(1))
+        price_source = "official-hk-context"
+        price_confidence = "inferred-hkd-from-official-account"
+        price_quote = context_text
     verified_source_url: str | None = None
-    if price_confidence == "ambiguous-currency" or (
-        isinstance(item.get("priceText"), str) and AMBIGUOUS_PRICE_RE.search(str(item["priceText"]))
+    if not official_hk_context and (
+        price_confidence == "ambiguous-currency" or (
+            isinstance(item.get("priceText"), str) and AMBIGUOUS_PRICE_RE.search(str(item["priceText"]))
+        )
     ):
         reasons.append("ambiguous_price_currency")
     if price_source == "caption":
@@ -573,6 +603,10 @@ def _evaluate_item(
             _numeric_price(live_item) != price or live_item.get("priceConfidence") != "explicit-hkd"
         ):
             reasons.append("live_caption_price_mismatch")
+    elif price_source == "official-hk-context":
+        if not official_hk_context:
+            reasons.append("official_hk_context_not_authenticated")
+        verified_source_url = str(post.get("url", ""))
     elif price_source == "ocr":
         evidence = item.get("ocrEvidence") if isinstance(item.get("ocrEvidence"), dict) else {}
         confidence = evidence.get("confidence")
@@ -644,6 +678,10 @@ def _evaluate_item(
             reasons.append("caption_date_conflict")
     if end_date and start_date and end_date < start_date:
         reasons.append("promotion_end_before_start")
+    if price_source == "official-hk-context" and end_date is None:
+        # A stock-dependent item with no end date has no automatic removal
+        # path yet, so the pilot must not publish it indefinitely.
+        reasons.append("pilot_context_hkd_requires_fixed_end_date")
     if end_date and end_date < as_of.date():
         reasons.append("promotion_expired")
     availability_text = str(item.get("availabilityEvidenceText") or item.get("dateEvidenceText") or "")
@@ -662,6 +700,8 @@ def _evaluate_item(
         reasons.append("branch_scope_unknown_or_restricted")
     if RESTRICTION_RE.search(branch_evidence):
         reasons.append("branch_restriction_detected")
+    if item.get("branchExclusions"):
+        reasons.append("branch_exclusions_present")
     if live_item:
         if item_type != live_item.get("itemType"):
             reasons.append("live_item_type_mismatch")
@@ -694,7 +734,7 @@ def _evaluate_item(
         "candidateItemId": item.get("id"),
         "verifiedItemId": stable_item_id,
         "price": price,
-        "currency": item.get("currency"),
+        "currency": "HKD" if official_hk_context else item.get("currency"),
         "priceEvidenceSource": price_source,
         "priceEvidenceText": price_quote,
         "priceEvidenceProvider": item.get("ocrEvidence", {}).get("provider") if isinstance(item.get("ocrEvidence"), dict) else None,
@@ -731,6 +771,7 @@ def _evaluate_item(
             "source": price_source,
             "text": price_quote,
             "sourceUrl": verified_source_url or post.get("url"),
+            **({"currencyInference": "trusted-HK-official-account-context; not-explicit-HKD"} if official_hk_context else {}),
             **({"provider": ocr_evidence.get("provider")} if price_source == "ocr" else {}),
         },
         "dateEvidenceText": item.get("dateEvidenceText"),
@@ -844,6 +885,13 @@ def evaluate_candidates(
         viable_source_item = any(
             item.get("priceConfidence") == "explicit-hkd"
             or item.get("priceEvidenceSource") in {"ocr", "official-source"}
+            or (
+                policy.get("allowOfficialHkDollarContext") is True
+                and item.get("priceEvidenceSource") == "caption"
+                and item.get("priceConfidence") == "ambiguous-currency"
+                and isinstance(item.get("priceText"), str)
+                and re.fullmatch(r"\$\s*\d+(?:\.\d+)?", str(item["priceText"]).strip()) is not None
+            )
             for item in items
         )
         fresh_post: dict[str, object] | None = None
