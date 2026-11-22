@@ -93,6 +93,8 @@
 - 本專案係可安裝 PWA：用手機瀏覽線上版，在瀏覽器選「加入主畫面／安裝 App」即可。
 - `menu.json` 是餐單資料來源；頁面會優先讀取它，離線時使用瀏覽器快取及內置備份。
 - 官方餐單同步工作流每日香港時間 06:00 讀取香港壽司郎官方餐單頁面。只有資料通過基本驗證且有差異時，才會建立 `chore: update Sushiro HK menu` PR；官方餐單 PR 可按現有流程自動合併，再觸發 GitHub Pages 部署。每日執行亦確保已核實的 future promotion 在開始日期及時加入，而不是等待下一個星期一或四。
+- **官網外已核實活動自動同步主頁：** 新的官方 Instagram／Facebook 等來源只要完成名稱、HKD 價格、日期和適用分店的核對，並以 `verified` 標記放入 `data/promotions.json` 且合併到 `master`，更新餐單 workflow 會因 `data/promotions.json` 變動而立即自動執行；通過測試及確認差異後將新菜加入 `menu.json` 和離線 `index.html`，並部署至 GitHub Pages。未核實的貼文**不可**直接修改正式餐單。若由 GitHub Actions 的 `GITHUB_TOKEN` 自行提交 promotions，GitHub 可能不會觸發 push 工作流，此類整合需明確 `workflow_dispatch`。
+- **咒術迴戰已核實食品及飲品：** 11 月 17 日起的長鰭吞拿魚 HK$17、黑芝麻千層蛋糕 HK$38、聯乘飲品套裝 HK$59；12 月 1 日起的特盛海灣貝海苔包配飛魚子 HK$17 將按日期加入。兩間分店（灣仔英皇集團中心店、深水埗西九龍中心店）不適用，售完即止。精品加購規則不納入一般結算。
 - Instagram 候選偵測工作流每日香港時間 06:00 執行。它只使用公開頁面 HTML 及 `data/instagram_sources.json` 的人工補充資料，不使用登入、私有 API 或繞過限制的方法。
 - Instagram detector 會將 runner 的 `.cache/instagram_scan_state.json` 存入 GitHub Actions cache，記錄 `lastAttemptAt`、`lastSuccessfulScanAt`、已發現的 post ID、內容 fingerprint 及最近看到的時間。每次成功 profile/post discovery 會以最近一次成功掃描為基準，加上 7 日 overlap；caption 或可見 media metadata 改變時會重新處理。profile 沒有 post links、被封鎖或有任何 post fetch 失敗時，只記錄 attempt，不推進 successful checkpoint。
 - 如果 Instagram 個人頁未提供 post anchors，scanner 會 best-effort 檢查壽司郎官方網站上的公開 Instagram 連結，及公開搜尋索引提供的 RSS 連結。搜尋索引只是線索：相關貼文必須另有 `@sushiro.hk` 的公開作者 metadata 才接受；這兩種後備來源無法證明已找到所有新貼文，所以結果標示 `partial`，不會推進完整掃描 checkpoint。公開 RSS 服務及 Instagram 頁面可能受限制，失敗不影響正式餐單。
