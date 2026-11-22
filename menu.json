@@ -2,13 +2,14 @@
   "schemaVersion": 1,
   "region": "hk",
   "currency": "HKD",
-  "updatedAt": "2026-11-09",
+  "updatedAt": "2026-11-22",
   "source": [
     "https://sushirohk.com.hk/tc/menu.php?cid=11&wid=5",
     "https://sushirohk.com.hk/tc/menu.php?cid=13&wid=5",
     "https://sushirohk.com.hk/tc/menu.php?cid=15&wid=5",
     "https://www.instagram.com/sushiro.hk/",
-    "https://sushirohk.com.hk/tc/index.php"
+    "https://sushirohk.com.hk/tc/index.php",
+    "https://www.instagram.com/p/Dfn7uyiCgAt/"
   ],
   "categories": {
     "麵類・湯類": [
@@ -379,6 +380,23 @@
         "id": "abalone_liver_tempura_platter",
         "name": "汁煮鮑魚與鮑魚肝天婦羅盛(大)",
         "price": 88
+      }
+    ],
+    "期間限定・咒術迴戰聯乘（2026年11月17日起）": [
+      {
+        "id": "jujutsu_salt_marinated_albacore_202611",
+        "name": "大切鹽味醬漬長鰭吞拿魚",
+        "price": 17
+      },
+      {
+        "id": "jujutsu_black_sesame_mille_crepe_202611",
+        "name": "黑芝麻千層蛋糕",
+        "price": 38
+      },
+      {
+        "id": "jujutsu_drink_set_202611",
+        "name": "聯乘飲品套裝",
+        "price": 59
       }
     ]
   }
