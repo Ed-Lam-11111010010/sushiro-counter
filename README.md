@@ -32,6 +32,10 @@
 - GitHub-hosted runner 過往經常無法發現公開 Instagram 貼文，因此 scanner/審核工作流程成功 **不保證發現新商品**。如需真正無人值守，必須再解決可用公開來源、官方核實及安全合併／回退。
 - 實驗分支的 CI 回歸測試包含正例（已驗證的 `$22`、日期及分店）與負例（錯誤作者、篡改價錢、分店除外）。正式自動發布仍需另行審查及批准。
 
+## Windows 本地 Instagram 候選掃描（實驗）
+
+當 GitHub-hosted runner 未能讀取 Instagram 的公開貼文時，可以由用戶自己的 Windows 電腦按排程執行 detector，保留本地 checkpoint，產生 dry-run 核證預覽，並只把新增候選提交至實驗分支 Draft PR。**不會自動改價、合併、更新 master 或部署**。首次使用必須由用戶自行安裝 Python、Git、gh 並授權，詳見 [Windows 掃描器設定說明](docs/windows-instagram-scanner.md)。
+
 ## 點用
 
 ### 方法一：直接開線上版
