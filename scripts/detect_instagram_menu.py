@@ -229,7 +229,7 @@ def indexed_post_owner_confirmed(metadata: dict[str, str]) -> bool:
 
 def extract_author_evidence(metadata: dict[str, str]) -> dict[str, str] | None:
     """Return a minimal public metadata citation proving the post author."""
-    for field in ("article:author", "author", "og:description", "og:title"):
+    for field in ("article:author", "author", "og:title", "og:description"):
         value = normalize(metadata.get(field, ""))[:500]
         if not value:
             continue
@@ -256,12 +256,21 @@ def extract_author_evidence(metadata: dict[str, str]) -> dict[str, str] | None:
 
 
 def caption_branch_evidence(caption: str) -> dict[str, str]:
+    # "All branches ... except X" is NOT a universal-availability claim.
+    # Check exclusions across the full caption before matching an earlier
+    # "全線分店" phrase (the exception may occur much later).
+    excluded = re.search(r"除外|不適用|不包括|不包含|不含|恕不供應|恕不適用", caption)
     restricted = re.search(r"只限|僅限|仅限|指定分店|分店限定|限定店舖|限定店铺", caption)
-    if restricted:
-        return {
+    if excluded or restricted:
+        match = excluded or restricted
+        assert match is not None
+        result = {
             "branchScope": "restricted",
-            "branchEvidenceText": normalize(caption[max(0, restricted.start() - 30) : restricted.end() + 70])[:140],
+            "branchEvidenceText": normalize(caption[max(0, match.start() - 90) : match.end() + 100])[:240],
         }
+        if excluded:
+            result["branchExclusions"] = [normalize(caption[max(0, excluded.start() - 90) : excluded.end() + 30])[:150]]
+        return result
     all_hk = re.search(r"全港(?:各)?分店|全線(?:活動)?分店|全线(?:活动)?分店|全線門市|全线门市|全港門市", caption)
     if all_hk:
         evidence = normalize(caption[max(0, all_hk.start() - 20) : all_hk.end() + 60])[:140]
