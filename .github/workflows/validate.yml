@@ -29,7 +29,7 @@ jobs:
           python-version: "3.x"
 
       - name: Validate updater syntax
-        run: python -m py_compile scripts/update_menu.py scripts/detect_instagram_menu.py
+        run: python -m py_compile scripts/update_menu.py scripts/detect_instagram_menu.py scripts/instagram_autopublish.py scripts/local_instagram_bridge.py
 
       - name: Validate menu data
         run: python scripts/update_menu.py --check
@@ -40,14 +40,23 @@ jobs:
       - name: Validate Instagram candidate report when present
         run: python scripts/detect_instagram_menu.py --check
 
+      - name: Validate Instagram promotion policy and preview inputs
+        run: python scripts/instagram_autopublish.py --check
+
       - name: Test menu ID and price validation
         run: python -m unittest discover -s scripts -p 'test_update_menu.py'
 
       - name: Test Instagram candidate safety
         run: python -m unittest discover -s scripts -p 'test_instagram_menu.py'
 
+      - name: Test Instagram evidence-gated promotion policy
+        run: python -m unittest discover -s scripts -p 'test_instagram_autopublish.py'
+
+      - name: Test local Instagram Windows-to-GitHub review bridge (offline mocks)
+        run: python -m unittest discover -s scripts -p 'test_local_instagram_bridge.py'
+
       - name: Validate JSON metadata
-        run: node -e "for (const file of ['menu.json','manifest.webmanifest','data/promotions.json','data/instagram_sources.json','data/instagram_scan_report.json','data/instagram_scan_report_review2.json']) JSON.parse(require('fs').readFileSync(file,'utf8')); console.log('JSON metadata OK')"
+        run: node -e "for (const file of ['menu.json','manifest.webmanifest','data/promotions.json','data/instagram_sources.json','data/instagram_scan_report.json','data/instagram_scan_report_review2.json','data/instagram_autopublish_policy.json','data/instagram_autopublish_live_scan_2026-11-19.json','data/autopublish_preview.json','data/autopublish_diff.json']) JSON.parse(require('fs').readFileSync(file,'utf8')); console.log('JSON metadata OK')"
 
       - name: Validate frontend JavaScript
         run: node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const start=html.indexOf('<script>')+8; const end=html.lastIndexOf('</script>'); new Function(html.slice(start,end)); console.log('index JavaScript OK')"
@@ -57,3 +66,31 @@ jobs:
 
       - name: Validate service worker
         run: node --check service-worker.js
+
+  validate-local-scanner-windows:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python on Windows
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Test scanner bridge without network or GitHub authentication
+        run: python -m unittest discover -s scripts -p 'test_local_instagram_bridge.py'
+
+      - name: Check PowerShell installer syntax without installing a task
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile("scripts/install_windows_instagram_task.ps1", [ref]$tokens, [ref]$errors) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | ForEach-Object { Write-Error $_ }
+            exit 1
+          }
+          Write-Output "Windows scheduled-task installer PowerShell syntax valid"

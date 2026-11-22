@@ -38,6 +38,7 @@ PUBLIC_INDEX_FEED_URL = "https://www.bing.com/search?" + urlencode({
 FETCH_ATTEMPTS = 2
 MAX_DISCOVERED_POSTS = 24
 OVERLAP_DAYS = 7
+EXTRACTION_VERSION = "instagram-caption-v3"
 HONG_KONG_TZ = timezone(timedelta(hours=8), "Asia/Hong_Kong")
 
 POST_PATH_RE = re.compile(r"^/(p|reel|tv)/([^/?#]+)/?$", re.IGNORECASE)
@@ -226,6 +227,59 @@ def indexed_post_owner_confirmed(metadata: dict[str, str]) -> bool:
     return False
 
 
+def extract_author_evidence(metadata: dict[str, str]) -> dict[str, str] | None:
+    """Return a minimal public metadata citation proving the post author."""
+    for field in ("article:author", "author", "og:title", "og:description"):
+        value = normalize(metadata.get(field, ""))[:500]
+        if not value:
+            continue
+        if field in {"article:author", "author"} and value.casefold().strip(" @/") == "sushiro.hk":
+            return {
+                "account": "sushiro.hk",
+                "sourceField": field,
+                "evidenceText": value[:100],
+                "confidence": "high",
+            }
+        match = re.search(
+            r"(?:^|[-–—]\s*|\()@?sushiro\.hk\s*(?:\)|\s+(?:建立於|created|on\s+instagram)\b)",
+            value,
+            re.IGNORECASE,
+        )
+        if match:
+            return {
+                "account": "sushiro.hk",
+                "sourceField": field,
+                "evidenceText": normalize(match.group(0)).strip(" -–—()")[:100],
+                "confidence": "high",
+            }
+    return None
+
+
+def caption_branch_evidence(caption: str) -> dict[str, str]:
+    # "All branches ... except X" is NOT a universal-availability claim.
+    # Check exclusions across the full caption before matching an earlier
+    # "全線分店" phrase (the exception may occur much later).
+    excluded = re.search(r"除外|不適用|不包括|不包含|不含|恕不供應|恕不適用", caption)
+    restricted = re.search(r"只限|僅限|仅限|指定分店|分店限定|限定店舖|限定店铺", caption)
+    if excluded or restricted:
+        match = excluded or restricted
+        assert match is not None
+        result = {
+            "branchScope": "restricted",
+            "branchEvidenceText": normalize(caption[max(0, match.start() - 90) : match.end() + 100])[:240],
+        }
+        if excluded:
+            result["branchExclusions"] = [normalize(caption[max(0, excluded.start() - 90) : excluded.end() + 30])[:150]]
+        return result
+    all_hk = re.search(r"全港(?:各)?分店|全線(?:活動)?分店|全线(?:活动)?分店|全線門市|全线门市|全港門市", caption)
+    if all_hk:
+        evidence = normalize(caption[max(0, all_hk.start() - 20) : all_hk.end() + 60])[:140]
+        if "*" in evidence or "＊" in evidence:
+            return {"branchScope": "unknown", "branchEvidenceText": evidence}
+        return {"branchScope": "all-hk", "branchEvidenceText": evidence}
+    return {"branchScope": "unknown", "branchEvidenceText": ""}
+
+
 def fetch_public(url: str) -> str:
     request = Request(
         url,
@@ -398,7 +452,7 @@ def parse_sale_period(
     *,
     published_date: date | None,
     today: date | None,
-) -> tuple[str | None, str | None, bool]:
+) -> tuple[str | None, str | None, bool, str]:
     next_marker = SALE_PERIOD_RE.search(caption, marker.end())
     section_end = next_marker.start() if next_marker else len(caption)
     section_text = caption[marker.end() : section_end]
@@ -409,7 +463,7 @@ def parse_sale_period(
     )
     if not date_matches:
         local_text = section_text[: EMOJI_RE.search(section_text).start()] if EMOJI_RE.search(section_text) else section_text[:80]
-        return None, None, bool(re.search(r"售完即止|售罄|數量有限|数量有限", local_text))
+        return None, None, bool(re.search(r"售完即止|售罄|數量有限|数量有限", local_text)), normalize(section_text)[:180]
 
     first = date_matches[0]
     selected = first[2]
@@ -434,7 +488,8 @@ def parse_sale_period(
         supply_tail = supply_tail[: next_emoji.start()]
     else:
         supply_tail = supply_tail[:80]
-    return start_date, end_date, bool(re.search(r"售完即止|售罄|數量有限|数量有限", selected + supply_tail))
+    evidence_text = normalize(f"{selected} {supply_tail}")[:180]
+    return start_date, end_date, bool(re.search(r"售完即止|售罄|數量有限|数量有限", selected + supply_tail)), evidence_text
 
 
 def associate_sale_periods(
@@ -459,11 +514,18 @@ def associate_sale_periods(
                 today=today,
             )
             if (start_date or end_date) and not PROMOTION_SECTION_RE.search(date_tail) and len(date_tail) <= 160:
-                associations[0] = {
+                association: dict[str, object] = {
                     "startDate": start_date,
                     "endDate": end_date,
                     "dateConfidence": "explicit-section",
+                    "dateEvidenceText": normalize(date_tail)[:180],
                 }
+                if re.search(r"售完即止|售罄|數量有限|数量有限", date_tail):
+                    association["supplyCondition"] = "until-sold-out"
+                    association["availabilityEvidenceText"] = normalize(date_tail)[:180]
+                elif end_date:
+                    association["availabilityEvidenceText"] = normalize(date_tail)[:180]
+                associations[0] = association
         elif caption_dates:
             ambiguous_items.update(range(len(price_matches)))
             reasons.append("Dates appeared in a multi-item caption without item or promotion section markers; item dates were left unset for review.")
@@ -482,7 +544,7 @@ def associate_sale_periods(
         previous_has_section_boundary = bool(PROMOTION_SECTION_RE.search(previous_text))
         previous_is_item_context = bool(normalize(previous_text)) and not previous_has_section_boundary
 
-        start_date, end_date, until_sold_out = parse_sale_period(
+        start_date, end_date, until_sold_out, period_evidence = parse_sale_period(
             caption,
             marker,
             published_date=published_date,
@@ -536,6 +598,10 @@ def associate_sale_periods(
                 period["endDate"] = end_date
             if until_sold_out:
                 period["supplyCondition"] = "until-sold-out"
+                period["availabilityEvidenceText"] = period_evidence
+            elif end_date:
+                period["availabilityEvidenceText"] = period_evidence
+            period["dateEvidenceText"] = period_evidence
             period["dateConfidence"] = "explicit-section"
 
     return associations, ambiguous_items, reasons
@@ -575,8 +641,13 @@ def parse_caption_items(
             "id": candidate_item_id(post_url, name),
             "name": name,
             "itemType": classify_item_type(name),
+            "foodCategory": "drink" if classify_item_type(name) == "drink" else "food",
             "purchaseCondition": classify_purchase_condition(name, caption),
             "dateReviewRequired": True,
+            "priceEvidenceSource": "caption",
+            "priceEvidenceQuote": match.group(0),
+            "priceEvidenceText": normalize(caption[max(0, match.start() - len(name) - 12) : match.end()])[:180],
+            **caption_branch_evidence(caption),
         }
         if index in sale_periods:
             item.update(sale_periods[index])
@@ -755,6 +826,8 @@ def make_candidate(
         "postId": canonical_post_id(post_url),
         "contentFingerprint": content_fingerprint(caption, combined_image_urls),
         "extractionMethod": extraction_method,
+        "extractionVersion": EXTRACTION_VERSION,
+        "authorEvidence": extract_author_evidence(metadata),
         "status": status,
         "verificationStatus": "unverified",
         "reviewStatus": "review-only",
@@ -890,8 +963,12 @@ def should_process_post(
 ) -> bool:
     if not previous_fingerprint or previous_fingerprint != current_fingerprint:
         return True
-    if not previous_successful_scan or not published_date:
+    if not previous_successful_scan:
         return True
+    if not published_date:
+        # Unknown publication dates cannot be overlap-filtered. A stable
+        # fingerprint still proves that this already-seen page is unchanged.
+        return False
     try:
         previous_date = datetime.fromisoformat(previous_successful_scan).date()
     except ValueError:
@@ -1077,7 +1154,9 @@ def machine_readable_report(data: dict[str, object], generated_at: str) -> dict[
             }
             for field in (
                 "price", "priceText", "startDate", "endDate", "supplyCondition", "existingMenuId",
-                "dateConfidence", "dateReviewRequired", "dateReviewReason",
+                "foodCategory", "dateConfidence", "dateEvidenceText", "availabilityEvidenceText",
+                "dateReviewRequired", "dateReviewReason", "priceEvidenceSource", "priceEvidenceQuote",
+                "priceEvidenceText", "branchScope", "branchEvidenceText", "branchExclusions",
             ):
                 if field in item:
                     compact_item[field] = item[field]
@@ -1088,6 +1167,10 @@ def machine_readable_report(data: dict[str, object], generated_at: str) -> dict[
                 "url": post.get("url"),
                 "contentFingerprint": post.get("contentFingerprint"),
                 "extractionMethod": post.get("extractionMethod"),
+                "extractionVersion": post.get("extractionVersion"),
+                "authorEvidence": post.get("authorEvidence"),
+                "observedAt": post.get("observedAt"),
+                "discoverySources": post.get("discoverySources", []),
                 "publishedAt": post.get("publishedAt"),
                 "status": post.get("status"),
                 "reviewStatus": post.get("reviewStatus", "review-only"),
@@ -1108,6 +1191,9 @@ def machine_readable_report(data: dict[str, object], generated_at: str) -> dict[
         "profileFetchStatus": data.get("profileFetchStatus"),
         "postDiscoveryStatus": data.get("postDiscoveryStatus"),
         "sourceStatus": data.get("sourceStatus"),
+        "discoveryComplete": data.get("discoveryComplete", False),
+        "discoveryCoverage": data.get("discoveryCoverage", "public-html-best-effort-not-exhaustive"),
+        "sourceFailures": data.get("sourceFailures", []),
         "discoverySourceCounts": data.get("discoverySourceCounts", {}),
         "postCount": len(posts),
         "reviewOnly": True,
@@ -1152,6 +1238,7 @@ def detect(
     profile_fetch_status = "success"
     automatic_post_urls: list[str] = []
     fallback_post_sources: dict[str, set[str]] = {}
+    fallback_source_failures: list[str] = []
     post_fetch_failed = False
     manual_fetch_failed = False
     discovery_incomplete = False
@@ -1197,6 +1284,8 @@ def detect(
             for discovered_url in source_posts:
                 fallback_post_sources.setdefault(discovered_url, set()).add(source_name)
         except Exception as exc:
+            fallback_source_failures.append(source_name)
+            discovery_incomplete = True
             limitations.append(f"{source_name} was unavailable; fallback coverage is incomplete.")
             print(f"Instagram fallback unavailable ({source_name}): {exc}", file=sys.stderr)
 
@@ -1245,6 +1334,11 @@ def detect(
             metadata if isinstance(metadata, dict) else {},
             post_data["imageUrls"] if isinstance(post_data["imageUrls"], list) else [],
             today=today,
+        )
+        candidate["observedAt"] = attempt_at
+        candidate["discoverySources"] = sorted(
+            (["instagram-profile"] if post_url in automatic_post_urls else [])
+            + list(fallback_post_sources.get(post_url, set()))
         )
         post_id = canonical_post_id(post_url)
         fingerprint = candidate.get("contentFingerprint")
@@ -1304,6 +1398,9 @@ def detect(
             }
 
     for candidate in current_posts.values():
+        candidate.setdefault("observedAt", attempt_at)
+        candidate.setdefault("extractionVersion", EXTRACTION_VERSION)
+        candidate.setdefault("discoverySources", ["manual-source"])
         annotate_existing_menu_matches(candidate, existing_menu_ids)
     posts = merge_posts(existing.get("posts"), list(current_posts.values()))
     if profile_fetch_status == "unavailable" and all_discovered_post_urls:
@@ -1316,6 +1413,9 @@ def detect(
         source_status = "partial"
         post_discovery_status = "partial"
         limitations.append("One or more discovered public post pages could not be fetched or had unusable public metadata; those candidates remain review-only.")
+    elif fallback_source_failures:
+        source_status = "partial" if all_discovered_post_urls else "unavailable"
+        post_discovery_status = "partial" if all_discovered_post_urls else "unavailable"
     elif discovery_incomplete and all_discovered_post_urls:
         source_status = "partial"
         post_discovery_status = "partial"
@@ -1339,6 +1439,7 @@ def detect(
         and bool(automatic_post_urls)
         and not discovery_incomplete
         and not post_fetch_failed
+        and not fallback_source_failures
     )
     if automatic_scan_successful:
         scan_state["lastSuccessfulScanAt"] = attempt_at
@@ -1353,13 +1454,18 @@ def detect(
         "profileFetchStatus": profile_fetch_status,
         "postDiscoveryStatus": post_discovery_status,
         "sourceStatus": source_status,
+        "discoveryComplete": automatic_scan_successful,
+        "discoveryCoverage": "public-html-best-effort-not-exhaustive",
+        "sourceFailures": sorted(set(fallback_source_failures)),
         "discoverySourceCounts": {
             "instagramProfileAnchors": len(automatic_post_urls),
             "officialWebsiteLinks": sum("official-website-link" in sources for sources in fallback_post_sources.values()),
             "publicSearchRssLinks": sum("public-search-rss" in sources for sources in fallback_post_sources.values()),
         },
         "requiresReview": True,
-        "limitations": sorted(set(limitations)),
+        "limitations": sorted(set(limitations + [
+            "Public HTML discovery covers only the links exposed by the accessible pages and does not prove account-wide post completeness."
+        ])),
         "posts": posts,
     }
     validate_candidates(report)

@@ -1,0 +1,74 @@
+name: Preview locally discovered Instagram candidates
+
+on:
+  pull_request:
+    branches:
+      - experiment/instagram-auto-publish-plan-b
+    paths:
+      - "data/instagram_candidates.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: local-instagram-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review-preview:
+    if: startsWith(github.head_ref, 'automation/instagram-local-')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out candidate-only PR
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate candidate input and safe policy
+        run: |
+          python scripts/detect_instagram_menu.py --check
+          python scripts/instagram_autopublish.py --check
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          doc = json.loads(Path("data/instagram_candidates.json").read_text(encoding="utf-8"))
+          assert doc.get("requiresReview") is True, "Must stay review-only"
+          assert doc.get("discoveryComplete") is True, "No partial candidate submissions"
+          assert doc.get("postDiscoveryStatus") == "found", "Must contain real post discovery"
+          print("Local review input structurally valid")
+          PY
+
+      - name: Generate independent dry-run promotion preview
+        run: |
+          mkdir -p .cache
+          python scripts/instagram_autopublish.py --candidates data/instagram_candidates.json --preview .cache/local_candidate_preview.json --diff .cache/local_candidate_diff.json --dry-run
+
+      - name: Verify preview is non-publishing
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          preview = json.loads(Path(".cache/local_candidate_preview.json").read_text(encoding="utf-8"))
+          assert preview.get("dryRunOnly") is True
+          assert preview.get("productionAutoPublishEnabled") is False
+          summary = preview.get("summary", {})
+          print(f"Review-only: {summary.get('candidateItems', 0)} items; {summary.get('eligibleItems', 0)} eligible preview; {summary.get('quarantinedItems', 0)} quarantined")
+          PY
+          git diff --exit-code -- menu.json data/promotions.json index.html
+
+      - name: Upload preview and diff for human review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-instagram-review-${{ github.run_id }}
+          path: |
+            .cache/local_candidate_preview.json
+            .cache/local_candidate_diff.json
+          if-no-files-found: ignore
