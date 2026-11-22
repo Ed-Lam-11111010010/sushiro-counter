@@ -1,5 +1,74 @@
 {
   "schemaVersion": 1,
   "account": "sushiro.hk",
-  "posts": []
+  "posts": [
+    {
+      "url": "https://www.instagram.com/p/Dfn7uyiCgAt/",
+      "caption": "咒術迴戰 × 香港壽司郎限定餐點（依用戶提供的官方貼文截圖及文字轉錄；各品項日期見 items）",
+      "imageUrls": [],
+      "provenance": "Manually transcribed from user-supplied official post screenshot and caption; not fetched from Instagram HTML.",
+      "requiresReview": true,
+      "items": [
+        {
+          "name": "大切鹽味醬漬長鰭吞拿魚",
+          "price": 17,
+          "startDate": "2026-11-17",
+          "endDate": null,
+          "notes": "附聯乘限定插牌；售完即止；壽司11/17至12/1為赤醋飯、12/2起白醋飯"
+        },
+        {
+          "name": "特盛海灣貝海苔包配飛魚子",
+          "price": 17,
+          "startDate": "2026-12-01",
+          "endDate": null,
+          "notes": "附聯乘限定插牌；售完即止；12/1為赤醋飯、12/2起白醋飯"
+        },
+        {
+          "name": "黑芝麻千層蛋糕",
+          "price": 38,
+          "startDate": "2026-11-17",
+          "endDate": null,
+          "notes": "附聯乘限定透明收藏卡；日期按活動全體商品11/17開售資訊"
+        },
+        {
+          "name": "聯乘飲品套裝",
+          "price": 59,
+          "startDate": "2026-11-17",
+          "endDate": null,
+          "notes": "附聯乘限定卡套；日期按活動全體商品11/17開售資訊"
+        }
+      ],
+      "merchandise": [
+        {
+          "name": "亞加力場景立牌",
+          "price": 129,
+          "startDate": "2026-11-17",
+          "notes": "堂食單一消費淨額滿$200可加購2件，滿$400可加購4件；最多4件；售完即止"
+        },
+        {
+          "name": "襟章・第一彈",
+          "price": 39,
+          "startDate": "2026-11-17",
+          "notes": "堂食滿$200可加購2件、滿$400可加購4件、滿$600可加購6件；最多6件；售完即止"
+        },
+        {
+          "name": "襟章・第二彈",
+          "price": 39,
+          "startDate": "2026-12-01",
+          "notes": "堂食滿$200可加購2件、滿$400可加購4件、滿$600可加購6件；最多6件；售完即止"
+        },
+        {
+          "name": "襟章・第三彈",
+          "price": 39,
+          "startDate": "2026-12-07",
+          "notes": "堂食滿$200可加購2件、滿$400可加購4件、滿$600可加購6件；最多6件；售完即止"
+        }
+      ],
+      "branchExclusions": [
+        "灣仔英皇集團中心店",
+        "深水埗西九龍中心店"
+      ],
+      "merchandiseRule": "加購精品需符合單一堂食淨消費（折扣後、包括10%服務費）；自助付款機不設加購。精品未加入一般餐單計數器。"
+    }
+  ]
 }
