@@ -112,6 +112,23 @@ class InstagramAutoPublishTests(unittest.TestCase):
         self.assertEqual(rejected["preview"]["summary"]["eligibleItems"], 0)
         self.assertIn("ambiguous_price_currency", rejected["preview"]["decisions"][0]["reasons"])
 
+    def test_context_accepts_exact_instagram_author_attribution_but_not_mentions(self):
+        # Real public Instagram OG metadata sometimes exposes the author as
+        # "sushiro.hk 建立於" rather than in a separate og:title.
+        caption = "sushiro.hk 建立於 📅販售期間：2026-11-20至2026-11-30 🍣限定壽司 $22 全港各分店有售"
+        document, page = make_fixture(caption, post_id="PILOTMETA01")
+        page = page.replace("Sushiro HK (@sushiro.hk) on Instagram", "Unrelated Brand on Instagram")
+        result = evaluate(document, page=page)
+        self.assertEqual(result["preview"]["summary"]["eligibleItems"], 1)
+        self.assertEqual(result["preview"]["decisions"][0]["priceEvidenceSource"], "official-hk-context")
+
+        mentioned_caption = "提及 @sushiro.hk 📅販售期間：2026-11-20至2026-11-30 🍣限定壽司 $22 全港各分店有售"
+        mentioned_doc, mentioned_page = make_fixture(mentioned_caption, post_id="PILOTMETA02")
+        mentioned_page = mentioned_page.replace("Sushiro HK (@sushiro.hk) on Instagram", "Unrelated Brand on Instagram")
+        blocked = evaluate(mentioned_doc, page=mentioned_page)
+        self.assertEqual(blocked["preview"]["summary"]["eligibleItems"], 0)
+        self.assertIn("public_post_author_not_verified", blocked["preview"]["decisions"][0]["reasons"])
+
     def test_contextual_hkd_requires_real_author_and_matching_price(self):
         document, page = make_fixture(CAPTION.replace("HK$22", "$22"), post_id="PILOTHK02")
         fake_author_page = page.replace("Sushiro HK (@sushiro.hk) on Instagram", "Unrelated Brand on Instagram")
