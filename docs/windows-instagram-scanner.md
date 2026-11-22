@@ -12,13 +12,13 @@ Windows 使用公開 Instagram HTML 執行 Python detector → 保留本地 chec
 
 1. 安裝 Python 3、Git for Windows 和 GitHub CLI (gh)，確保三者都已加入 PATH。
 2. 在個人 Windows 帳號執行 gh auth login，再執行 gh auth setup-git。需要 GitHub repository 建立分支及 PR 的權限。不要把 token 或 cookies 複製到聊天或檔案。
-3. 在已取得實驗分支的 repo 內執行以下 PowerShell 命令：
+3. **建議先建立專用的全新 clone**，不要切換正在使用的 Codex 工作樹。PowerShell：
 
-       git fetch origin experiment/instagram-auto-publish-plan-b
-       git switch experiment/instagram-auto-publish-plan-b
+       git clone --branch experiment/instagram-auto-publish-plan-b --single-branch https://github.com/Ed-Lam-11111010010/sushiro-counter.git sushiro-instagram-scan
+       cd sushiro-instagram-scan
        python .\scripts\local_instagram_bridge.py
 
-   第一個掃描為本地 dry-run；輸出 preview-ready 才代表找到可進行核證預覽的公開候選。若顯示 source-incomplete，代表 Instagram 公開來源不完整，不應假設沒有新菜式。
+   第一個掃描為本地 dry-run；輸出 preview-ready 才代表找到可進行核證預覽的公開候選。若顯示 source-incomplete，代表 Instagram 公開來源不完整，不應假設沒有新菜式。已建立專用 clone 的話，日後更新可在它裡面執行 git pull --ff-only origin experiment/instagram-auto-publish-plan-b。
 
 4. 確認本機來源可用後，手動試行提交 Draft PR：
 
@@ -49,5 +49,7 @@ Windows 使用公開 Instagram HTML 執行 Python detector → 保留本地 chec
 - 可執行 python -m unittest discover -s scripts -p 'test_local_instagram_bridge.py' 進行完全離線測試。
 
 ## 正式自動上架仍需解決
+
+如審核者已關閉某批候選的 PR，重試會顯示 prior-review-closed，**不會自動重開或繞過審查**。
 
 GitHub-hosted runner 先前多次發現 0 篇公開 Instagram 貼文；即使 Windows 能掃描，也不保證以後穩定。價格 OCR、活動售完即止的下架機制、PR required checks/auto-merge 權限及 source 身分驗證都需獨立審查；在此之前不會自動更新正式主頁。
