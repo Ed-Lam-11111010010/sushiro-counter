@@ -24,6 +24,14 @@
 
 ---
 
+## Instagram 官方香港標價試行（實驗分支）
+
+- 試行只在 `experiment/instagram-official-hkd-pilot` 上使用，與正式 `master` 無關。政策 `allowOfficialHkDollarContext=true`，但 **`productionEnabled=false`、`killSwitch=true`**；不會改動主頁 `menu.json`、`data/promotions.json` 或自動合併。
+- `@sushiro.hk` 的公開貼文出現 `$17` 等標價時，只有再次讀取 Instagram 原始貼文、確認結構化作者資訊、相同菜名及原始數值、內容 fingerprint 未改，才**推定**幣別為 HKD。輸出標記 `official-hk-context` 和 `currencyInference`，**不會聲稱原文有 HK$**。
+- 仍必須有個別品項開始及結束日期、可靠供應說明、全港適用且沒有「除外」分店、非加購精品／套餐、無重複品項及已核實的價錢衝突；存疑一律隔離。因無售完即止自動下架能力，這項 `$→HKD` 試行要求有固定結束日期。
+- GitHub-hosted runner 過往經常無法發現公開 Instagram 貼文，因此 scanner/審核工作流程成功 **不保證發現新商品**。如需真正無人值守，必須再解決可用公開來源、官方核實及安全合併／回退。
+- 實驗分支的 CI 回歸測試包含正例（已驗證的 `$22`、日期及分店）與負例（錯誤作者、篡改價錢、分店除外）。正式自動發布仍需另行審查及批准。
+
 ## 點用
 
 ### 方法一：直接開線上版
