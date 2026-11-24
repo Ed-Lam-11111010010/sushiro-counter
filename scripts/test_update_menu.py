@@ -278,5 +278,64 @@ class PromotionDataTests(unittest.TestCase):
                 self.assertNotIn(category, result["categories"])
 
 
+
+class FallbackSyncRegressionTests(unittest.TestCase):
+    def test_current_fallback_without_semicolon_is_replaced_and_idempotent(self):
+        """Regression for the production failure on 2026-11-23."""
+        original = update_menu.INDEX_PATH.read_text(encoding="utf-8")
+        self.assertIn("const FALLBACK_OTHER_ITEMS = ", original)
+        self.assertIn("\n\nlet OTHER_ITEMS = FALLBACK_OTHER_ITEMS;", original)
+        menu = json.loads(update_menu.MENU_PATH.read_text(encoding="utf-8"))
+        categories = dict(menu["categories"])
+        categories["期間限定・未來上架的測試菜式"] = [
+            {"id": "new-seasonal-regression", "name": "測試新品", "price": 27}
+        ]
+
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "index.html"
+            index.write_text(original, encoding="utf-8")
+            with patch.object(update_menu, "INDEX_PATH", index):
+                changed = update_menu.sync_fallback_menu({"categories": categories})
+                self.assertTrue(changed)
+                updated = index.read_text(encoding="utf-8")
+                prefix, remainder = original.split("const FALLBACK_OTHER_ITEMS = ", 1)
+                suffix = "let OTHER_ITEMS = FALLBACK_OTHER_ITEMS;" + remainder.split(
+                    "let OTHER_ITEMS = FALLBACK_OTHER_ITEMS;", 1
+                )[1]
+                self.assertTrue(updated.startswith(prefix))
+                self.assertTrue(updated.endswith(suffix))
+                body = updated.split("const FALLBACK_OTHER_ITEMS = ", 1)[1].split(
+                    ";\n\nlet OTHER_ITEMS = FALLBACK_OTHER_ITEMS;", 1
+                )[0]
+                self.assertEqual(json.loads(body), categories)
+                self.assertFalse(update_menu.sync_fallback_menu({"categories": categories}))
+
+    def test_old_fallback_semicolon_is_also_supported(self):
+        old = (
+            "const FALLBACK_OTHER_ITEMS = {\n"
+            "  '舊分類': [{ id:'old-item', name:'舊菜', price:12 }]\n"
+            "};\n\nlet OTHER_ITEMS = FALLBACK_OTHER_ITEMS;\n"
+            "// important UI code remains unchanged\n"
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "index.html"
+            index.write_text(old, encoding="utf-8")
+            categories = {"副餐類": [{"id": "new-item", "name": "新菜", "price": 22}]}
+            with patch.object(update_menu, "INDEX_PATH", index):
+                self.assertTrue(update_menu.sync_fallback_menu({"categories": categories}))
+            self.assertIn("新菜", index.read_text(encoding="utf-8"))
+            self.assertIn("// important UI code remains unchanged", index.read_text(encoding="utf-8"))
+
+    def test_missing_or_duplicate_fallback_anchor_fails_without_write(self):
+        with tempfile.TemporaryDirectory() as directory:
+            index = Path(directory) / "index.html"
+            text = "const FALLBACK_OTHER_ITEMS = {};\n\n// Missing second anchor\n"
+            index.write_text(text, encoding="utf-8")
+            with patch.object(update_menu, "INDEX_PATH", index):
+                with self.assertRaisesRegex(ValueError, "Could not locate"):
+                    update_menu.sync_fallback_menu({"categories": {"副餐類": [{"id":"x","name":"品項","price":1}]}})
+            self.assertEqual(index.read_text(encoding="utf-8"), text)
+
+
 if __name__ == "__main__":
     unittest.main()
