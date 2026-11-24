@@ -3,13 +3,98 @@
   "account": "sushiro.hk",
   "profileUrl": "https://www.instagram.com/sushiro.hk/",
   "sourceMethod": "public-html-best-effort",
-  "profileFetchStatus": "success",
-  "postDiscoveryStatus": "none",
-  "sourceStatus": "profile_only",
+  "profileFetchStatus": "unavailable",
+  "postDiscoveryStatus": "unavailable",
+  "sourceStatus": "unavailable",
+  "discoverySourceCounts": {
+    "instagramProfileAnchors": 0,
+    "officialWebsiteLinks": 0,
+    "publicSearchRssLinks": 0
+  },
   "requiresReview": true,
   "limitations": [
-    "No public post candidate was available in this run.",
-    "Profile HTTP access succeeded, but the returned HTML exposed no public post links; client-rendered Instagram content may require a supported API or manual source entry."
+    "Instagram public profile was not accessible; existing candidates were preserved.",
+    "The automatic Instagram scan checkpoint was not advanced because discovery was empty or incomplete."
   ],
-  "posts": []
+  "posts": [
+    {
+      "url": "https://www.instagram.com/p/Dfn7uyiCgAt/",
+      "postId": "Dfn7uyiCgAt",
+      "contentFingerprint": "40897755ce8db52252bfade48436ce91a94f0410afb2c0ce5bbd17dbf25f0c41",
+      "extractionMethod": "manual-source",
+      "status": "needs_review",
+      "verificationStatus": "unverified",
+      "reviewStatus": "review-only",
+      "requiresReview": true,
+      "publishedAt": null,
+      "startDate": null,
+      "endDate": null,
+      "dateScope": "item-specific",
+      "supplyCondition": null,
+      "caption": "咒術迴戰 × 香港壽司郎限定餐點（依用戶提供的官方貼文截圖及文字轉錄；各品項日期見 items）",
+      "imageUrls": [],
+      "items": [
+        {
+          "id": "instagram_8b4f11cd38f2",
+          "name": "大切鹽味醬漬長鰭吞拿魚",
+          "itemType": "dish",
+          "purchaseCondition": "standard",
+          "currency": "HKD",
+          "priceSource": "manual-transcription",
+          "priceConfidence": "manual-transcription",
+          "dateConfidence": "manual-transcription",
+          "dateReviewRequired": true,
+          "startDate": "2026-11-17",
+          "price": 17,
+          "existingMenuId": "jujutsu_salt_marinated_albacore_202611"
+        },
+        {
+          "id": "instagram_af60b7067bcf",
+          "name": "特盛海灣貝海苔包配飛魚子",
+          "itemType": "dish",
+          "purchaseCondition": "standard",
+          "currency": "HKD",
+          "priceSource": "manual-transcription",
+          "priceConfidence": "manual-transcription",
+          "dateConfidence": "manual-transcription",
+          "dateReviewRequired": true,
+          "startDate": "2026-12-01",
+          "price": 17
+        },
+        {
+          "id": "instagram_3a4e67c6f8c4",
+          "name": "黑芝麻千層蛋糕",
+          "itemType": "dish",
+          "purchaseCondition": "standard",
+          "currency": "HKD",
+          "priceSource": "manual-transcription",
+          "priceConfidence": "manual-transcription",
+          "dateConfidence": "manual-transcription",
+          "dateReviewRequired": true,
+          "startDate": "2026-11-17",
+          "price": 38,
+          "existingMenuId": "jujutsu_black_sesame_mille_crepe_202611"
+        },
+        {
+          "id": "instagram_060806caae7f",
+          "name": "聯乘飲品套裝",
+          "itemType": "drink",
+          "purchaseCondition": "standard",
+          "currency": "HKD",
+          "priceSource": "manual-transcription",
+          "priceConfidence": "manual-transcription",
+          "dateConfidence": "manual-transcription",
+          "dateReviewRequired": true,
+          "startDate": "2026-11-17",
+          "price": 59,
+          "existingMenuId": "jujutsu_drink_set_202611"
+        }
+      ],
+      "reviewReasons": [
+        "Instagram-derived menu changes require human review before publishing.",
+        "Multiple or partial item-specific promotion windows were kept on items; no global date window was inferred.",
+        "Only public caption text and exposed image URLs are extracted; text inside carousel images is not OCRed."
+      ]
+    }
+  ]
 }
