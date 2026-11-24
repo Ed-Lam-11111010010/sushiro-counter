@@ -524,37 +524,37 @@ def format_fallback_menu(categories: dict[str, object]) -> str:
 
 
 def sync_fallback_menu(data: dict[str, object]) -> bool:
-    """Keep the offline menu in index.html aligned with menu.json."""
+    """Keep the entire offline fallback in sync with the validated live menu.
+
+    Older versions replaced only the seasonal suffix and expected a closing
+    brace followed by a semicolon. Current index.html can use a plain closing
+    brace before the next declaration. Replace only the explicit fallback
+    assignment and leave the rest of the calculator unchanged.
+    """
     if not INDEX_PATH.exists():
         return False
 
-    text = INDEX_PATH.read_text(encoding="utf-8")
-    end_match = re.search(r"\n};\n+let OTHER_ITEMS", text)
-    if not end_match:
-        raise ValueError("Could not locate the offline menu fallback in index.html")
-    content_end = end_match.start()
-
     categories = data.get("categories")
-    if not isinstance(categories, dict):
+    if not isinstance(categories, dict) or not categories:
         raise ValueError("Cannot sync fallback without menu categories")
 
-    special_categories = {
-        category: items
-        for category, items in categories.items()
-        if category.startswith("期間限定")
-    }
-    special_match = re.search(r"\n  ['\"]期間限定", text[:content_end])
-    content_start = special_match.start() if special_match else content_end
-    fallback = format_fallback_menu(special_categories)
-    special_block = f"\n{fallback[2:-1]}" if fallback != "{}" else ""
-    fallback_tail = "\n};\n\nlet OTHER_ITEMS" + text[end_match.end():]
-    updated = text[:content_start] + special_block + fallback_tail
+    text = INDEX_PATH.read_text(encoding="utf-8")
+    begin = list(re.finditer(r"(?m)^const FALLBACK_OTHER_ITEMS = ", text))
+    ends = list(re.finditer(r"(?m)^let OTHER_ITEMS = FALLBACK_OTHER_ITEMS;[ \t]*$", text))
+    if len(begin) != 1 or len(ends) != 1 or begin[0].end() >= ends[0].start():
+        raise ValueError("Could not locate the offline menu fallback in index.html")
+
+    updated_fallback = (
+        "const FALLBACK_OTHER_ITEMS = "
+        + format_fallback_menu(categories)
+        + ";\n\n"
+    )
+    updated = text[:begin[0].start()] + updated_fallback + text[ends[0].start():]
     if updated == text:
         return False
 
     INDEX_PATH.write_text(updated, encoding="utf-8")
     return True
-
 
 def validate_menu(data: dict[str, object]) -> None:
     if data.get("schemaVersion") != 1 or not isinstance(data.get("categories"), dict):
