@@ -8,6 +8,7 @@ on:
     branches: [master]
     paths:
       - "data/promotions.json"
+      - "scripts/update_menu.py"  # Recompute menu immediately after updater repairs
   schedule:
     # 22:00 UTC = 06:00 Hong Kong time. Run daily so verified promotions
     # become visible on their start date instead of waiting for a weekly run.
